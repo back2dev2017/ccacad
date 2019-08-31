@@ -37,7 +37,9 @@ set_error_handler("custom_err_hdlr");
 // $dbname='PIM';
 
 $c_apifunc = strtoupper($_POST['api_func']);
-$dbconn = pg_connect("host=localhost dbname=localacaddb user=cc2000 password=mssucksbad");
+// this connection is for the prod db (to be running from prod) - pretty much only run add pages in prod anyway
+$dbconn = pg_connect(getenv("DATABASE_URL"));
+
 
 if (!$dbconn) {
     echo "Error trying to just connect to DB";
