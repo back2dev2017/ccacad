@@ -244,7 +244,11 @@ switch ($c_apifunc) {
 	case "GET_LAST_CALL":
 	    echo $_SESSION["lastcall"];
 	    break;
-	    
+
+  case "GET_LAST_CALL":
+	    echo pg_host($dbconn);
+	    break;
+      
 	default:
 		echo "ADD API call not recognized: " . $c_apifunc ;
 }

@@ -22,7 +22,8 @@ function allnavclick (tabclicked) {
 	
 	switch (btnval) {
 		case 'connection_info':
-			$("#conninfo").removeClass("hidediv");
+      $("#conninfo").removeClass("hidediv");
+      conn_infomsg();
 			break;
 		case 'defs':
 			$("#parmdefs").removeClass("hidediv");
@@ -729,6 +730,14 @@ function get_table_list() {
 	}
 }
 
+
+function conn_infomsg() {
+  $.post(service_def,
+    {api_func:'CONN_INFO'},
+    function (rslt) {
+      $("#conninfo").html(rslt);
+    });
+}
 
 function modal_msg(ctitle, cmsg, expandv = 0, hdbg = "#bbffbb") {
 	var diaght = 300;
