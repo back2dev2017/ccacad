@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- this version of the add dropin pages uses an "all-in" web page. Everything on a single page. Use of divs
+     and classes to show/hide content based on menu selection
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 
+<meta http-equiv="cache-control" content="no-cache, must-revalidate, post-check=0, pre-check=0" />
+<meta http-equiv="cache-control" content="max-age=0" />
+<meta http-equiv="expires" content="-1" />
+<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+<meta http-equiv="pragma" content="no-cache" />
+ -->
+ 
+<title>Automated Data Dictionary drop-in</title>
+<!-- <link rel="stylesheet" href="css/datatables.min.css"> -->
+<link rel="stylesheet" href="css/datatables.css">
+<link rel="stylesheet" href="css/mycss.css">
+<script src="js/jquery-3.2.1.js"></script>
+<script src="js/datatables.min.js"></script>
+<script src="js/myjs.js"></script>
+</head>
+<body>
+	<div class="main-head" id="pageheading">
+		<h2>
+			Automated Data Dictionaries <span><button id="teststuff" onClick="modal_test()">Test</button></span>
+			<span><button onClick="movable_test()">Test 2</button></span>
+			<span><input id="clrbox" type="text" placeholder="#xxxxxx"></span>
+			<span><button id="clrbtn" onClick="color_help()">Check Color</button></span>
+		</h2>
+		<div class="tab">
+			<button class="tablinks" id="connopt" value="connection_info" onclick="allnavclick(this)">Connection Info</button>
+			<button class="tablinks active" id="defs" value="defs" onclick="allnavclick(this)">Definitions</button>
+			<button class="tablinks" id="search" value="search" onclick="allnavclick(this)">Search</button>
+			<button class="tablinks" id="miscapi" value="misc_api" onclick="allnavclick(this)">Misc API Functions</button>
+			<button class="tablinks" id="aboutapi" value="api_info" onclick="allnavclick(this)">API Info</button>
+		</div>
+		<!-- --------------- this is the section where parameters of functions should be listed: they should remain visible --------------- -->
+		<!-- --------------- this is the section for editing all definitions: menu option "Definitions" --------------- -->
+		<div class="parmsection flex-div">
+			<div id="parmdefs">
+				<p class="tighttext">Options</p>
+				<input type="checkbox" id="def-incstruc">
+				<label class="parmlbl" for="def-incstruc">Include DB structure info</label>
+				<div>
+					<button class="parmbutton" onClick="get_defs()">Get Definitions</button>
+				</div>
+			</div>
+			<!-- ---------------------------- end of Definitions Option section  ---------------------------- -->
+			<!--  --------------- this is the section for searching methods: menu option "Search" --------------- -->
+			<div class="hidediv" id="parmsearch">
+				<div class="flex-div">
+					<div>
+						<p class="tighttext">Options</p>
+						<label class="parmlbl" for='srch_type'>Type of Search:</label>
+						<select class="padrt" id="srch_type" onchange="search_sel(this)">
+							<option value="srchtxt">Description</option>
+							<option value="stewtxt">Assigned Steward</option>
+							<option value="sourcetxt">Data Source</option>
+						</select>
+					</div>
+					<div class="srch-entry bumpRight" id="textsrch">
+ 						<div>
+							<p class="tighttext">Enter a combination of any the below. Enter text and then a table name to 
+							only search a specific table's defintions, etc.</p>
+						</div>
+						<label class="parmlbl-lspace" for="srch-val">Text in Description:</label>
+						<input class="padrt" type="text" id="srch-val" value="">
+						<label class="parmlbl-lspace" for="srch-tbl">Table name:</label>
+						<input class="padrt inp-med" type="text" id="srch-tbl" value="">
+						<label class="parmlbl-lspace" for="srch-col">Column name:</label>
+						<input class="padrt inp-med" type="text" id="srch-col" value="">
+					</div>
+					<div class="srch-entry bumpRight hidediv" id="stewsrch">
+						<div>
+							<p class="tighttext">This will return all items assigned to a specific ATTUID</p>
+						</div>
+						<label class="parmlbl-lspace" for="dropsel-steward">Steward:</label>
+						<select class="padrt" id="dropsel-steward">
+							<option value=" "> </option>
+						</select>
+					</div>
+					<div class="srch-entry bumpRight hidediv" id="sourcesrch">
+						<div>
+							<p class="tighttext">Returns all items that have a given data source 
+							(partial text matches: e.g. "plan" will match "Planning Tool" and "Budget Planner")</p>
+						</div>
+						<label class="parmlbl-lspace" for="srch-source">Data Source:</label>
+						<input class="padrt" type="text" id="srch-source" value="">					
+					</div>
+				</div>
+				<div>
+					<button class="parmbutton" onClick="search_execute()">Search</button>
+				</div>
+			</div>
+			<!-- ---------------------------- end of Search Option section  ---------------------------- -->
+
+			<!--  this is the section for exercising various ADD API functions: menu option "Misc API" -->
+			<div class="hidediv" id="parmmisc">
+				<div class="apimisc-cont flex-div">
+					<div class="flex-div-c" id="selmiscapi">
+						<p class="tighttext">Options</p>
+						<label class="parmlbl" for="selmisc">Select API Function:</label>
+						<select id="selmisc" onchange="miscapi_sel(this)">
+							<option value="undoc">Get Undocumented</option>
+							<option value="itemhist">Get Item History</option>
+							<option value="popdd">Populate the Data Dictionary</option>
+							<option value="setinactives">Flag Inactive Items</option>
+							<option value="getinactives">Get Inactive Items</option>
+							<option value="clonedefs">Clone Definitions</option>
+						</select>
+					<div>
+						<button class="parmbutton" onClick="misc_execute()">Execute</button>
+					</div>
+					</div>
+					<div class = "apiopt-entry bumpRight flex-div-c hidediv" id="apimisc-opt-idhist">
+						<div>
+							<p class="tighttext">Enter an item id or a table/column name pair. Date range is optional.</p>
+						</div>
+						<div>
+							<label class="parmlbl-lspace" for="hist-id">Item ID:</label>
+							<input class="padrt num-input" type="text" id="hist-id" value="">
+							<label class="parmlbl-lspace" for="hist-tbl">Table Name:</label>
+							<input class= "padrt inp-med" type="text" id="hist-tbl" value="">
+							<label class="parmlbl-lspace" for="hist-col">Column Name:</label>
+							<input class="padrt inp-med" type="text" id="hist-col" value="">
+						</div>
+						<div>
+							<label class="parmlbl-lspace" for="start-date">Date Range:</label>
+							<input class= "padrt inp-med" type="date" id="start-date" value="">
+							<label class="parmlbl-lspace" for="end-date">To:</label>
+							<input class="padrt inp-med" type="date" id="end-date" value="">
+						</div>
+					</div>
+					<div class = "apiopt-entry flex-div hidediv" id="apimisc-opt-undoc">
+						<p class="tighttext"><br>This will return the list of all items that are not yet fully documented</p>
+					</div>
+					<div class = "apiopt-entry flex-div hidediv" id="apimisc-opt-flag">
+						<p class="tighttext"><br>This invokes the function to flag items that are not active (do not exist) in the actual database</p>
+					</div>
+					<div class = "apiopt-entry flex-div" id="apimisc-opt-populate">
+						<p class="tighttext"><br>This invokes the function to synchronize contents of the Data Dictionary with the actual database structure</p>
+					</div>
+					<div class = "apiopt-entry flex-div hidediv" id="apimisc-opt-getinactives">
+						<p class="tighttext"><br>This will list all the Data Items that are currently flagged as inactive</p>
+					</div>
+					<div class="apiopt-entry flex-div-c hidediv" id="apimisc-opt-clone">
+						<div>
+							<p class="tighttext">This operation clones defintions from one table to another. Select the source and destination tables below.</p>
+						</div>
+						<div>
+							<label class="parmlbl-lspace" for="dropsel-fromtable">From Table:</label>
+							<select class="padrt" id="dropsel-fromtable">
+								<option value=" "> </option>
+							</select>
+							<label class="parmlbl-lspace" for="txt-totable">To Table:</label>
+							<input class="padrt inp-med" type="text" id="txt-totable" list="availtables" value = "">
+							<datalist id="availtables">
+								<option value=" "> </option>
+							</datalist>
+						</div>
+						<div>
+							<p class="tighttext">(if copying to a table with existing definitions, definitions of same-named columns will be overwritten)</p>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			<!-- ---------------------------- end of Misc API Option section  ---------------------------- -->
+
+			<!--  this is the section for pulling back info about the ADD API: menu option "API Info" -->
+			<div class="hidediv" id="parmapi">
+				<p class="tighttext">Options</p>
+				<select id="aboutapiparm">
+					<option value="version">Version</option>
+					<option value="functions">Functions</option>
+					<option value="verbose">Verbose Info</option>
+					<option value="concept">Concepts</option>
+				</select>
+				<div>
+					<button class="parmbutton" onclick="call_getapiversion()">Get Info</button>
+				</div>
+			</div>
+			<!-- ---------------------------- end of API Info Option section  ---------------------------- -->
+
+		</div>
+		<hr id="menu-sep">
+	</div>
+	<div class="maincontent">
+		<div class="hidediv" id="conninfo">
+			<h1>This is the connection info content</h1>
+		</div>
+		<div class="hidediv" id="definfo">
+			<h1>This is the definition list content</h1>
+		</div>
+		<div class="hidediv" id="searchinfo">
+			<div class="div-srch-hd" id="result-head">
+				<p>Processing...</p>
+			</div>
+ 			<div class="div-srch-rslt">
+				<!--  create the holding definition for the datatable. Note: classes below are part of datatables.css  -->
+				<table class="compact cell-border" id="srch-tbl-rslt">
+				</table>
+			</div>			
+		</div>
+		<div class="nodata-rslts">
+			<!-- this div is for dropping in stuff for ADD API calls that do not return result sets. So, in other words, if 
+				the desire is just to put up a textual notice on-screen, this div can be used -->
+		</div>
+		<div class="div-api hidediv" id="apiinfocont">
+			<div id="apiinfo">
+				<h5>Retrieving...</h5>
+			</div>
+		</div>
+	</div>
+	<div id="pop-info" title="Details">
+	</div>
+
+<!--  ------------------------------------------------------------------------------------------------------------ -->
+<!--  this div is for editing data of an item. It acts like a 'modal pop-up' -->
+	<div class="edit-win hidediv">
+		<div class="ew-hd">
+			Editing Data Item information (Item ID: <span id="item-val">xx</span>)
+		</div>
+		<div class="ew-bod">
+			<div class='ew-ent'>
+				<label for="e-table_name">Table name:</label>
+				<input class="inp-med" type="text" id="e-table_name" value="">
+			</div>
+			<div class='ew-ent'>
+				<label for="e-column_name">Column name:</label>
+				<input class="inp-med" type="text" id="e-column_name" value="">
+			</div>
+			<div class="ew-ent">
+				<label for="e-steward">Steward (ATTUID):</label>
+				<input class="inp-sm" type="text" id="e-steward" value="">
+			</div>
+			<div class="ew-ent">
+				<label for="e-meaning">Meaning/Definition:</label>
+				<textarea class="ew-textarea" id="e-meaning"></textarea>
+			</div>
+			<div class="ew-ent">
+				<label for="e-steward-back">Backup Stewards:</label>
+				<input class="inp-med" type="text" id="e-steward_back" value="">
+			</div>
+			<div class="ew-ent">
+				<label for="e-source">Data Source:</label>
+				<input class="inp-lrg" type="text" id="e-source" value="">
+			</div>
+			<div class="ew-ent">
+				<label for="e-freq">Update Frequency:</label>
+				<input class="inp-sm" type="text" id="e-freq" value="">
+			</div>
+			<div class="ew-ent">
+				<label for="e-def_conf">Definition Confidence:</label>
+				<select id="e-def_conf">
+					<option value="L">Low</option>
+					<option value="M">Medium</option>
+					<option value="H">High</option>
+				</select>
+			</div>
+			<div class="ew-ent">
+				<label for="e-security">Security Level:</label>
+				<select id="e-security">
+					<!-- <option value="AT&T Proprietary (Internal Use Only)">AT&ampT Proprietary (Internal Use Only)</option>
+					<option value="AT&T Proprietary (Restricted)">AT&ampT Proprietary (Restricted)</option>
+					<option value="AT&T Proprietary (Secure Restricted)">AT&ampT Proprietary (Secure Restricted)</option>
+          <option value="AT&T Proprietary (Sensitive Personal Information)">AT&ampT Proprietary (Sensitive Personal Information)</option> -->
+          <option value="Public">Public - no restrictions</option>
+					<option value="PFM Private">PFM only</option>
+					<option value="Sensitive Personal Information">Sensitive Personal Information</option>
+				</select>
+			</div>
+			<div class="ew-ent hidediv" id="e-special">
+				<input class="hidevar" id="e-item_id" value=0>
+				<input class="hidevar" id="e-dt-ident" value="">
+				<input class="hidevar" id="e-postresult" value="">
+				<input class="hidevar" id="e-editmode" value="E">
+			</div>
+		</div>
+		<div class="ew-foot">
+			<button class="ew-but clr-yes" type="button" onclick="ew_save_edit()">Save</button>
+			<button class="ew-but clr-no" type="button" onclick="kill_edit_win()">Cancel</button>
+			<button class="ew-but clr-warn" type="button" id="ew-but-delete" onclick="del_item_msg('single','#e-item_id','#e-dt-ident')">Delete</button>
+		</div>
+	</div>
+<!--  --------------------------------- end of the pop-up data edit window --------------------------------- -->
+
+<!--  these are divs for setting modal dialog messages. See the css for details -->
+<div id="modal-overlay" class="hidediv"></div>
+<div id="modal-overlay2" class="hidediv"></div>
+<div class="modal-dialog hidediv">
+	<div id="modal-head">
+		<div>
+			<h2 id="m-hd-txt">Title of the Modal</h2>
+		</div>
+	</div>
+	<div id="modal-body">
+		<p>Just some sample stuff here</p>
+	</div>
+	<div id="modal-foot">
+		<button class="btn-pops" onClick="modal_close()">Close</button>
+	</div>
+</div>
+<!--  --------------------------------- end of the modal dialog divs --------------------------------- -->
+
+<!--  these are various kinds of pop-ups -->
+<div class="hidediv" id="pop-msg">
+	Processing...
+</div>
+
+<div class="hidediv" id="pop-mov1">
+	<div id="pop-head">
+		<span id="pop-hd-text">
+		</span>
+		<span id="pop-mov1-close1" onClick="pop_mov1_close()">
+			&times;
+		</span>
+	</div>
+	<div id="pop-content">
+	</div>
+</div>
+<div class="flex-div-c hidediv" id="ew-del-confirm">
+	<div id="ew-del-confirm-hd">
+		Confirming Deletion
+	</div>
+	<div id="ew-del-confirm-body">
+		<p id="ew-del-confirm-body1">Enter the reason for deletion</p>
+		<div>
+			<textarea id="ew-del-confirm-reason"></textarea>
+		</div>
+		<p id="ew-del-confirm-body2">Click Yes to perform the deletion, click No to cancel</p>
+	</div>
+	<div class="hidediv">
+		<input class="hidevar" id="del-id" value=0>
+		<input class="hidevar" id="datatable-ref" value="">
+	</div>
+	<div id="ew-del-confirm-foot">
+		<button class="ew-but" onclick="delete_edit_item_process(1)">Yes</button>
+		<button class="ew-but" onclick="delete_edit_item_process(0)">No</button>
+	</div>
+</div>
+
+
+<!--  ---------------------------------- end of the status msg divs ---------------------------------- -->
+	
+</body>
+<script>
+	// set up global variables
+	var ofuckingshit = 0;
+	var service_def = 'add_service.php';
+	var chkstr = '(holds last api call)';
+</script>
+
+</html>
+

@@ -1,0 +1,489 @@
+.apiopt-entry {
+	display: flex;
+	flex-flow: row wrap;
+	padding-left: 20px;
+}
+
+#apimisc-opt-idhist {
+	padding-left: 10px;
+}
+
+.bumpRight {
+	padding-left: 20px;
+}
+
+.clr-yes {
+	background-color: #22bb22;
+	color: white;
+}
+
+.clr-no {
+	background-color: #aaaa22;
+	color: white;
+}
+
+.clr-warn {
+	background-color: #ff0000;
+	color: white;
+}
+
+.btn-pops {
+	background-color: #bbccbb;
+	border-radius: 8px;
+	color: #000088;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 3px 12px 3px 12px;
+}
+
+.btn-pops:hover {
+/* this box-shadow had multiple shadows defined, kinda cool */
+	box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.50)
+}
+
+
+.fillertext {
+	font-size:44px;
+}
+
+.div-srch-hd p {
+	font-size: 14px;
+	font-weight: bold;
+/*	margin: 20px auto 5px auto; */
+	padding: 0;
+	width: 90%;
+}
+
+/*
+.div-rslt-wide {
+	width: 200%;
+}
+*/
+
+.div-srch-rslt {
+	border: 1px solid #0000ff;
+	font-size: 14px;
+	color: #000;
+	margin: 0px auto 20x auto;
+	overflow: auto;
+	width: 98%; 
+}
+
+.divholdshit {
+	margin-left: auto;
+	margin-right: auto;
+	overflow-wrap: break-word;
+	overflow: auto;
+	overflow-y: scroll;
+	overflow-x: scroll;
+	word-wrap: break-word;
+}
+
+.edit-win {
+	border: 2px solid #aaaaaa;
+	background-color: #fff;
+	height: 500px;
+	width: 650px;
+    position: fixed;
+    left: 300px;
+    top: 200px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    z-index: 1000;
+}
+
+.ew-hd {
+	font-weight: bold;
+	font-size: 16px;
+	padding: 5px 1px 5px 1px;
+	border-bottom: 2px solid #aaaaaa;
+	background-color: #bbbbff;
+}
+
+.ew-bod {
+	padding: 2px 3px 2px 15px;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	font-size: 12px;
+}
+
+.ew-ent {
+	display: flex;
+	flex-direction: column;
+	margin: 4px 10px 4px 0px; 
+}
+
+.ew-foot {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	clear: both;
+}
+
+.ew-but {
+	border-radius: 8px;
+	cursor: pointer;
+	font-family: Arial;
+	font-size: 16px;
+	font-weight: bold;
+	height: 30px;
+	margin: 0px 7px 20px 7px;
+	text-align: center;
+	transition-duration: 0.2s;
+	width: 100px;
+}
+
+#ew-but-delete {
+	float: right;
+}
+
+.ew-but:hover {
+/* this box-shadow had multiple shadows defined, kinda cool
+/* 	box-shadow: 7px 7px 7px 7px rgba(0,0,0,0.24),14px 14px 14px 14px rgba(0,0,0,0.19); */
+	box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.50)
+}
+
+.ew-textarea {
+	font-family: Arial;
+	height: 200px;
+	width: 550px;
+}
+
+#ew-del-confirm {
+	background-color: #ffffff;
+	border: 1px solid #000000;
+    box-shadow: 0 4px 8px 0 rgba(0,0,255,0.5),0 6px 20px 0 rgba(0,0,0,0.19);
+	height: 250px;
+	justify-content: space-between;
+	margin: auto;
+	position: absolute;
+	user-select: none;
+	width: 350px;
+	z-index: 1500;	
+}
+#ew-del-confirm-hd {
+	background-color: #e8e8ff;
+/* 	border: 1px solid #000000; */
+	border-bottom: 1px solid #000000;
+	font-size: 14px;
+	font-weight: bold;
+	margin: 0;
+	padding: 2px 2px 2px 2px;
+}
+#ew-del-confirm-body {
+	margin: 2px 10px 2px 10px;
+	font-size: 14px;
+	z-index: 2000;
+}
+#ew-del-confirm-reason {
+	height: 60px;
+	border: 1px solid #000000;
+	margin: 0px 0px 10px 0px;
+	resize: none;
+	width: 97%;
+}
+
+#ew-del-confirm-foot {
+	display: flex;
+	justify-content: center;
+	margin: 0;
+}
+
+h2 {
+	margin: 7px 4px 7px 4px;
+}
+
+.main-head {
+	background-color: #fff;
+	font-size: 16px;
+	padding: 0 0 1px 0;
+	position: fixed;
+	top: 0;
+	width: 100%;
+}
+
+.maincontent {
+/* border: 1px solid #0000ff; */
+/*	height: 600px; */
+	margin-top: 165px;
+	padding-left: 5px;
+	width: 98%;
+	position: fixed;
+	overflow: auto;
+}
+
+.modal-close-x {
+	color: #aaaaaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.modal-dialog {
+	background-color: #ffffff;
+	border: 2px solid #004000;
+	border-radius: 3px;
+    box-shadow: 0 4px 8px 0 rgba(212,212,212,0.2),0 6px 20px 0 rgba(192,192,192,0.4);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	/* height: 400px;  going to set this via javascript */
+	position: fixed;
+	width: 400px;
+	z-index: 1000;
+}
+#modal-head {
+	background-color: #bbffbb;
+	border-bottom: 1px solid #004000;
+	padding: 3px 5px 3px 5px;
+}
+
+#modal-body {
+	margin: 5px 20px 5px 20px;
+}
+
+#modal-foot {
+	display: flex;
+	flex-direction: row-reverse;
+	margin: 5px 10px 10px 10px;
+}
+
+#modal-overlay {
+	/* this class is to put an overlay on the entire page so that only the modal dialog can be touched */
+	/* note the rgba to make the background transparent (last parameter) */
+	background-color: rgba(64,64,64,.75);
+	left: 0;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 999;
+}
+
+#modal-overlay2 {
+	/* this class is to put an overlay on the entire page so that only the modal dialog can be touched */
+	/* this is shown at a higher z-order than other the regular overlay - the reason is needs for 
+	divs that are pop-ups on top of pop-ups, etc */
+	background-color: rgba(64,64,64,.75);
+	left: 0;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 1100;
+}
+
+
+.modal-movable {
+	background-color: #ffeebb;
+	cursor: default;
+	height: 100px;
+	width: 100px;
+	position: absolute;
+	user-select: none;
+}
+
+.num-input {
+	width: 60px;
+}
+
+.parmlbl {
+    color:#00f;
+}
+
+.parmlbl-lspace {
+    color: #00f;
+/* 	padding-left: 10px; */
+}
+
+.parmbutton {
+	background-color: #db2;
+	border: none;
+	border-radius: 6px;
+	color: white;
+	font-weight: bold;
+	margin-top: 5px;
+	padding: 4px 6px 4px 6px;
+	text-align: center;
+	text-decoration: none;
+}
+
+.parmbutton:hover {
+/* this box-shadow had multiple shadows defined, kinda cool */
+	box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.50)
+}
+
+
+.flex-div {
+	display: flex;
+	flex-flow: row wrap;
+}
+.flex-div-c {
+	display: flex;
+	flex-flow: column wrap;
+}
+
+.parmsection {
+	width: 100%;
+}
+
+#pop-mov1 {
+	background-color: #ffffff;
+	border: 1px solid #000000;
+    box-shadow: 0 4px 8px 0 rgba(0,0,255,0.5),0 6px 20px 0 rgba(0,0,0,0.19);
+	height: 300px;
+	position: absolute;
+	top: 200px;
+	left: 50px;
+	user-select: none;
+	width: 500px;
+	z-index: 999;
+}
+
+#pop-mov1-close1 {
+	cursor: default;
+	float: right;
+	font-size: 24px;
+	margin: -5px 0px 0px 0px;
+	vertical-align: top;
+}
+
+#pop-head {
+	cursor: move;
+	background-color: #aaaaff;
+/* 	border: 1px solid #000000; */
+	border-bottom: 1px solid #000000;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 2px 2px 2px 2px;
+	user-select: none;
+	z-index: 1000;
+}
+
+#pop-content {
+	height: 275px;
+	overflow-wrap: break-word;
+	overflow-y: scroll;
+	padding: 0px 5px 0px 5px;
+	z-index: 1000;
+}
+
+#pop-msg {
+	background-color: #44cc44;
+	border: 1px solid #000000;
+	box-shadow: 4px 4px 4px 4px rgba(212,212,212,.5);
+	font-size: 10px;
+	font-style: italic;
+	position: fixed;
+	text-align: center;
+	top: 167px;
+	left: 10px;
+	width: 77px;
+	z-index:1000;
+}
+
+.srch-entry {
+	padding-left: 20px;
+}
+
+#srch-stew {
+	text-transform: uppercase;
+}
+
+.inp-xsm {
+	width: 50px;
+}
+
+.inp-sm {
+	width: 80px;
+}
+
+.inp-med {
+	width: 160px;
+}
+
+.inp-lrg {
+	width: 220px;
+}
+
+.inp-xlrg {
+	width: 320px;
+}
+
+
+.tighttext {
+	margin: 2px 2px 2px 0px;
+	color: #666666;
+}
+
+.div-api {
+	border: 1px solid #0000ff;
+	color: #003399;
+	font-size: 14px;
+	margin-left: auto;
+	margin-right: auto;
+/*	height: 500px; */
+	overflow: auto;
+	width: 95%;
+	word-wrap: break-word;
+}
+
+.padrt {
+	margin-right: 15px;
+}
+
+/* override jquery datatables center align of headers */
+#srch-tbl-rslt thead th {
+	text-align: left;
+	font-size: 12px; 
+}
+#srch-tbl-rslt td {
+	font-size: 12px;
+}
+
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #555;
+    width: 100%;
+}
+
+.tab button {
+    background-color: #555;
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    float: left;
+    outline: none;
+    padding: 10px 8px;
+    transition: 0.3s;
+}
+
+.tab button.active {
+    background-color: #fff;
+    color: #00f;
+}
+
+table.dataTable tbody tr:nth-child(odd) {
+    background-color: #fff0d0;
+}
+
+th {
+  	border-top: 1px solid #dddddd;
+  	border-bottom: 1px solid #dddddd;
+  	border-right: 1px solid #dddddd;
+  	padding: 1 1 1 1;
+}
+
+.q-cent {
+	text-align: center;
+}
+
+/* put this last so that it will always override other div settings */
+.hidediv {
+	display:none;
+}
+
+.hidevar {
+	display:none;
+}
