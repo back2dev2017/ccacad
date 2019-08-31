@@ -5,7 +5,7 @@
 	header("Expires: 0"); // Proxies.
 	session_start(); // start up a session to help with DB connections
 
-  echo getenv("DATABASE_URL");
+  // echo getenv("DATABASE_URL");
 
 ?>
 
