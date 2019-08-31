@@ -245,7 +245,7 @@ switch ($c_apifunc) {
 	    echo $_SESSION["lastcall"];
 	    break;
 
-  case "GET_LAST_CALL":
+  case "CONN_INFO":
 	    echo pg_host($dbconn);
 	    break;
       
