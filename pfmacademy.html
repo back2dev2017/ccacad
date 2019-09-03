@@ -19,8 +19,10 @@
   <script src="js/jquery-3.2.1.js"></script>
   <script src="js/datatables.min.js"></script>
   <script src="js/pfmajs.js"></script>
-  <script src="js/c3.js"></script>
   <script src="js/d3.v4.min.js"></script>
+  <script src="js/c3.js"></script>
+  <script src="js/pfm_charts.js"></script>
+
 
 </head>
 <body>
@@ -29,7 +31,7 @@
       <img src="images/pf-logo.png" alt="Prison Ministry Logo" id="mainlogo">
       <span>
         <h2>
-          Prison Fellowship Ministry Academy Management
+          Prison Fellowship Ministry - Academy Management
         </h2>
       </span>
     </div>
@@ -45,35 +47,83 @@
       <div id="maindiv">
         <!-- This is the Academy Management Div -->
         <div class="academy-mgmt-sect content-sect">
-          <div class="am-topmenu">
-            <button class="tablinks active" id="curriculums" value="curriculums" onclick="allnavclick(this)">Curriculums</button>
-            <button class="tablinks" id="courses" value="courses" onclick="allnavclick(this)">Courses</button>
+          <div id="am-topmenu">
+            <button class="tablinks active" id="courses" value="courses" onclick="allnavclick(this)">Courses</button>
+            <button class="tablinks" id="curriculums" value="curriculums" onclick="allnavclick(this)">Curriculums</button>
             <button class="tablinks" id="surveys" value="surveys" onclick="allnavclick(this)">Surveys/Tests</button>
             <button class="tablinks" id="misc" value="misc" onclick="allnavclick(this)">System Administration</button>
             <!-- <button class="tablinks" id="aboutapi" value="api_info" onclick="allnavclick(this)">API Info</button> -->
           </div>
 
           <div id="am-contents">
-            <div class="mainzone-sel" id="curriculums-disp">
-              Curriculums
-            </div>
-            <div class="mainzone-sel hidediv" id="courses-disp">
+            <div class="mainzone-sel" id="courses-disp">
               Courses
+            </div>
+            <div class="mainzone-sel hidediv" id="curriculums-disp">
+
+              <div id='curr-mgmt'>
+                  <button class='btncurr-submenu submenu active' id='pick-curr-course' value='pick-curr-course' onclick="set_currsect(this)">Generate Course</button>
+                  <button class='btncurr-submenu submenu' id='pick-curr-tmplt' value='pick-curr-tmplt' onclick="set_currsect(this)">Design Curriculum</button>
+                  <button class='btncurr-submenu submenu' id='pick-curr-units' value='pick-curr-units' onclick="set_currsect(this)">Manage Units</button>
+              </div>
+              <div id='curr-sections'>
+          
+                <div id='curr-sect-course' class='curr-item'>
+                  <h2>This is the place where courses can be generated</h2>
+                </div>
+                <div id='curr-sect-tmplt' class='curr-item hidediv'>
+                    <h2>This is the place where curriculums are created and managed</h2>
+                </div>
+                <div id='curr-sect-units' class='curr-item hidediv'>
+                  <h3>These are the units currently defined in the system</h3>
+                  <button class="btn-standard" id="add-unit" value="add-unit">Add Unit</button>
+                  <div id='unitlistwrap'>
+                    <table id='unit-list-tbl' class='cell-border'>
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+
+
             </div>
             <div class="mainzone-sel hidediv" id="surveys-disp">
               Surveys
             </div>
             <div class="mainzone-sel hidediv" id="misc-disp">
-              <div id="user-list">
-                <button class="btn-standard" id="add-user" value="add-user">Add User</button>
-                <div id='userlistwrap'>
-                  <table class="cell-border" id="user-list-tbl">
-
-                  <!-- <table class="compact cell-border" id="user-list-tbl"> -->
-                  <!-- note: classes assigned are probably within the datatable.css -->
-                  </table>
+              <div id='sysadmin-mgmt'>
+                <button class='btnsys-submenu submenu active' id='pick-sys-user' value='pick-sys-user' onclick="set_syssect(this)">User Administration</button>
+                <button class='btnsys-submenu submenu' id='pick-sys-facsteps' value='pick-sys-facsteps' onclick="set_syssect(this)">Facility Setup</button>
+                <button class='btnsys-submenu submenu' id='pick-sys-modules' value='pick-sys-modules' onclick="set_syssect(this)">Define Modules</button>
+              </div>
+              <div id="sysadmin">
+                <div id="sys-sect-users" class='sys-item hidediv'>
+                  <button class="btn-standard" id="add-user" value="add-user">Add User</button>
+                  <div id='userlistwrap'>
+                    <table class="cell-border" id="user-list-tbl">
+          
+                    <!-- <table class="compact cell-border" id="user-list-tbl"> -->
+                    <!-- note: classes assigned are probably within the datatable.css -->
+                    </table>
+                  </div>
+                </div>
+          
+                <div id="sys-sect-facsteps" class='sys-item hidediv'>
+                  <button class="btn-standard" id="add-fac-task" value="add-fac-task">Add Setup Task</button>
+                  <div id='facstepslistwrap'>
+                    <table class="cell-border" id="facsetup-list-tbl">
+          
+                    <!-- <table class="compact cell-border" id="user-list-tbl"> -->
+                    <!-- note: classes assigned are probably within the datatable.css -->
+                    </table>
+                  </div>
+                </div>
+          
+                <div id="sys-sect-modules" class='sys-item hidediv'>
+                  the place to manage modules
                 </div>
               </div>
+
             </div>
           </div>
         </div>
@@ -102,10 +152,11 @@
             </div>
           </div>
           <div class="dashb-part" id="dsh-attend">
-            <div id="attendenc-stats" class='dash-inner-content'>
-              <p>Enrolled: 77</p>
+            <div id="attendence-stats" class='dash-inner-content'>
+              <!-- <p>Enrolled: 40</p>
               <p>Adds: 0</p>
-              <p>Drops: 0</p>
+              <p>Drops: 0</p> -->
+              <div id="chart_attendance"></div>
             </div>
           </div>
           <div class="dashb-part" id="dsh-via">
@@ -197,6 +248,7 @@
   var chkstr = '(holds last api call)';
   var dataobj = {};
   $(document).ready(function() {
+    data_setup();
     console.log('doc done');
   });
 </script>

@@ -127,22 +127,23 @@ h2 {
 }
 
 #curriculums-disp {
-  background-color: #a88;
+  /* background-color: #a88; */
+  border: 1px solid lightgrey;
   min-width: 400px;
   min-height: 400px;
 }
 #courses-disp {
-  background-color: #77f;
+  /* background-color: #77f; */
   min-width: 400px;
   min-height: 400px;
 }
 #surveys-disp {
-  background-color: #6aa;
+  /* background-color: #6aa; */
   min-width: 400px;
   min-height: 400px;
 }
 #misc-disp {
-  background-color: #68f;
+  /* background-color: #68f; */
   min-width: 400px;
   min-height: 300px;
   width: 100%;
@@ -163,7 +164,7 @@ h2 {
 	overflow-x: scroll;
 } */
 
-.am-topmenu {
+#am-topmenu {
   overflow: hidden;
   /* border: 1px solid #ccc; */
   background-color: #555;
@@ -172,7 +173,7 @@ h2 {
   flex-basis: 100%;
 }
 
-.am-topmenu button {
+#am-topmenu button {
   background-color: #555;
   border: none;
   color: #ccc;
@@ -183,10 +184,29 @@ h2 {
   font-size: 1.1em;
 }
 
-.am-topmenu button.active {
+#am-topmenu button.active {
   background-color: #fff;
   color: #00f;
   font-weight: bold;
+}
+
+.submenu {
+  background-color: #45699f;
+  border: 1px solid #45699f;
+  border-radius: 3px;
+  color: #aaa;
+  cursor: pointer;
+  padding: 0px 20px 0px 20px;
+  transition: 0.1s;
+  max-height: 50px;
+  font-size: 1.1em;
+  margin: 5px 0px 5px 0px;
+}
+
+.submenu.active {
+  background-color: #d5e9ff;
+  color: #00f;
+  /* font-weight: bold; */
 }
 
 .tablinks {
@@ -238,8 +258,13 @@ h2 {
 }
 .dashb-part {
   min-width: 500px;
-  min-height: 200px;
+  min-height: 350px;
   border: 2px solid lightblue;
+}
+
+#chart_attendance {
+  height: 70%;
+  width: 80%;
 }
 
 .modal-close-x {
@@ -554,7 +579,13 @@ select {
 	font-size: 12px;
 }
 #userlistwrap {
-	width: 50%;
+  width: 80%;
+  margin-left: 0;
+  overflow: auto;
+}
+
+#unitlistwrap {
+	width: 80%;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -583,6 +614,10 @@ th {
 
 .hidevar {
 	display:none;
+}
+
+.tempcontainer {
+  border: 1px solid lightblue;
 }
 
 .testspace{

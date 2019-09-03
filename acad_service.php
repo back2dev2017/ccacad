@@ -34,9 +34,9 @@ $c_apifunc = strtoupper($_POST['api_func']);
 // $c_apifunc = 'testingnothing';
 
 // this connection is for a local db connection
-// $dbconn = pg_connect("host=localhost dbname=localacaddb user=cc2000 password=mssucksbad");
+$dbconn = pg_connect("host=localhost dbname=localacaddb user=cc2000 password=mssucksbad");
 // this connection is for the prod db (to be running from prod)
-$dbconn = pg_connect(getenv("DATABASE_URL"));
+// $dbconn = pg_connect(getenv("DATABASE_URL"));
 
 if (!$dbconn) {
   echo "Error trying to just connect to DB";
@@ -65,11 +65,15 @@ switch ($c_apifunc) {
 		echo json_encode($ret_array);
 		break;
 
-	case "GET_COURSES":
-		$result = pg_query($dbconn, 'select * from acad_course');
-		$ret_array = pg_fetch_all($result);
+  case "GET_COURSES":
+    // $v_course_id = $_POST['p_course_id'];
+    // $result = pg_query_params($dbconn, "select * from get_course_data($1)", 
+    //   array($v_course_id));
+
+    $result = pg_query($dbconn, "select * from get_course_data()");
+    $ret_array = pg_fetch_all($result);
 		echo json_encode($ret_array);
-		break;
+    break;
 	
 	case "GET_COURSE_ATTEND":
 		$result = pg_query($dbconn, 'select * from acad_course_attendance');
@@ -114,13 +118,14 @@ switch ($c_apifunc) {
 		break;
 
 	case "GET_FAC_SETUP":
-		$result = pg_query($dbconn, 'select * from facility_setup');
+    $result = pg_query($dbconn, 
+            'select aa.id, aa.title, aa.long_desc, aa.expected_hrs, aa.module_id, aa.sex_focus, aa.retired. bb.module_name from facility_setup');
 		$ret_array = pg_fetch_all($result);
 		echo json_encode($ret_array);
 		break;
 
 	case "GET_SESSION_LIST":
-		$result = pg_query($dbconn, 'select * from session_list');
+		$result = pg_query($dbconn, 'select * from get_session_data()');
 		$ret_array = pg_fetch_all($result);
 		echo json_encode($ret_array);
 		break;

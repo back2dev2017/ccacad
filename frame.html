@@ -21,53 +21,62 @@
 </head>
 <body>
   <div class="tempcontainer">
-    <div class="popup-edit" id="user-edit">
-      <p class="div-title">User Details</p>
-      <div class="edit-group">
-        <label for="user-fname">First Name:</label>
-        <input type="text" name="fname" id="user-fname" class="inp-med " value="">
+    <!-- copy after this line to paste into main document -->
+    <div id='sysadmin-mgmt'>
+      <button class='btnsys-submenu submenu active' id='pick-sys-user' value='pick-sys-user' onclick="set_syssect(this)">Users Administration</button>
+      <button class='btnsys-submenu submenu' id='pick-sys-facsteps' value='pick-sys-facsteps' onclick="set_syssect(this)">Facility Setup</button>
+      <button class='btnsys-submenu submenu' id='pick-sys-modules' value='pick-sys-modules' onclick="set_syssect(this)">Define Modules</button>
+    </div>
+    <div id="sysadmin">
+      <div id="sys-sect-users" class='sys-item hidediv'>
+        <button class="btn-standard" id="add-user" value="add-user">Add User</button>
+        <div id='userlistwrap'>
+          <table class="cell-border" id="user-list-tbl">
+
+          <!-- <table class="compact cell-border" id="user-list-tbl"> -->
+          <!-- note: classes assigned are probably within the datatable.css -->
+          </table>
+        </div>
       </div>
-      <div class="edit-group">
-        <label for="user-lname">Last Name:</label>
-        <input type="text" name="lname" id="user-lname" class="inp-med"  value="">
+
+      <div id="sys-sect-facsteps" class='sys-item hidediv'>
+        <button class="btn-standard" id="add-fac-task" value="add-fac-task">Add Setup Task</button>
+        <div id='facstepslistwrap'>
+          <table class="cell-border" id="facsetup-list-tbl">
+
+          <!-- <table class="compact cell-border" id="user-list-tbl"> -->
+          <!-- note: classes assigned are probably within the datatable.css -->
+          </table>
+        </div>
       </div>
-      <div class="edit-group">
-        <label for="user-email">Email:</label>
-        <input type="email" name="email" id="user-email" class="inp-xlrg"  value="">
+
+      <div id="sys-sect-modules" class='sys-item hidediv'>
+        the place to manage modules
       </div>
-      <div class="edit-group">
-        <label for="user-phone">Phone:</label>
-        <input type="tel" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"  id="user-phone" class="inp-med"  value="" placeholder="999-999-9999">
-      </div>
-      <div class="edit-group">
-        <label for="user-phone-ext">Phone Extension:</label>
-        <input type="text" name="phone" id="user-phone-ext" class="inp-sm"  value="">
-      </div>
-      <div class="edit-group">
-        <label for="user-role">Role:</label>
-        <select id="user-role">
-          <option value="Academy Admin">Academy Admin</option>
-          <option value="Academy Manager">Academy Manager</option>
-          <option value="Coordinator">Coordinator</option>
-          <option value="Counselor">Counselor</option>
-        </select>
-      </div>
-      <div class="edit-group">
-        <label for="user-new-password">Password reset:</label>
-        <input type="password" name="user-new-password" id="user-new-password" class="inp-med" value="">
-      </div>
+
       <!-- Hidden variables to hold on to useful data -->
-      <input type=text name="user-id" id="user-id" class="hidevar" value="">
+      <!-- <input type=text name="user-id" id="user-id" class="hidevar" value="">
       <input type=text name="edit-mode-user" id="edit-mode-user" class="hidevar" value="">
       <input type=text name="user-datatable" id="user-datatable" class="hidevar" value="">
       <div class="popup-footer">
         <button class='edit-btn clr-yes' id='userbtn-save'>Save</button>
         <button class='edit-btn clr-no' id='userbtn-cancel'>Cancel</button>
-      </div>
-    </div>
-    
+      </div> -->
 
+    </div>
+
+    <!-- copy above this line to paste into main document -->
   </div>
 
 </body>
+<script>
+    // set up global variables
+    var service_def = 'acad_service.php';
+    var chkstr = '(holds last api call)';
+    var dataobj = {};
+    $(document).ready(function() {
+      data_setup();
+      console.log('doc done - framing');
+    });
+  </script>
 </html>
