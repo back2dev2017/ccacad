@@ -34,7 +34,7 @@ $c_apifunc = strtoupper($_POST['api_func']);
 // $c_apifunc = 'testingnothing';
 
 // this connection is for a local db connection
-$dbconn = pg_connect("host=localhost dbname=localacaddb user=cc2000 password=mssucksbad");
+$dbconn = pg_connect("host=localhost dbname=academydb user=cc2000 password=mssucksbad");
 // this connection is for the prod db (to be running from prod)
 // $dbconn = pg_connect(getenv("DATABASE_URL"));
 
