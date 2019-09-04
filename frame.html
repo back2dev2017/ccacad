@@ -22,19 +22,48 @@
 <body>
   <div class="tempcontainer">
     <!-- copy after this line to paste into main document -->
-    <div id="courses-container">
-      <div id='courses-sel'>
-        <div id="course-list-wrap">
-          <table id="course-list-tbl" class="cell-border">          
-          </table>
-        </div>
-        <div id="roster-list-wrap">
-          <table id='roster-list-tbl'>
-          </table>
-        </div>
+    <!-- <div id="courses-all-list" class="hidediv">
+      <div id="course-list-wrap">
+        <table id="course-list-tbl" class="cell-border">          
+        </table>
       </div>
-      <div id="courses-details">
-        
+      <div id=course-status-info>
+        <p>Start Date: </p>
+        <p>Units Performed: </p>
+        <p>Unites Late: </p>
+        <p>Schedule Elapsed: </p>
+      </div>
+      <div id="roster-list-wrap">
+        <table id='roster-list-tbl'>
+        </table>
+      </div>
+      <div>
+        <button id="roster-vias" class='btn-standard'>VIAs</button>
+        <button id="roster-1on1" class='btn-standard'>1 on 1's</button>
+      </div>
+    </div> -->
+
+
+    <!-- This display is just for 1 course -->
+    <div id="course-container">
+      <div id='course-detail-sel'>
+        <h3 id='course-detail-title'>[Put title info here]</h3>
+        <select id='course-detail-pick'>
+          <option value='prep week'>Prep Week</option>
+          <option value='qtr view' selected>Quarterly View</option>
+          <option value='week view'>Weekly View</option> </option>
+        </select>
+      </div>
+      <div id='course-detail-list-wrap'>
+        <table id='course-detail-list-tbl'>
+        </table>
+      </div>
+
+      <div id="course-detail-roster">
+        <div id="detail-roster-list-wrap">
+        </div>
+        <div id="detail-roster-1on1">
+        </div>
       </div>
 
     </div>
@@ -63,6 +92,7 @@
     $(document).ready(function() {
       data_setup();
       console.log('doc done - framing');
+      setTimeout('build_course_tbl(window.dataobj.courses)', 1000);
     });
   </script>
 </html>

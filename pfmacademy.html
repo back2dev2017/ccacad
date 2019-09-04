@@ -38,7 +38,7 @@
 
     <div id="allcontent">
       <div class="l-sidebar">
-        <button class="left-menu active" id="acadmgt" value="acadmgt" onclick="selecttopsection(this)">Academy Management</button>
+        <button class="left-menu" id="acadmgt" value="acadmgt" onclick="selecttopsection(this)">Academy Management</button>
         <button class="left-menu" id="acaddash" value="acaddash" onclick="selecttopsection(this)">Dashboards</button>
         <button class="left-menu" id="acadrpts" value="acadrpts" onclick="selecttopsection(this)">Reports</button>
         <button class="left-menu" id="acadspec" value="acadspec" onclick="selecttopsection(this)">Special</button>
@@ -46,7 +46,7 @@
 
       <div id="maindiv">
         <!-- This is the Academy Management Div -->
-        <div class="academy-mgmt-sect content-sect">
+        <div class="academy-mgmt-sect content-sect hidediv">
           <div id="am-topmenu">
             <button class="tablinks active" id="courses" value="courses" onclick="allnavclick(this)">Courses</button>
             <button class="tablinks" id="curriculums" value="curriculums" onclick="allnavclick(this)">Curriculums</button>
@@ -77,7 +77,7 @@
                 <div id='curr-sect-units' class='curr-item hidediv'>
                   <h3>These are the units currently defined in the system</h3>
                   <button class="btn-standard" id="add-unit" value="add-unit">Add Unit</button>
-                  <div id='unitlistwrap'>
+                  <div id='unit-list-wrap'>
                     <table id='unit-list-tbl' class='cell-border'>
                     </table>
                   </div>
@@ -99,7 +99,7 @@
               <div id="sysadmin">
                 <div id="sys-sect-users" class='sys-item hidediv'>
                   <button class="btn-standard" id="add-user" value="add-user">Add User</button>
-                  <div id='userlistwrap'>
+                  <div id='user-list-wrap'>
                     <table class="cell-border" id="user-list-tbl">
           
                     <!-- <table class="compact cell-border" id="user-list-tbl"> -->
@@ -130,7 +130,7 @@
         <!-- End of the Academy Management Div -->
 
         <!-- This is the overall Dashboard div -->
-        <div class="dashboard-sect content-sect hidediv">
+        <div class="dashboard-sect content-sect">
           <div id='dash-overall-title'>
             <h3>Facility: Saint Brides Correctional Center - currently reporting Week 10</h3>
           </div>
@@ -251,6 +251,8 @@
   var dataobj = {};
   $(document).ready(function() {
     data_setup();
+    // display the dashboard to start
+    $("#acaddash").trigger('click');
     console.log('doc done');
   });
 </script>

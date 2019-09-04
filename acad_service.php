@@ -9,19 +9,19 @@
 <?php
 
 function handle_sql_errors($query, $error_message) {
-    echo '<pre>';
-    echo $query;
-    echo '</pre>';
-    echo $error_message;
-    die;
+	echo '<pre>';
+	echo $query;
+	echo '</pre>';
+	echo $error_message;
+	die;
 }
 
 function custom_err_hdlr ($errno, $errstr, $errfile, $errline, $errcontext) {
-    echo "<b>My ERROR</b> [$errno] $errstr<br>\n";
-    echo "  Fatal error on line $errline in file $errfile";
-    echo ", PHP " . PHP_VERSION . " (" . PHP_OS . ")\n";
-    echo "Aborting...\n";
-    die();
+	echo "<b>My ERROR</b> [$errno] $errstr<br>\n";
+	echo "  Fatal error on line $errline in file $errfile";
+	echo ", PHP " . PHP_VERSION . " (" . PHP_OS . ")\n";
+	echo "Aborting...\n";
+	die();
 }
 
 // require_once('add_conn_cls.php');
@@ -39,17 +39,17 @@ $dbconn = pg_connect("host=localhost dbname=academydb user=cc2000 password=mssuc
 // $dbconn = pg_connect(getenv("DATABASE_URL"));
 
 if (!$dbconn) {
-  echo "Error trying to just connect to DB";
-  exit;
+	echo "Error trying to just connect to DB";
+	exit;
 } else {
-  // echo "Connected to DB OK\n";
+	// echo "Connected to DB OK\n";
 }
 
 
 // echo $c_apifunc . '<br>';
 
 if ($c_apifunc != 'GET_LAST_CALL') {
-    $_SESSION["lastcall"] = $c_apifunc;
+		$_SESSION["lastcall"] = $c_apifunc;
 }
 
 switch ($c_apifunc) {
@@ -65,15 +65,15 @@ switch ($c_apifunc) {
 		echo json_encode($ret_array);
 		break;
 
-  case "GET_COURSES":
-    // $v_course_id = $_POST['p_course_id'];
-    // $result = pg_query_params($dbconn, "select * from get_course_data($1)", 
-    //   array($v_course_id));
+	case "GET_COURSES":
+		// $v_course_id = $_POST['p_course_id'];
+		// $result = pg_query_params($dbconn, "select * from get_course_data($1)", 
+		//   array($v_course_id));
 
-    $result = pg_query($dbconn, "select * from get_course_data()");
-    $ret_array = pg_fetch_all($result);
+		$result = pg_query($dbconn, "select * from get_course_data()");
+		$ret_array = pg_fetch_all($result);
 		echo json_encode($ret_array);
-    break;
+		break;
 	
 	case "GET_COURSE_ATTEND":
 		$result = pg_query($dbconn, 'select * from acad_course_attendance');
@@ -88,10 +88,16 @@ switch ($c_apifunc) {
 		break;
 
 	case "GET_COURSE_ENROLLMENT":
-		$result = pg_query($dbconn, 'select * from course_attendee_list');
+		if (isset($_POST['p_acad_id'])) {
+			$v_course_id = strval($_POST['p_acad_id']);
+		} else {
+			$v_course_id = null;
+		}
+		$result = pg_query_params($dbconn, "select * from get_roster($1)", array($v_course_id));
 		$ret_array = pg_fetch_all($result);
 		echo json_encode($ret_array);
 		break;
+
 
 	case "GET_CURRIC_TEMPLATES":
 		$result = pg_query($dbconn, 'select * from curriculum_t');
@@ -118,8 +124,8 @@ switch ($c_apifunc) {
 		break;
 
 	case "GET_FAC_SETUP":
-    $result = pg_query($dbconn, 
-            'select aa.id, aa.title, aa.long_desc, aa.expected_hrs, aa.module_id, aa.sex_focus, aa.retired. bb.module_name from facility_setup');
+		$result = pg_query($dbconn, 
+						'select aa.id, aa.title, aa.long_desc, aa.expected_hrs, aa.module_id, aa.sex_focus, aa.retired. bb.module_name from facility_setup');
 		$ret_array = pg_fetch_all($result);
 		echo json_encode($ret_array);
 		break;
@@ -163,24 +169,24 @@ switch ($c_apifunc) {
 		break;
  
 	case "GET_LAST_CALL":
-	    echo $_SESSION["lastcall"];
-	    break;
-      
-  default:
-    echo "ADD API call not recognized: " . $c_apifunc. "<br><br>" ;
-    echo '<br>';
-    $result = pg_query($dbconn, "select * from information_schema.tables where table_schema='public'");
-    // some column names in result set: table_name, table_type, table_schema, table_catalog, is_typed
-    $tmpvals = pg_fetch_all($result);
-    // echo '<pre>';
-    // print_r($tmpvals);
-    // echo '</pre>';
-    // var_dump($tmpvals);
-    $nvals = sizeof($tmpvals);
-    foreach($tmpvals as $item) {
-      // echo 'there was an item here ' . strval($nvals) . '<br>';
-      echo $item['table_name'] . '<br>';
-    }
-    
+			echo $_SESSION["lastcall"];
+			break;
+			
+	default:
+		echo "ADD API call not recognized: " . $c_apifunc. "<br><br>" ;
+		echo '<br>';
+		$result = pg_query($dbconn, "select * from information_schema.tables where table_schema='public'");
+		// some column names in result set: table_name, table_type, table_schema, table_catalog, is_typed
+		$tmpvals = pg_fetch_all($result);
+		// echo '<pre>';
+		// print_r($tmpvals);
+		// echo '</pre>';
+		// var_dump($tmpvals);
+		$nvals = sizeof($tmpvals);
+		foreach($tmpvals as $item) {
+			// echo 'there was an item here ' . strval($nvals) . '<br>';
+			echo $item['table_name'] . '<br>';
+		}
+		
 }
 ?>

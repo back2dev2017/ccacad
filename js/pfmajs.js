@@ -1,22 +1,22 @@
 function data_setup() {
   // pull back all sessions (units)
   $.post(service_def, 
-    { api_func: "GET_SESSION_LIST" },
-    function (rslt) {
-      window.dataobj.units = rslt;
+	{ api_func: "GET_SESSION_LIST" },
+	function (rslt) {
+	  window.dataobj.units = rslt;
 		}, "json" );
 
   $.post(service_def, 
-    { api_func: "GET_USERS" },
-    function (rslt) {
-      window.dataobj.users = rslt;
-    }, "json" );
+	{ api_func: "GET_USERS" },
+	function (rslt) {
+	  window.dataobj.users = rslt;
+	}, "json" );
 
   $.post(service_def, 
-    { api_func: "GET_COURSES" },
-    function (rslt) {
-      window.dataobj.courses = rslt;
-    }, "json" );
+	{ api_func: "GET_COURSES" },
+	function (rslt) {
+	  window.dataobj.courses = rslt;
+	}, "json" );
 
 }
 
@@ -38,18 +38,18 @@ function selecttopsection (btnclicked) {
 			$(".academy-mgmt-sect").removeClass("hidediv");
 			break;
 		case 'acaddash':
-      $(".dashboard-sect").removeClass("hidediv");
-      gen_attendance_chart();
-      gen_progress_chart();
-      gen_via_chart();
-      gen_1on1_chart();
+	  $(".dashboard-sect").removeClass("hidediv");
+	  gen_attendance_chart();
+	  gen_progress_chart();
+	  gen_via_chart();
+	  gen_1on1_chart();
 			break;
 		case 'acadrpts':
 			$(".reports-sect").removeClass("hidediv");
 			break;
 		case 'acadspec':
-      $(".misc-disp").removeClass("hidediv");
-      // click the button that would display the active section
+	  $(".misc-disp").removeClass("hidediv");
+	  // click the button that would display the active section
 			break;
 	}
 }
@@ -67,46 +67,48 @@ function allnavclick (tabclicked) {
 
 	// setup_data_area();
   
-  console.log(btnval);
 	switch (btnval) {
 		case 'curriculums':
 			$("#curriculums-disp").removeClass("hidediv");
 			break;
 		case 'courses':
 			$("#courses-disp").removeClass("hidediv");
+			if ( ! $.fn.DataTable.isDataTable ('#course-list-tbl')) {
+				build_course_tbl(window.dataobj.courses);
+			}			
 			break;
 		case 'surveys':
 			$("#surveys-disp").removeClass("hidediv");
 			break;
 		case 'misc':
-      $("#misc-disp").removeClass("hidediv");
-      // the default selection is the user list, but remember they may be going back and forth between options
-      // so only trigger the 'click' (to force a DataTable draw), if it is the current selection
-      if ($('#pick-sys-user').hasClass('active')) {
-        $("#pick-sys-user").trigger('click');
-      }
-			break;
+		$("#misc-disp").removeClass("hidediv");
+		// the default selection is the user list, but remember they may be going back and forth between options
+		// so only trigger the 'click' (to force a DataTable draw), if it is the current selection
+		if ($('#pick-sys-user').hasClass('active')) {
+			$("#pick-sys-user").trigger('click');
+		}
+		break;
 	}
 }
 
   
 function build_user_tbl (rsltdata) {
-    // var tblht = $("#user-list-tbl").height() - 88;
+	// var tblht = $("#user-list-tbl").height() - 88;
 		// var tblhtpx = tblht.toString() + "px";
 		// $("#user-list-tbl").removeAttr('width').DataTable( {
-    $("#user-list-tbl").DataTable( {
+	$("#user-list-tbl").DataTable( {
 			"bInfo": false,
 			"bFilter": false,
 			autoWidth: true,
 			responsive: true,
-      scrollY: "300px",
-      scrollX: true,
-      scrollCollapse: true,
-      stateSave: true,
+	  scrollY: "300px",
+	  scrollX: true,
+	  scrollCollapse: true,
+	  stateSave: true,
 			paging: false,
 			"data": rsltdata,
-      rowId: 'id',
-      // note the passing of 'id' as the second column - the reason is for the render, and the resulting link set up
+	  rowId: 'id',
+	  // note the passing of 'id' as the second column - the reason is for the render, and the resulting link set up
 			columns: [
 				{ data: "id", "width": "20px", "title": "ID", className: "q-cent" }, 
 				{ data: "id", "width": "250px", "title": "Name", orderData: 1, 
@@ -115,8 +117,8 @@ function build_user_tbl (rsltdata) {
 				{ data: "phone", "width": "150px", "title": "Phone", "defaultContent": "" },
 				{ data: "role", "width": "120px", "title": "Role", "defaultContent": "" }
 			] } );
-    // don't forget, array references are 0-based
-    // $('#user-list-tbl").DataTable.draw();
+	// don't forget, array references are 0-based
+	// $('#user-list-tbl").DataTable.draw();
 
   // console.log(rsltdata);
   // $("#user-list-tbl").DataTable( {
@@ -141,10 +143,10 @@ function set_currsect(btn) {
 			$("#curr-sect-course").removeClass("hidediv");
 			break;
 		case 'pick-curr-units':
-      $("#curr-sect-units").removeClass("hidediv");
-      if ( ! $.fn.DataTable.isDataTable ('#unit-list-tbl')) {
-        build_unit_tbl(window.dataobj.units);
-      }
+	  $("#curr-sect-units").removeClass("hidediv");
+	  if ( ! $.fn.DataTable.isDataTable ('#unit-list-tbl')) {
+			build_unit_tbl(window.dataobj.units);
+	  }
 			break;
 	}
 }
@@ -161,12 +163,12 @@ function set_syssect(btn) {
 			$("#sys-sect-modules").removeClass("hidediv");
 			break;
 		case 'pick-sys-user':
-      $("#sys-sect-users").removeClass("hidediv");
-      if ( ! $.fn.DataTable.isDataTable ('#user-list-tbl')) {
-        build_user_tbl(window.dataobj.users);
-      }
-      break;
-    }
+	  $("#sys-sect-users").removeClass("hidediv");
+	  if ( ! $.fn.DataTable.isDataTable ('#user-list-tbl')) {
+		build_user_tbl(window.dataobj.users);
+	  }
+	  break;
+	}
 }
 
 
@@ -175,28 +177,54 @@ function build_unit_tbl (rsltdata) {
   // var tblhtpx = tblht.toString() + "px";
   // $("#user-list-tbl").removeAttr('width').DataTable( {
   $("#unit-list-tbl").DataTable( {
-    "bInfo": false,
-    "bFilter": false,
-    autoWidth: true,
-    responsive: true,
-    scrollY: "300px",
-    scrollX: true,
-    scrollCollapse: true,
-    stateSave: true,
-    paging: false,
-    "data": rsltdata,
-    rowId: 'id',
-    // note the passing of 'id' as the second column - the reason is for the render, and the resulting link set up
-    columns: [
-      { data: "id", "width": "20px", "title": "ID", className: "q-cent" }, 
-      { data: "id", "width": "350px", "title": "Title", orderData: 1, 
-          "render" : function ( data, type, row, meta ) { return make_link_unit_edit(data, type, row, meta, "#unit-list-tbl"); } },
-      { data: "module_category", "width": "350px", "title": "Category" },
-      { data: "expected_hrs", "width": "90", "title": "Expected Duration", "defaultContent": "" },
-      { data: "sex_focus", "width": "70px", "title": "Sex Focus", "defaultContent": "" }
-    ] }
+	"bInfo": false,
+	"bFilter": false,
+	autoWidth: true,
+	responsive: true,
+	scrollY: "300px",
+	scrollX: true,
+	scrollCollapse: true,
+	stateSave: true,
+	paging: false,
+	"data": rsltdata,
+	rowId: 'id',
+	// note the passing of 'id' as the second column - the reason is for the render, and the resulting link set up
+	columns: [
+	  { data: "id", "width": "20px", "title": "ID", className: "q-cent" }, 
+	  { data: "id", "width": "350px", "title": "Title", orderData: 1, 
+		  "render" : function ( data, type, row, meta ) { return make_link_unit_edit(data, type, row, meta, "#unit-list-tbl"); } },
+	  { data: "module_category", "width": "350px", "title": "Category" },
+	  { data: "expected_hrs", "width": "90", "title": "Expected Duration", "defaultContent": "" },
+	  { data: "sex_focus", "width": "70px", "title": "Sex Focus", "defaultContent": "" }
+	] }
   );
 }
+
+function build_course_tbl (rsltdata) {
+	// var tblht = $("#user-list-tbl").height() - 88;
+		// var tblhtpx = tblht.toString() + "px";
+		// $("#user-list-tbl").removeAttr('width').DataTable( {
+	$("#course-list-tbl").DataTable( {
+		"bInfo": false,
+		"bFilter": false,
+		autoWidth: true,
+		responsive: true,
+		scrollY: "300px",
+		scrollX: true,
+		scrollCollapse: true,
+		stateSave: true,
+		paging: false,
+		"data": rsltdata,
+		rowId: 'id',
+		// note the passing of 'id' as the second column - the reason is for the render, and the resulting link set up
+		columns: [
+			{ data: "fac_name", "width": "300px", "title": "Facility" }, 
+			{ data: "desc_id", "width": "100px", "title": "Course Name" }, 
+			{ data: "cohort_title", "width": "150px", "title": "Cohort"},
+			{ data: "id", "width": "40px", "title": "ID", "visible": false}
+		] } );
+
+  }
 
 function call_getapiversion () {
 	var sel_option = $('#aboutapiparm').val();
@@ -515,11 +543,11 @@ function build_srch_tbl (rsltdata, enable_link = 1, sorttype = 'table/col') {
 	if (enable_link > 0) { 
 		$("#srch-tbl-rslt").removeAttr('width').DataTable( {
 		"bInfo": false,
-	    scrollY: tblhtpx,
-	    scrollX: true,
-	    scrollCollapse: true,
-	    stateSave: true,
-	    paging: false,		
+		scrollY: tblhtpx,
+		scrollX: true,
+		scrollCollapse: true,
+		stateSave: true,
+		paging: false,		
 		"data": rsltdata,
 		rowId: 'item_id',
 		columns: [
@@ -547,11 +575,11 @@ function build_srch_tbl (rsltdata, enable_link = 1, sorttype = 'table/col') {
 		// this building version is for the 'historical' data: so item ID is not unique in this result set
 		$("#srch-tbl-rslt").removeAttr('width').DataTable( {
 			"bInfo": false,
-		    scrollY: tblhtpx,
-		    scrollX: true,
-		    scrollCollapse: true,
-		    stateSave: true,
-		    paging: false,		
+			scrollY: tblhtpx,
+			scrollX: true,
+			scrollCollapse: true,
+			stateSave: true,
+			paging: false,		
 			"data": rsltdata,
 			rowId: 'item_id',
 			columns: [
@@ -585,10 +613,10 @@ function build_srch_tbl (rsltdata, enable_link = 1, sorttype = 'table/col') {
 		// only want to do the pop-up if the "ID" column was NOT clicked
 		if (tmp_tbl.cell( this ).index().column > 0) {
 			// note: the 'rows.data' value is a comlex object. element 0 in that set is the json row of data values - can reference by key name
-		    var refinfo = $("#srch-tbl-rslt").DataTable().rows(rowidx).data();
-		    // note: passing 0 as 2nd parameter causes date/time (3rd parm) to be displayed in heading instead of ID value
-		    var popidval = (enable_link > 0) ? refinfo[0].item_id : 0
-		    pop_desc(refinfo[0].meaning, popidval, refinfo[0].last_meaning_change);
+			var refinfo = $("#srch-tbl-rslt").DataTable().rows(rowidx).data();
+			// note: passing 0 as 2nd parameter causes date/time (3rd parm) to be displayed in heading instead of ID value
+			var popidval = (enable_link > 0) ? refinfo[0].item_id : 0
+			pop_desc(refinfo[0].meaning, popidval, refinfo[0].last_meaning_change);
 		}
 	} );
 }
@@ -602,11 +630,11 @@ function build_srch_tbl_dbstruc (rsltdata, enable_link = 1, sorttype = 'table/co
  
 	$("#srch-tbl-rslt").removeAttr('width').DataTable( {
 	"bInfo": false,
-    scrollY: tblhtpx,
-    scrollX: true,
-    scrollCollapse: true,
-    stateSave: true,
-    paging: false,		
+	scrollY: tblhtpx,
+	scrollX: true,
+	scrollCollapse: true,
+	stateSave: true,
+	paging: false,		
 	"data": rsltdata,
 	rowId: 'item_id',
 	columns: [
@@ -912,8 +940,8 @@ function resize_div (div_ident, bump_t = 0, bump_b = 0) {
 		 e.g. an expected header above a Div, extra space at bottom of div for other objects, etc
 		 note, since div_ident will be used "as is" it could be a class identifier or an ID identifier, etc
 		 Important: div class .maincontent is expected to be the parent of all these resizes, so the top margin is already set */
-    var nmainht = $("#main-heading").height();
-    var nmenht = $('#am-topmenu').height();
+	var nmainht = $("#main-heading").height();
+	var nmenht = $('#am-topmenu').height();
 		var calcht = nmainht - nmenht - bump_t - bump_b - 10;
 		$(div_ident).css({"height":calcht});
 	}

@@ -1,0 +1,33 @@
+/* having the separate frame for html build is ok, but also needed the css - since so much css stuff might
+be special for the new html. Thus, this frame.css is imported (@import) into the master css - do not 
+need to reference this file directly in the frame.html.
+
+After the frame html and styling is done, copy the new css stuff into the main. Note, leave the .notice
+class in here as holding place. Put new css code further down. */
+
+.notice {
+    height: 100%;
+}
+
+/* put the testing css below here. this is what you would copy to the master css */
+
+#course-detail-sel {
+    display: flex;
+    flex-flow: row wrap;
+    width: 400px;
+    border: 1px solid red;
+}
+
+#course-detail-list-wrap {
+    width: 75%;
+    min-width: 600px;
+    background-color: lightgreen;
+}
+
+#course-detail-roster {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+    background-color: lightblue;
+
+}

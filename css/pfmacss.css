@@ -1,3 +1,28 @@
+@import url('frame.css');
+/* import frame.css - the temporary stuff there will eventually be moved */
+
+
+/* #course-detail-sel {
+    display: flex;
+    flex-flow: row wrap;
+    width: 400px;
+    border: 1px solid red;
+}
+
+#course-detail-list-wrap {
+    width: 75%;
+    min-width: 600px;
+    background-color: lightgreen;
+}
+
+#course-detail-roster {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+    background-color: lightblue;
+
+} */
+
 /* Generally used defaults */
 html {
   margin: 0;
@@ -275,7 +300,7 @@ h2 {
   width: 80%;
 }
 
-#courses-sel {
+#courses-all-list {
   display: flex;
   flex-flow: row wrap;  
 }
@@ -597,16 +622,30 @@ select {
 #srch-tbl-rslt td {
 	font-size: 12px;
 }
-#userlistwrap {
+#user-list-wrap {
   width: 80%;
   margin-left: 0;
   overflow: auto;
 }
 
-#unitlistwrap {
+#unit-list-wrap {
 	width: 80%;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+#course-list-wrap {
+	margin-right: 20px;
+	height: 30%;
+}
+
+#course-status-info {
+	padding: 2px 5px 2px 5px;
+	border: 1px solid grey;
+}
+#roster-list-wrap {
+	padding-left: 5px;
+	border: 1px solid grey;
 }
 
 table.dataTable tbody tr:nth-child(odd) {
