@@ -22,37 +22,24 @@
 <body>
   <div class="tempcontainer">
     <!-- copy after this line to paste into main document -->
-    <div id='sysadmin-mgmt'>
-      <button class='btnsys-submenu submenu active' id='pick-sys-user' value='pick-sys-user' onclick="set_syssect(this)">Users Administration</button>
-      <button class='btnsys-submenu submenu' id='pick-sys-facsteps' value='pick-sys-facsteps' onclick="set_syssect(this)">Facility Setup</button>
-      <button class='btnsys-submenu submenu' id='pick-sys-modules' value='pick-sys-modules' onclick="set_syssect(this)">Define Modules</button>
+    <div id="courses-container">
+      <div id='courses-sel'>
+        <div id="course-list-wrap">
+          <table id="course-list-tbl" class="cell-border">          
+          </table>
+        </div>
+        <div id="roster-list-wrap">
+          <table id='roster-list-tbl'>
+          </table>
+        </div>
+      </div>
+      <div id="courses-details">
+        
+      </div>
+
     </div>
-    <div id="sysadmin">
-      <div id="sys-sect-users" class='sys-item hidediv'>
-        <button class="btn-standard" id="add-user" value="add-user">Add User</button>
-        <div id='userlistwrap'>
-          <table class="cell-border" id="user-list-tbl">
 
-          <!-- <table class="compact cell-border" id="user-list-tbl"> -->
-          <!-- note: classes assigned are probably within the datatable.css -->
-          </table>
-        </div>
-      </div>
 
-      <div id="sys-sect-facsteps" class='sys-item hidediv'>
-        <button class="btn-standard" id="add-fac-task" value="add-fac-task">Add Setup Task</button>
-        <div id='facstepslistwrap'>
-          <table class="cell-border" id="facsetup-list-tbl">
-
-          <!-- <table class="compact cell-border" id="user-list-tbl"> -->
-          <!-- note: classes assigned are probably within the datatable.css -->
-          </table>
-        </div>
-      </div>
-
-      <div id="sys-sect-modules" class='sys-item hidediv'>
-        the place to manage modules
-      </div>
 
       <!-- Hidden variables to hold on to useful data -->
       <!-- <input type=text name="user-id" id="user-id" class="hidevar" value="">
@@ -63,7 +50,6 @@
         <button class='edit-btn clr-no' id='userbtn-cancel'>Cancel</button>
       </div> -->
 
-    </div>
 
     <!-- copy above this line to paste into main document -->
   </div>
