@@ -256,9 +256,10 @@ h2 {
   border: 1px solid grey;
 	display: flex;
   flex-flow: row wrap;
+  justify-content: center;
   padding-left: 10px;
-
 }
+
 .dashb-part {
   min-width: 500px;
   min-height: 350px;
@@ -266,6 +267,10 @@ h2 {
 }
 
 #chart_attendance {
+  height: 70%;
+  width: 80%;
+}
+#chart_progress {
   height: 70%;
   width: 80%;
 }

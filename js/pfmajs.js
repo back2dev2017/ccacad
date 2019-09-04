@@ -40,6 +40,9 @@ function selecttopsection (btnclicked) {
 		case 'acaddash':
       $(".dashboard-sect").removeClass("hidediv");
       gen_attendance_chart();
+      gen_progress_chart();
+      gen_via_chart();
+      gen_1on1_chart();
 			break;
 		case 'acadrpts':
 			$(".reports-sect").removeClass("hidediv");

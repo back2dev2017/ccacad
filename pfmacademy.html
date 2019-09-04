@@ -129,30 +129,23 @@
         </div>
         <!-- End of the Academy Management Div -->
 
-        <!-- The next div is the Dashboard div -->
+        <!-- This is the overall Dashboard div -->
         <div class="dashboard-sect content-sect hidediv">
           <div id='dash-overall-title'>
-            <h3>Facility: Saint Brides Correctional Center</h3>
+            <h3>Facility: Saint Brides Correctional Center - currently reporting Week 10</h3>
           </div>
           <div class="dashb-part" id="dsh-course">
             <div id="course-stats" class='dash-inner-content'>
-              <p>Course LEW 1906</p>
-              <p>Started: 1/1/2019  Projected Graduation: 12/31/2019</p>
-              <p class='tight'>Progress (hrs/attendee)</p>
-              <table class='infotbl'>
-                <thead>
-                  <th>Target</th>
-                  <th>Delivered</th>
-                </thead>
-                <tbody>
-                  <tr><td>88.4</td><td>87.5</td></tr>
-                </tbody>
-              </table>
-              
+              <p><strong>Course LEW 1906</strong></p>
+              <p><strong>Started:</strong> 7/1/2019  <strong> Projected Graduation:</strong> 6/30/2020</p>
+              <div id="chart_progress"></div>
+                            
             </div>
           </div>
           <div class="dashb-part" id="dsh-attend">
             <div id="attendence-stats" class='dash-inner-content'>
+              <h3>Session attendance</h3>
+              <p>Attendance to date by week</p>
               <!-- <p>Enrolled: 40</p>
               <p>Adds: 0</p>
               <p>Drops: 0</p> -->
@@ -160,10 +153,19 @@
             </div>
           </div>
           <div class="dashb-part" id="dsh-via">
-            via stats
+            <div class='dash-inner-content'>
+              <h3>Values in Action (VIAs) given</h3>
+              <div id="chart_via"></div>
+              <p><em>Target: 2 VIAs per week</em></p>
+            </div>
           </div>
           <div class="dashb-part" id="dsh-1-1">
-            1 on 1 stats
+            <div class='dash-inner-content'>
+              <h3>1 on 1's performed</h3>
+              <div id="chart_1on1"></div>
+              <p><em>Target: 4 sessions per participant by end of Course</em></p>
+            </div>
+
           </div>
         </div>
 
