@@ -1,34 +1,38 @@
 function data_setup() {
-  // pull back all sessions (units)
-  $.post(service_def, 
-    { api_func: "GET_SESSION_LIST" },
-    function (rslt) {
-      window.dataobj.units = rslt;
-    }, "json" );
+	// pull back all sessions (units)
+	$.post(service_def, 
+		{ api_func: "GET_SESSION_LIST" },
+		function (rslt) {
+			window.dataobj.units = rslt;
+		}, "json" );
 
-  $.post(service_def, 
-    { api_func: "GET_USERS" },
-    function (rslt) {
-      window.dataobj.users = rslt;
-    }, "json" );
+	$.post(service_def, 
+		{ api_func: "GET_USERS" },
+		function (rslt) {
+			window.dataobj.users = rslt;
+		}, "json" );
 
-  $.post(service_def, 
-    { api_func: "GET_COURSES" },
-    function (rslt) {
-      window.dataobj.courses = rslt;
-    }, "json" );
+	$.post(service_def, 
+		{ api_func: "GET_COURSES" },
+		function (rslt) {
+			window.dataobj.courses = rslt;
+		}, "json" );
 
-  $.post(service_def, 
-    { api_func: "GET_COURSE_CONTENT" },
-    function (rslt) {
-      window.dataobj.course_content = rslt;
-    }, "json");
+	$.post(service_def, 
+		{ api_func: "GET_COURSE_CONTENT" },
+		function (rslt) {
+			window.dataobj.course_content = rslt;
+		}, "json");
 
-  $.post(service_def,
-    { api_func: "GET_COURSE_ROSTER", p_acad_id: "12" },
-    function (rslt) {
-      window.dataobj.course_roster = rslt;
-    }, "json");
+	$.post(service_def,
+		{ api_func: "GET_COURSE_ROSTER", p_acad_id: "12" },
+		function (rslt) {
+			window.dataobj.course_roster = rslt;
+		}, "json");
+}
+
+function go_app() {
+	$('.login-overlay').addClass('hidediv');
 }
 
 function selecttopsection (btnclicked) {
@@ -36,31 +40,31 @@ function selecttopsection (btnclicked) {
 	var btnid = btnclicked.id;
 	var nparmht = 0;
 	var calcpad = "0px";
-  /* clear active class off other buttons */
-  $(".l-sidebar button").removeClass('active');
-  btnclicked.classList.add("active");
+	/* clear active class off other buttons */
+	$(".l-sidebar button").removeClass('active');
+	btnclicked.classList.add("active");
 	/* hide all the divs then show the one needed. Note: this assumes jquery .addClass will not dupe class names*/
 	$(".content-sect").addClass("hidediv");
-  // setup_data_area();
-  
-  console.log(btnval);
+	// setup_data_area();
+	
+	console.log(btnval);
 	switch (btnval) {
 		case 'acadmgt':
 			$(".academy-mgmt-sect").removeClass("hidediv");
 			break;
 		case 'acaddash':
-	  $(".dashboard-sect").removeClass("hidediv");
-	  gen_attendance_chart();
-	  gen_progress_chart();
-	  gen_via_chart();
-	  gen_1on1_chart();
+		$(".dashboard-sect").removeClass("hidediv");
+		gen_attendance_chart();
+		gen_progress_chart();
+		gen_via_chart();
+		gen_1on1_chart();
 			break;
 		case 'acadrpts':
 			$(".reports-sect").removeClass("hidediv");
 			break;
 		case 'acadspec':
-	  $(".misc-disp").removeClass("hidediv");
-	  // click the button that would display the active section
+		$(".misc-disp").removeClass("hidediv");
+		// click the button that would display the active section
 			break;
 	}
 }
@@ -70,29 +74,29 @@ function allnavclick (tabclicked) {
 	var btnid = tabclicked.id;
 	var nparmht = 0;
 	var calcpad = "0px";
-	/* clear active class off other buttons */
+		/* clear active class off other buttons */
 	$(".tablinks").removeClass("active");
 	tabclicked.classList.add("active");
-  /* hide all the divs then show the one needed. Note: this assumes jquery .addClass will not dupe class names*/
-  $(".mainzone-sel").addClass('hidediv');
+	/* hide all the divs then show the one needed. Note: this assumes jquery .addClass will not dupe class names*/
+	$(".mainzone-sel").addClass('hidediv');
 
 	// setup_data_area();
-  
+	
 	switch (btnval) {
 		case 'curriculums':
-			$("#curriculums-disp").removeClass("hidediv");
+			$(".curriculums-disp").removeClass("hidediv");
 			break;
 		case 'courses':
-			$("#courses-disp").removeClass("hidediv");
+			$(".courses-disp").removeClass("hidediv");
 			if ( ! $.fn.DataTable.isDataTable ('#course-list-tbl')) {
 				build_course_tbl(window.dataobj.courses);
 			}			
 			break;
 		case 'surveys':
-			$("#surveys-disp").removeClass("hidediv");
+			$(".surveys-disp").removeClass("hidediv");
 			break;
 		case 'misc':
-		$("#misc-disp").removeClass("hidediv");
+		$(".misc-disp").removeClass("hidediv");
 		// the default selection is the user list, but remember they may be going back and forth between options
 		// so only trigger the 'click' (to force a DataTable draw), if it is the current selection
 		if ($('#pick-sys-user').hasClass('active')) {
@@ -102,7 +106,7 @@ function allnavclick (tabclicked) {
 	}
 }
 
-  
+	
 function build_user_tbl (rsltdata) {
 	// var tblht = $("#user-list-tbl").height() - 88;
 		// var tblhtpx = tblht.toString() + "px";
@@ -112,14 +116,14 @@ function build_user_tbl (rsltdata) {
 			"bFilter": false,
 			autoWidth: true,
 			responsive: true,
-	  scrollY: "300px",
-	  scrollX: true,
-	  scrollCollapse: true,
-	  stateSave: true,
+		scrollY: "300px",
+		scrollX: true,
+		scrollCollapse: true,
+		stateSave: true,
 			paging: false,
 			"data": rsltdata,
-	  rowId: 'id',
-	  // note the passing of 'id' as the second column - the reason is for the render, and the resulting link set up
+		rowId: 'id',
+		// note the passing of 'id' as the second column - the reason is for the render, and the resulting link set up
 			columns: [
 				{ data: "id", "width": "20px", "title": "ID", className: "q-cent" }, 
 				{ data: "id", "width": "250px", "title": "Name", orderData: 1, 
@@ -131,22 +135,23 @@ function build_user_tbl (rsltdata) {
 	// don't forget, array references are 0-based
 	// $('#user-list-tbl").DataTable.draw();
 
-  // console.log(rsltdata);
-  // $("#user-list-tbl").DataTable( {
-  //   "data": rsltdata,
-  //   scrollY: "500px",
-  //   columns: [
-  //     { data: "fname", "defaultContent": "" },
-  //     { data: "lname", "defaultContent": ""},
-  //     { data: "email", "defaultContent": ""}
-  //   ] } );
-  }
+	// console.log(rsltdata);
+	// $("#user-list-tbl").DataTable( {
+	//   "data": rsltdata,
+	//   scrollY: "500px",
+	//   columns: [
+	//     { data: "fname", "defaultContent": "" },
+	//     { data: "lname", "defaultContent": ""},
+	//     { data: "email", "defaultContent": ""}
+	//   ] } );
+	}
 
 function set_currsect(btn) {
-  $('.curr-item').addClass('hidediv');
-  $('.btncurr-submenu').removeClass('active');
-  $('#' + btn.id).addClass('active');
-  switch (btn.id) {
+	console.log(btn.id);
+	$('.curr-item').addClass('hidediv');
+	$('.btncurr-submenu').removeClass('active');
+	$('#' + btn.id).addClass('active');
+	switch (btn.id) {
 		case 'pick-curr-tmplt':
 			$("#curr-sect-tmplt").removeClass("hidediv");
 			break;
@@ -154,40 +159,40 @@ function set_currsect(btn) {
 			$("#curr-sect-course").removeClass("hidediv");
 			break;
 		case 'pick-curr-units':
-	  $("#curr-sect-units").removeClass("hidediv");
-	  if ( ! $.fn.DataTable.isDataTable ('#unit-list-tbl')) {
+		$("#curr-sect-units").removeClass("hidediv");
+		if ( ! $.fn.DataTable.isDataTable ('#unit-list-tbl')) {
 			build_unit_tbl(window.dataobj.units);
-	  }
+		}
 			break;
 	}
 }
 
 function set_syssect(btn) {
-  $('.sys-item').addClass('hidediv');
-  $('.btnsys-submenu').removeClass('active');
-  $('#' + btn.id).addClass('active');
-  switch (btn.id) {
+	$('.sys-item').addClass('hidediv');
+	$('.btnsys-submenu').removeClass('active');
+	$('#' + btn.id).addClass('active');
+	switch (btn.id) {
 		case 'pick-sys-facsteps':
-			$("#sys-sect-facsteps").removeClass("hidediv");
+			$(".sys-sect-facsteps").removeClass("hidediv");
 			break;
 		case 'pick-sys-modules':
-			$("#sys-sect-modules").removeClass("hidediv");
+			$(".sys-sect-modules").removeClass("hidediv");
 			break;
 		case 'pick-sys-user':
-	  $("#sys-sect-users").removeClass("hidediv");
-	  if ( ! $.fn.DataTable.isDataTable ('#user-list-tbl')) {
+		$(".sys-sect-users").removeClass("hidediv");
+		if ( ! $.fn.DataTable.isDataTable ('#user-list-tbl')) {
 		build_user_tbl(window.dataobj.users);
-	  }
-	  break;
+		}
+		break;
 	}
 }
 
 
 function build_unit_tbl (rsltdata) {
-  // var tblht = $("#user-list-tbl").height() - 88;
-  // var tblhtpx = tblht.toString() + "px";
-  // $("#user-list-tbl").removeAttr('width').DataTable( {
-  $("#unit-list-tbl").DataTable( {
+	// var tblht = $("#user-list-tbl").height() - 88;
+	// var tblhtpx = tblht.toString() + "px";
+	// $("#user-list-tbl").removeAttr('width').DataTable( {
+	$("#unit-list-tbl").DataTable( {
 	"bInfo": false,
 	"bFilter": false,
 	autoWidth: true,
@@ -201,14 +206,14 @@ function build_unit_tbl (rsltdata) {
 	rowId: 'id',
 	// note the passing of 'id' as the second column - the reason is for the render, and the resulting link set up
 	columns: [
-	  { data: "id", "width": "20px", "title": "ID", className: "q-cent" }, 
-	  { data: "id", "width": "350px", "title": "Title", orderData: 1, 
-		  "render" : function ( data, type, row, meta ) { return make_link_unit_edit(data, type, row, meta, "#unit-list-tbl"); } },
-	  { data: "module_category", "width": "350px", "title": "Category" },
-	  { data: "expected_hrs", "width": "90", "title": "Expected Duration", "defaultContent": "" },
-	  { data: "sex_focus", "width": "70px", "title": "Sex Focus", "defaultContent": "" }
+		{ data: "id", "width": "20px", "title": "ID", className: "q-cent" }, 
+		{ data: "id", "width": "350px", "title": "Title", orderData: 1, 
+			"render" : function ( data, type, row, meta ) { return make_link_unit_edit(data, type, row, meta, "#unit-list-tbl"); } },
+		{ data: "module_category", "width": "350px", "title": "Category" },
+		{ data: "expected_hrs", "width": "90", "title": "Expected Duration", "defaultContent": "" },
+		{ data: "sex_focus", "width": "70px", "title": "Sex Focus", "defaultContent": "" }
 	] }
-  );
+	);
 }
 
 function build_course_tbl (rsltdata) {
@@ -235,7 +240,7 @@ function build_course_tbl (rsltdata) {
 			{ data: "id", "width": "40px", "title": "ID", "visible": false}
 		] } );
 
-  }
+	}
 
 function call_getapiversion () {
 	var sel_option = $('#aboutapiparm').val();
@@ -635,7 +640,7 @@ function build_srch_tbl (rsltdata, enable_link = 1, sorttype = 'table/col') {
 
 function build_srch_tbl_dbstruc (rsltdata, enable_link = 1, sorttype = 'table/col') {
 	/*  This is mostly a copy of build_srch_tbl(), so have to worry about multiple code maintence. Oh well. But here we
-	  want the database structure info to also be in the resulting data display. */
+		want the database structure info to also be in the resulting data display. */
 	var tblht = $(".div-srch-rslt").height() - 88;
 	var tblhtpx = tblht.toString() + "px";
  
@@ -697,16 +702,16 @@ function make_link_user_edit (data, type, row, meta, tableselect) {
 }
 
 function user_edit_cancel() {
-	$('#user-edit').addClass('hidediv');
+	$('.user-edit').addClass('hidediv');
 	$('#modal-overlay').addClass('hidediv');
 }
 
 function user_edit_data(p_itemid, p_dtref, editmode = "E") {
 	// p_itemid = item being edited, p_dtref = reference to DataTable, editmode = E for editing / A for adding
 	$("#modal-overlay").removeClass("hidediv");
-	$("#user-edit").removeClass("hidediv");
+	$(".user-edit").removeClass("hidediv");
 	// try to center the window vertically
-	pop_div_center("#user-edit");
+	pop_div_center(".user-edit");
 
 	$("#user-id").val(p_itemid);
 	$("#edit-mode-user").val(editmode);
@@ -751,7 +756,7 @@ function make_link_unit_edit (data, type, row, meta, tableselect) {
 }
 
 function unit_edit_data() {
-  console.log('well crap');
+	console.log('well crap');
 }
 
 function make_item_id_link (data, type, row, meta) {
@@ -946,43 +951,43 @@ function destroy_datatable(dtdivref) {
 }
 
 function gen_course_content(course_id) {
-  // filter out the content of just the desired course
-  let newdata = window.dataobj.course_content.filter(function (e) { return e.acad_id == course_id });
+	// filter out the content of just the desired course
+	let newdata = window.dataobj.course_content.filter(function (e) { return e.acad_id == course_id });
 
-  let tblarray = [];
-  let tmpobj = {};
-  // go through 52 weeks, looking for each week_num equal to the current week. Do it in batches of 13,
-  // each 13 is an 'object' in the object array to be used by JQ DataTable. Have to do it this way because
-  // it is possible some weeks will have nothing - so look for each week
-  for (nrow=1; nrow <= 4; nrow++) {
-    for (ncol=1; ncol <= 13; ncol++) {
-      let chtmlstuff = '<div class=gridcell>';
-      let calcwk = ncol + ((nrow - 1) * 13);
-      let colname = 'subweek' + ncol.toString();
-      let tmpa = newdata.filter(function (item) { return item.week_num == calcwk });
-      for (ix=0; ix < tmpa.length; ix++) {
-        // put text together for display
-        chtmlstuff = chtmlstuff + "<p class='gridtext'><strong>" + tmpa[ix].sess_title + "</strong> - " + tmpa[ix].module_name + "</p>";
-      }
-      // now that all items of a single week have been merged, add the 'column' to the DataTable array object
-      chtmlstuff = chtmlstuff + "</div>";
-      tmpobj[colname] = chtmlstuff;
-    }
-    // now that all the 13 weeks of the quarter have been merged, "push" the "row" into the DataTable array
-    tmpobj['quarter'] = nrow;
-    tblarray.push(tmpobj);
-    tmpobj = {};
-  }
-  window.dataobj.course_selected = tblarray;
-  build_sel_course_tbl(window.dataobj.course_selected);
-  build_sel_course_roster_tbl(window.dataobj.course_roster);
+	let tblarray = [];
+	let tmpobj = {};
+	// go through 52 weeks, looking for each week_num equal to the current week. Do it in batches of 13,
+	// each 13 is an 'object' in the object array to be used by JQ DataTable. Have to do it this way because
+	// it is possible some weeks will have nothing - so look for each week
+	for (nrow=1; nrow <= 4; nrow++) {
+		for (ncol=1; ncol <= 13; ncol++) {
+			let chtmlstuff = '<div class=gridcell>';
+			let calcwk = ncol + ((nrow - 1) * 13);
+			let colname = 'subweek' + ncol.toString();
+			let tmpa = newdata.filter(function (item) { return item.week_num == calcwk });
+			for (ix=0; ix < tmpa.length; ix++) {
+				// put text together for display
+				chtmlstuff = chtmlstuff + "<p class='gridtext'><strong>" + tmpa[ix].sess_title + "</strong> - " + tmpa[ix].module_name + "</p>";
+			}
+			// now that all items of a single week have been merged, add the 'column' to the DataTable array object
+			chtmlstuff = chtmlstuff + "</div>";
+			tmpobj[colname] = chtmlstuff;
+		}
+		// now that all the 13 weeks of the quarter have been merged, "push" the "row" into the DataTable array
+		tmpobj['quarter'] = nrow;
+		tblarray.push(tmpobj);
+		tmpobj = {};
+	}
+	window.dataobj.course_selected = tblarray;
+	build_sel_course_tbl(window.dataobj.course_selected);
+	build_sel_course_roster_tbl(window.dataobj.course_roster);
 }
 
 function build_sel_course_tbl (rsltdata) {
-  // var tblht = $("#user-list-tbl").height() - 88;
-  // var tblhtpx = tblht.toString() + "px";
-  // $("#user-list-tbl").removeAttr('width').DataTable( {
-  $("#course-detail-list-tbl").DataTable( {
+	// var tblht = $("#user-list-tbl").height() - 88;
+	// var tblhtpx = tblht.toString() + "px";
+	// $("#user-list-tbl").removeAttr('width').DataTable( {
+	$("#course-detail-list-tbl").DataTable( {
 	"bInfo": false,
 	"bFilter": false,
 	autoWidth: true,
@@ -995,41 +1000,41 @@ function build_sel_course_tbl (rsltdata) {
 	"data": rsltdata,
 	// note the passing of 'id' as the second column - the reason is for the render, and the resulting link set up
 	columns: [
-    { data: "quarter", "width": "50px", "title": "Quarter", className: "q-cent" },
-    { data: "subweek1", "width": "200px", "title": "Week 1", className: "course-grid" },
-    { data: "subweek2", "width": "200px", "title": "Week 2", className: "course-grid" },
-    { data: "subweek3", "width": "200px", "title": "Week 3", className: "course-grid" },
-    { data: "subweek4", "width": "200px", "title": "Week 4", className: "course-grid" },
-    { data: "subweek5", "width": "200px", "title": "Week 5", className: "course-grid" },
-    { data: "subweek6", "width": "200px", "title": "Week 6", className: "course-grid" },
-    { data: "subweek7", "width": "200px", "title": "Week 7", className: "course-grid" },
-    { data: "subweek8", "width": "200px", "title": "Week 8", className: "course-grid" },
-    { data: "subweek9", "width": "200px", "title": "Week 9", className: "course-grid" },
-    { data: "subweek10", "width": "200px", "title": "Week 10", className: "course-grid" },
-    { data: "subweek11", "width": "200px", "title": "Week 11", className: "course-grid" },
-    { data: "subweek12", "width": "200px", "title": "Week 12", className: "course-grid" },
-    { data: "subweek13", "width": "200px", "title": "Week 13", className: "course-grid" }
+		{ data: "quarter", "width": "50px", "title": "Quarter", className: "q-cent" },
+		{ data: "subweek1", "width": "200px", "title": "Week 1", className: "course-grid" },
+		{ data: "subweek2", "width": "200px", "title": "Week 2", className: "course-grid" },
+		{ data: "subweek3", "width": "200px", "title": "Week 3", className: "course-grid" },
+		{ data: "subweek4", "width": "200px", "title": "Week 4", className: "course-grid" },
+		{ data: "subweek5", "width": "200px", "title": "Week 5", className: "course-grid" },
+		{ data: "subweek6", "width": "200px", "title": "Week 6", className: "course-grid" },
+		{ data: "subweek7", "width": "200px", "title": "Week 7", className: "course-grid" },
+		{ data: "subweek8", "width": "200px", "title": "Week 8", className: "course-grid" },
+		{ data: "subweek9", "width": "200px", "title": "Week 9", className: "course-grid" },
+		{ data: "subweek10", "width": "200px", "title": "Week 10", className: "course-grid" },
+		{ data: "subweek11", "width": "200px", "title": "Week 11", className: "course-grid" },
+		{ data: "subweek12", "width": "200px", "title": "Week 12", className: "course-grid" },
+		{ data: "subweek13", "width": "200px", "title": "Week 13", className: "course-grid" }
 	] }
-  );
-  $('#course-detail-list-tbl td').click(function() {
-    var column_num = parseInt( $(this).index() ) + 1;
-    var row_num = parseInt( $(this).parent().index() ) + 1;
-    let weekpick = ((row_num - 1) * 13) + (column_num - 1);
-    console.log(row_num, column_num, weekpick);
-  });
-  $('#course-detail-list-tbl td').dblclick(function() {
-    var column_num = parseInt( $(this).index() ) + 1;
-    var row_num = parseInt( $(this).parent().index() ) + 1;
-    let weekpick = ((row_num - 1) * 13) + (column_num - 1);
-    console.log('user double-clicked', row_num, column_num, weekpick);
-  });
+	);
+	$('#course-detail-list-tbl td').click(function() {
+		var column_num = parseInt( $(this).index() ) + 1;
+		var row_num = parseInt( $(this).parent().index() ) + 1;
+		let weekpick = ((row_num - 1) * 13) + (column_num - 1);
+		console.log(row_num, column_num, weekpick);
+	});
+	$('#course-detail-list-tbl td').dblclick(function() {
+		var column_num = parseInt( $(this).index() ) + 1;
+		var row_num = parseInt( $(this).parent().index() ) + 1;
+		let weekpick = ((row_num - 1) * 13) + (column_num - 1);
+		console.log('user double-clicked', row_num, column_num, weekpick);
+	});
 }
 
 function build_sel_course_roster_tbl (rsltdata) {
-  // var tblht = $("#user-list-tbl").height() - 88;
-  // var tblhtpx = tblht.toString() + "px";
-  // $("#user-list-tbl").removeAttr('width').DataTable( {
-  $("#detail-roster-list-tbl").DataTable( {
+	// var tblht = $("#user-list-tbl").height() - 88;
+	// var tblhtpx = tblht.toString() + "px";
+	// $("#user-list-tbl").removeAttr('width').DataTable( {
+	$("#detail-roster-list-tbl").DataTable( {
 	"bInfo": false,
 	"bFilter": false,
 	autoWidth: true,
@@ -1042,32 +1047,34 @@ function build_sel_course_roster_tbl (rsltdata) {
 	"data": rsltdata,
 	// note the passing of 'id' as the second column - the reason is for the render, and the resulting link set up
 	columns: [
-    { data: "fname", "width": "100px", "title": "First Name" },
-    { data: "lname", "width": "100px", "title": "Last Name" },
-    { data: "att_id_use", "width": "77px", "title": "ID" },
-    { data: "enroll_date", "width": "100px", "title": "Enrolled"},
-    { data: "drop_date", "width": "100px", "title": "Drop Date"},
-    { data: "id", "width": "40px", "title": "ID", "visible": false}
+		{ data: "fname", "width": "100px", "title": "First Name" },
+		{ data: "lname", "width": "100px", "title": "Last Name" },
+		{ data: "att_id_use", "width": "77px", "title": "ID" },
+		{ data: "enroll_date", "width": "100px", "title": "Enrolled"},
+		{ data: "drop_date", "width": "100px", "title": "Drop Date"},
+		{ data: "id", "width": "40px", "title": "ID", "visible": false}
 	] }
-  );
-  $('#detail-roster-list-tbl td').click(function() {
-    let tblref = $('#detail-roster-list-tbl').DataTable();
-    let rowidx = tblref.cell( this ).index().row;
-    let refinfo = tblref.rows(rowidx).data();
-    $("#name1o1").html(refinfo[0].fname + ' ' + refinfo[0].lname);
-    
-    // add row selection highlight stuff - remove existing highlight, then add back
-    var column_num = parseInt( $(this).index() ) + 1;
-    var row_num = parseInt( $(this).parent().index() ) + 1;
-    let weekpick = ((row_num - 1) * 13) + (column_num - 1);
-    console.log('user clicked roster', row_num, column_num, weekpick);
-  });
+	);
+	$('#detail-roster-list-tbl td').click(function() {
+		let tblref = $('#detail-roster-list-tbl').DataTable();
+		let rowidx = tblref.cell( this ).index().row;
+		let refinfo = tblref.rows(rowidx).data();
+		$("#name1o1").html(refinfo[0].fname + ' ' + refinfo[0].lname);
+	
+	$('#detail-roster-list-tbl tbody tr').removeClass('row_selected');
+	$(this).addClass('row_selected');
+		// add row selection highlight stuff - remove existing highlight, then add back
+		var column_num = parseInt( $(this).index() ) + 1;
+		var row_num = parseInt( $(this).parent().index() ) + 1;
+		let weekpick = ((row_num - 1) * 13) + (column_num - 1);
+		console.log('user clicked roster', row_num, column_num, weekpick);
+	});
 }
 
 
 function resize_div (div_ident, bump_t = 0, bump_b = 0) {
 	/*	 sets the height of a div to keep it all on-screen with scrolling inside div
-		   div_ident: the div whose 'height' to set (jQuery form), bump_t and _b: values to allow more spacing
+			 div_ident: the div whose 'height' to set (jQuery form), bump_t and _b: values to allow more spacing
 		 e.g. an expected header above a Div, extra space at bottom of div for other objects, etc
 		 note, since div_ident will be used "as is" it could be a class identifier or an ID identifier, etc
 		 Important: div class .maincontent is expected to be the parent of all these resizes, so the top margin is already set */

@@ -488,6 +488,47 @@ h2 {
 	text-transform: uppercase;
 }
 
+.login-overlay {
+	background-color: #cccccc;
+	left: 0;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 999;
+
+}
+.login-content {
+	background-color: white;
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	border: 1px solid black;
+	box-shadow: 4px 4px 4px 4px #777777;
+	width: 300px;
+	height: 330px;
+	margin-top: 77px;
+	margin-left: auto;
+	margin-right: auto;
+	
+}
+.login-row {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+}
+.login-entries {
+	margin-left: auto;
+	margin-right: auto;
+	width: 75%;
+	max-width: 90%;
+}
+.btn-login {
+	padding: 10px 25px 10px 25px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 /* specific edit windows */
 .user-edit {
   background-color: lightgrey;
@@ -673,6 +714,9 @@ th {
 .space-right {
   /* a general class to pop in to give a right margin */
   margin-right: 5px;
+}
+.space-down {
+	margin-bottom: 5px;
 }
 
 .hidediv {

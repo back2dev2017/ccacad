@@ -90,5 +90,8 @@ class in here as holding place. Put new css code further down. */
 .stat-section {
   border: 1px solid lightgrey;
   padding-left: 2px;
-
+}
+.row-selected {
+  background-color: #65879F;
+  color: white;
 }
