@@ -81,15 +81,20 @@ switch ($c_apifunc) {
 		echo json_encode($ret_array);
 		break;
 
-	case "GET_COURSE_CONTENT":
-		$result = pg_query($dbconn, 'select * from acac_course_content');
+  case "GET_COURSE_CONTENT":
+    if (isset($_POST['p_acad_id'])) {
+      $v_course_id = strval($_POST['p_acad_id']);
+    } else {
+      $v_course_id = null;
+    }
+    $result = pg_query_params($dbconn, "select * from get_course_details($1)", array($v_course_id));
 		$ret_array = pg_fetch_all($result);
 		echo json_encode($ret_array);
 		break;
 
-	case "GET_COURSE_ENROLLMENT":
+	case "GET_COURSE_ROSTER":
 		if (isset($_POST['p_acad_id'])) {
-			$v_course_id = strval($_POST['p_acad_id']);
+			$v_course_id = $_POST['p_acad_id'];
 		} else {
 			$v_course_id = null;
 		}
@@ -97,7 +102,6 @@ switch ($c_apifunc) {
 		$ret_array = pg_fetch_all($result);
 		echo json_encode($ret_array);
 		break;
-
 
 	case "GET_CURRIC_TEMPLATES":
 		$result = pg_query($dbconn, 'select * from curriculum_t');

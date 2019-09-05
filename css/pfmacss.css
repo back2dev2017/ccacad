@@ -152,7 +152,7 @@ h2 {
 	border: 1px solid grey;
 }
 
-#curriculums-disp {
+.curriculums-disp {
   /* background-color: #a88; */
   border: 1px solid lightgrey;
   min-width: 400px;
@@ -163,12 +163,12 @@ h2 {
   min-width: 400px;
   min-height: 400px;
 }
-#surveys-disp {
+.surveys-disp {
   /* background-color: #6aa; */
   min-width: 400px;
   min-height: 400px;
 }
-#misc-disp {
+.misc-disp {
   /* background-color: #68f; */
   min-width: 400px;
   min-height: 300px;
@@ -489,7 +489,7 @@ h2 {
 }
 
 /* specific edit windows */
-#user-edit {
+.user-edit {
   background-color: lightgrey;
 	border: 1px solid grey;
 	font-size: 12px;
@@ -666,19 +666,32 @@ th {
 }
 
 /* put this last so that it will always override other div settings */
+.tempcontainer {
+  border: 1px solid lightblue;
+}
+
+.space-right {
+  /* a general class to pop in to give a right margin */
+  margin-right: 5px;
+}
+
 .hidediv {
-	display:none;
+	display: none;
 }
 
 .hidevar {
-	display:none;
-}
-
-.tempcontainer {
-  border: 1px solid lightblue;
+	display: none;
 }
 
 .testspace{
 	/* use this to temporarily play around with spacing to check layouts, etc */
 	min-height: 500px;
+}
+
+.hidediv {
+  display: none;
+}
+
+.hidevar {
+	display: none;
 }

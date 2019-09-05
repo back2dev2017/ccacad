@@ -22,18 +22,21 @@
 <body>
   <div class="tempcontainer">
     <!-- copy after this line to paste into main document -->
-    <!-- <div id="courses-all-list" class="hidediv">
+
+    <div class="courses-all-list hidediv">
+      <!-- hard lesson learned, need to use 'class defs if want to use class 'hidediv' to control visibility
+      because if we use ids and set properties of those ids, the hidediv class will not override settings -->
       <div id="course-list-wrap">
         <table id="course-list-tbl" class="cell-border">          
         </table>
       </div>
-      <div id=course-status-info>
+      <div id='course-status-info'>
         <p>Start Date: </p>
         <p>Units Performed: </p>
         <p>Unites Late: </p>
         <p>Schedule Elapsed: </p>
       </div>
-      <div id="roster-list-wrap">
+      <div id='roster-list-wrap'>
         <table id='roster-list-tbl'>
         </table>
       </div>
@@ -41,44 +44,55 @@
         <button id="roster-vias" class='btn-standard'>VIAs</button>
         <button id="roster-1on1" class='btn-standard'>1 on 1's</button>
       </div>
-    </div> -->
-
+    </div>
 
     <!-- This display is just for 1 course -->
-    <div id="course-container">
-      <div id='course-detail-sel'>
-        <h3 id='course-detail-title'>[Put title info here]</h3>
-        <select id='course-detail-pick'>
-          <option value='prep week'>Prep Week</option>
-          <option value='qtr view' selected>Quarterly View</option>
-          <option value='week view'>Weekly View</option> </option>
-        </select>
+    <div class="course-container">
+      <div class='course-detail-sel'>
+        <h3 id='course-detail-title' class='space-right'>Facility: Saint Brides Correctional Center [PFM] / Course: Spring-2019</h3>
+        <div>
+          <select>
+            <option value='prep week'>Prep Week</option>
+            <option value='qtr view' selected>Quarterly View</option>
+            <option value='week view'>Weekly View</option> </option>
+          </select>
+        </div>
       </div>
-      <div id='course-detail-list-wrap'>
-        <table id='course-detail-list-tbl'>
-        </table>
+      <div class='course-detail-and-stats'>
+        <div id='course-detail-list-wrap'>
+          <table id='course-detail-list-tbl'>
+          </table>
+        </div>
+        <div class='course-detail-stats stat-section'>
+          <p>Current week: 11 (2019-09-09)</p>
+          <p>Unit Tracking: 0 due</p>
+          <p>Enrollment: 40</p>
+          <p>Total VIAs: 8</p>
+          <p>Total 1 on 1's performed: 10</p>
+        </div>
       </div>
 
-      <div id="course-detail-roster">
-        <div id="detail-roster-list-wrap">
+      <div class="course-detail-roster">
+        <div class="detail-roster-list-wrap space-right">
+          <h3>Enrollment Roster</h3>
+          <table id='detail-roster-list-tbl'></table>
         </div>
-        <div id="detail-roster-1on1">
+        <div class="detail-roster-1on1">
+          <h3>1 on 1's</h3>
+          <p id='name1o1'></p>
         </div>
       </div>
 
     </div>
 
-
-
-      <!-- Hidden variables to hold on to useful data -->
-      <!-- <input type=text name="user-id" id="user-id" class="hidevar" value="">
-      <input type=text name="edit-mode-user" id="edit-mode-user" class="hidevar" value="">
-      <input type=text name="user-datatable" id="user-datatable" class="hidevar" value="">
-      <div class="popup-footer">
-        <button class='edit-btn clr-yes' id='userbtn-save'>Save</button>
-        <button class='edit-btn clr-no' id='userbtn-cancel'>Cancel</button>
-      </div> -->
-
+    <!-- Hidden variables to hold on to useful data -->
+    <!-- <input type=text name="user-id" id="user-id" class="hidevar" value="">
+    <input type=text name="edit-mode-user" id="edit-mode-user" class="hidevar" value="">
+    <input type=text name="user-datatable" id="user-datatable" class="hidevar" value="">
+    <div class="popup-footer">
+      <button class='edit-btn clr-yes' id='userbtn-save'>Save</button>
+      <button class='edit-btn clr-no' id='userbtn-cancel'>Cancel</button>
+    </div> -->
 
     <!-- copy above this line to paste into main document -->
   </div>
@@ -91,8 +105,8 @@
     var dataobj = {};
     $(document).ready(function() {
       data_setup();
-      console.log('doc done - framing');
-      setTimeout('build_course_tbl(window.dataobj.courses)', 1000);
+      // setTimeout('build_course_tbl(window.dataobj.courses)', 1000);
+      setTimeout('gen_course_content(17)', 1500);
     });
   </script>
 </html>

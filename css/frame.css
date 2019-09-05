@@ -9,25 +9,86 @@ class in here as holding place. Put new css code further down. */
     height: 100%;
 }
 
+.tempcontainer {
+  width: 80%;
+}
 /* put the testing css below here. this is what you would copy to the master css */
 
-#course-detail-sel {
+.course-container {
+  display: flex;
+  flex-flow: column nowrap;
+}
+.courses-all-list {
+  height: 200px;
+  width: 800px;
+  background-color: lightyellow;
+}
+
+.course-detail-sel {
     display: flex;
     flex-flow: row wrap;
-    width: 400px;
-    border: 1px solid red;
+    width: 75%;
+}
+.course-detail-and-stats {
+  display: flex;
+  flex-flow: row wrap;
+}
+.gridcell {
+  /* for the text content of the table grid showing units */
+  border: 1px solid lightgrey;
+  height: 100px;
+  margin: 0 0 0 0;
+  overflow: auto;
+  padding: 1px 1px 1px 1px;
+}
+
+.gridtext {
+  font-size: 10px;
+  margin: 0 0 0 0;
+  /* overflow: hidden; */
+  /* width: 300px; */
+}
+#course-detail-list-tbl td {
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+}
+#course-detail-list-tbl td:hover {
+  background-color: #8797ef;
 }
 
 #course-detail-list-wrap {
     width: 75%;
     min-width: 600px;
+    height: 60%;
     background-color: lightgreen;
 }
 
-#course-detail-roster {
-    display: flex;
-    flex-flow: row wrap;
-    width: 100%;
-    background-color: lightblue;
+.detail-roster-list-wrap {
+  height: 85%;
+  width: 450px;
+  display: flex;
+  flex-flow: column nowrap;
+}
+.course-detail-roster {
+  background-color: lightblue;
+  display: flex;
+  flex-flow: row wrap;
+  height: 40%;
+  min-height: 300px;
+  width: 100%;
+  
+}
+
+.detail-roster-1on1 {
+  height: 100%;
+  width: 40%;
+  border: 1px solid lightblue;
+}
+.course-detail-stats {
+  width: 25%;
+}
+.stat-section {
+  border: 1px solid lightgrey;
+  padding-left: 2px;
 
 }

@@ -10,7 +10,6 @@ CREATE OR REPLACE FUNCTION public.get_roster(IN p_course_id bigint DEFAULT NULL:
 		)
 	LANGUAGE 'plpgsql'
 	STABLE
-	PARALLEL UNSAFE
 AS $BODY$
 DECLARE
   c_sqlstatement varchar;

@@ -1,9 +1,25 @@
 CREATE OR REPLACE FUNCTION public.get_course_details(IN p_course_id bigint DEFAULT NULL::bigint)
-    RETURNS TABLE(id bigint, desc_id character varying, curr_t_id bigint, facility_id bigint, cohort_id bigint, assigned_am bigint, start_date date, projected_grad_date date, grad_date date, tmplt_title character varying, fac_name character varying, fac_abbrev character varying, cohort_title character varying, fname character varying, lname character varying)
+    RETURNS TABLE(
+      id bigint, 
+      acad_id bigint,
+      comments text, 
+      curr_cont_t_id bigint, 
+      date_done date, 
+      day_seq bigint, 
+      hours_done numeric,
+      sess_id bigint, 
+      time_seq bigint, 
+      week_num bigint, 
+      module_id bigint,
+      expected_hrs numeric,
+      sess_retired date,
+      sess_title character varying,
+      module_name character varying
+      )
+
     LANGUAGE 'plpgsql'
     STABLE
     PARALLEL UNSAFE
-    COST 100    ROWS 1000 
 AS $BODY$
 DECLARE
   c_sqlstatement varchar;
@@ -19,29 +35,24 @@ BEGIN
   end if;
 
   if v_courseid < 0 then
-    return query execute 'select aa.id, aa.desc_id, aa.curr_t_id, aa.facility_id, ' || 
-                   'aa.cohort_id, aa.assigned_am, aa.start_date, aa.projected_grad_date, aa.grad_date, ' || 
-                   'bb.title tmplt_title, cc.fac_name, cc.fac_abbrev, dd.title cohort_title, ' || 
-                   'ee.fname, ee.lname ' ||
-                   'from acad_course aa ' ||
-                      'left outer join curriculum_t bb on aa.curr_t_id = bb.id ' || 
-                      'left outer join facility cc on aa.facility_id = cc.id ' ||
-                      'left outer join acad_cohort dd on aa.cohort_id = dd.id ' ||
-                      'left outer join sys_users ee on aa.assigned_am = ee.id ' ||
-                    'order by aa.desc_id';
+    return query execute 'select aa.id, aa.acad_id, aa.comments, aa.curr_cont_t_id, aa.date_done, aa.day_seq, aa.hours_done, ' || 
+                            'aa.sess_id, aa.time_seq, aa.week_num, bb.module_id, bb.expected_hrs, bb.retired sess_retired, ' || 
+                            'bb.title sess_title, cc.module_name ' || 
+                          'from acad_course_content aa ' || 
+                            'left outer join session_list bb on aa.sess_id = bb.id ' || 
+                            'left outer join module_categories cc on bb.module_id = cc.id ' || 
+                          'order by aa.week_num, aa.day_seq ';
 
   else
-    return query execute 'select aa.id, aa.desc_id, aa.curr_t_id, aa.facility_id, ' || 
-                   'aa.cohort_id, aa.assigned_am, aa.start_date, aa.projected_grad_date, aa.grad_date, ' || 
-                   'bb.title tmplt_title, cc.fac_name, cc.fac_abbrev, dd.title cohort_title, ' || 
-                   'ee.fname, ee.lname ' ||
-                   'from acad_course aa ' ||
-                      'left outer join curriculum_t bb on aa.curr_t_id = bb.id ' || 
-                      'left outer join facility cc on aa.facility_id = cc.id ' ||
-                      'left outer join acad_cohort dd on aa.cohort_id = dd.id ' ||
-                      'left outer join sys_users ee on aa.assigned_am = ee.id ' ||
-                    'where aa.id = $1 '
-                    'order by aa.desc_id' using v_courseid;
+    return query execute 'select aa.id, aa.acad_id, aa.comments, aa.curr_cont_t_id, aa.date_done, aa.day_seq, aa.hours_done, ' || 
+                            'aa.sess_id, aa.time_seq, aa.week_num, bb.module_id, bb.expected_hrs, bb.retired sess_retired, ' || 
+                            'bb.title sess_title, cc.module_name ' || 
+                          'from acad_course_content aa ' || 
+                            'left outer join session_list bb on aa.sess_id = bb.id ' || 
+                            'left outer join module_categories cc on bb.module_id = cc.id ' || 
+                          'where aa.acad_id = $1 ' || 
+                          'order by aa.week_num, aa.day_seq ' 
+                          using v_courseid;
   end if;
 
 END

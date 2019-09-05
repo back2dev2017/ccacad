@@ -1,10 +1,25 @@
-CREATE OR REPLACE FUNCTION public.get_course_data(IN p_course_id bigint DEFAULT NULL::bigint)
-    RETURNS TABLE(id bigint, desc_id character varying, curr_t_id bigint, facility_id bigint, cohort_id bigint, assigned_am bigint, start_date date, projected_grad_date date, grad_date date, tmplt_title character varying, fac_name character varying, fac_abbrev character varying, cohort_title character varying, fname character varying, lname character varying)
-    LANGUAGE 'plpgsql'
-    STABLE
-    PARALLEL UNSAFE
-    COST 100    ROWS 1000 
-AS $BODY$
+CREATE OR REPLACE function public.get_course_data( p_course_id bigint=null )
+	RETURNS TABLE (
+		id bigint, 
+		desc_id varchar, 
+		curr_t_id bigint, 
+		facility_id bigint, 
+		cohort_id bigint,
+    assigned_am bigint,
+    start_date date,
+    projected_grad_date date,
+    grad_date date,
+    tmplt_title varchar,
+    fac_name varchar,
+    fac_abbrev varchar,
+    cohort_title varchar,
+    fname varchar,
+    lname varchar)
+STABLE
+LANGUAGE 'plpgsql'
+as
+$BODY$
+
 DECLARE
   c_sqlstatement varchar;
   v_courseid bigint;
@@ -45,4 +60,4 @@ BEGIN
   end if;
 
 END
-$BODY$;
+$BODY$
