@@ -32,6 +32,7 @@ function data_setup() {
 }
 
 function go_app() {
+	gen_course_content(17);
 	$('.login-overlay').addClass('hidediv');
 }
 
@@ -87,10 +88,13 @@ function allnavclick (tabclicked) {
 			$(".curriculums-disp").removeClass("hidediv");
 			break;
 		case 'courses':
-			$(".courses-disp").removeClass("hidediv");
+			$(".course-container").removeClass("hidediv");
+			console.log('should have shown the course');
 			if ( ! $.fn.DataTable.isDataTable ('#course-list-tbl')) {
 				build_course_tbl(window.dataobj.courses);
-			}			
+			} else {
+				$('#course-list-tbl').DataTable().columns().adjust().draw();
+			}
 			break;
 		case 'surveys':
 			$(".surveys-disp").removeClass("hidediv");
@@ -153,13 +157,13 @@ function set_currsect(btn) {
 	$('#' + btn.id).addClass('active');
 	switch (btn.id) {
 		case 'pick-curr-tmplt':
-			$("#curr-sect-tmplt").removeClass("hidediv");
+			$(".curr-sect-tmplt").removeClass("hidediv");
 			break;
 		case 'pick-curr-course':
-			$("#curr-sect-course").removeClass("hidediv");
+			$(".course-container").removeClass("hidediv");
 			break;
 		case 'pick-curr-units':
-		$("#curr-sect-units").removeClass("hidediv");
+		$(".curr-sect-units").removeClass("hidediv");
 		if ( ! $.fn.DataTable.isDataTable ('#unit-list-tbl')) {
 			build_unit_tbl(window.dataobj.units);
 		}
@@ -1035,42 +1039,65 @@ function build_sel_course_roster_tbl (rsltdata) {
 	// var tblhtpx = tblht.toString() + "px";
 	// $("#user-list-tbl").removeAttr('width').DataTable( {
 	$("#detail-roster-list-tbl").DataTable( {
-	"bInfo": false,
-	"bFilter": false,
-	autoWidth: true,
-	responsive: true,
-	scrollY: "240px",
-	scrollX: true,
-	scrollCollapse: true,
-	stateSave: true,
-	paging: false,
-	"data": rsltdata,
-	// note the passing of 'id' as the second column - the reason is for the render, and the resulting link set up
-	columns: [
-		{ data: "fname", "width": "100px", "title": "First Name" },
-		{ data: "lname", "width": "100px", "title": "Last Name" },
-		{ data: "att_id_use", "width": "77px", "title": "ID" },
-		{ data: "enroll_date", "width": "100px", "title": "Enrolled"},
-		{ data: "drop_date", "width": "100px", "title": "Drop Date"},
-		{ data: "id", "width": "40px", "title": "ID", "visible": false}
-	] }
+		"bInfo": false,
+		"bFilter": false,
+		autoWidth: true,
+		responsive: true,
+		scrollY: "240px",
+		scrollX: true,
+		scrollCollapse: true,
+		stateSave: true,
+		paging: false,
+		"data": rsltdata,
+		// note the passing of 'id' as the second column - the reason is for the render, and the resulting link set up
+		columns: [
+			{ data: "fname", "width": "100px", "title": "First Name" },
+			{ data: "lname", "width": "100px", "title": "Last Name" },
+			{ data: "att_id_use", "width": "77px", "title": "ID" },
+			{ data: "enroll_date", "width": "100px", "title": "Enrolled"},
+			{ data: "drop_date", "width": "100px", "title": "Drop Date"},
+			{ data: "id", "width": "40px", "title": "ID", "visible": false}
+		] }
 	);
 	$('#detail-roster-list-tbl td').click(function() {
 		let tblref = $('#detail-roster-list-tbl').DataTable();
 		let rowidx = tblref.cell( this ).index().row;
+		// recall that a 'row' in a jquery DataTable is an object - a rather complex object, so get a reference to it here
 		let refinfo = tblref.rows(rowidx).data();
-		$("#name1o1").html(refinfo[0].fname + ' ' + refinfo[0].lname);
-	
-	$('#detail-roster-list-tbl tbody tr').removeClass('row_selected');
-	$(this).addClass('row_selected');
+		// may want to console.log() the refinfo item if there is a problem with understanding what is available
+		// $("#name1o1").html(refinfo[0].fname + ' ' + refinfo[0].lname);
+		show_roster_1o1(refinfo);
+		$('#detail-roster-list-tbl tbody tr').removeClass('row-selected');
+		$(this).parent().addClass('row-selected');
 		// add row selection highlight stuff - remove existing highlight, then add back
 		var column_num = parseInt( $(this).index() ) + 1;
 		var row_num = parseInt( $(this).parent().index() ) + 1;
-		let weekpick = ((row_num - 1) * 13) + (column_num - 1);
-		console.log('user clicked roster', row_num, column_num, weekpick);
 	});
 }
 
+
+function show_roster_1o1(refinfo) {
+	// get the data for the person from the global object array
+	// $('#name1o1').html(
+	// 		'<p>' + refinfo[0].fname + ' ' + refinfo[0].lname + '</p>' +
+	// 		'<p>ID: ' + refinfo[0].id + '</p>'
+	// 		);
+	$('#name1o1').remove();
+	if ((refinfo[0].id % 2) == 1) {
+		$(".samp1o1").removeClass('hidediv');
+	} else {
+		$(".samp1o1").addClass('hidediv');
+	}
+
+	$('#via1').remove();
+	$('.viasamp').removeClass('hidediv');
+	if ((refinfo[0].id % 3) == 1) {
+		$('.viasamp').html('1 VIA');
+	} else {
+		$('.viasamp').html('No VIA yet');
+	}
+
+}
 
 function resize_div (div_ident, bump_t = 0, bump_b = 0) {
 	/*	 sets the height of a div to keep it all on-screen with scrolling inside div

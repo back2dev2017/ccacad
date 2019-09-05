@@ -70,7 +70,7 @@ class in here as holding place. Put new css code further down. */
   flex-flow: column nowrap;
 }
 .course-detail-roster {
-  background-color: lightblue;
+  background-color: white;
   display: flex;
   flex-flow: row wrap;
   height: 40%;
@@ -81,8 +81,13 @@ class in here as holding place. Put new css code further down. */
 
 .detail-roster-1on1 {
   height: 100%;
-  width: 40%;
-  border: 1px solid lightblue;
+  width: 175px;
+  border: 1px solid #99ccff;
+}
+.detail-roster-via {
+  height: 100%;
+  width: 175px;
+  border: 1px solid #99ccff;
 }
 .course-detail-stats {
   width: 25%;
@@ -92,6 +97,12 @@ class in here as holding place. Put new css code further down. */
   padding-left: 2px;
 }
 .row-selected {
-  background-color: #65879F;
+  background-color: #4545ff !important;
   color: white;
+}
+.samp1o1 {
+  overflow-x: auto;
+  max-width: 150px;
+
+
 }
