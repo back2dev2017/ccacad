@@ -2,27 +2,6 @@
 /* import frame.css - the temporary stuff there will eventually be moved */
 
 
-/* #course-detail-sel {
-    display: flex;
-    flex-flow: row wrap;
-    width: 400px;
-    border: 1px solid red;
-}
-
-#course-detail-list-wrap {
-    width: 75%;
-    min-width: 600px;
-    background-color: lightgreen;
-}
-
-#course-detail-roster {
-    display: flex;
-    flex-flow: row wrap;
-    width: 100%;
-    background-color: lightblue;
-
-} */
-
 /* Generally used defaults */
 html {
   margin: 0;
@@ -671,13 +650,14 @@ select {
 
 #unit-list-wrap {
 	width: 80%;
-	margin-left: auto;
-	margin-right: auto;
+	margin-left: 0;
 }
 
-#course-list-wrap {
+.course-list-wrap {
+  margin-left: 0px;
 	margin-right: 20px;
-	height: 30%;
+  height: 30%;
+  overflow: auto;
 }
 
 #course-status-info {

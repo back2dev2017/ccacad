@@ -56,11 +56,10 @@ class in here as holding place. Put new css code further down. */
   background-color: #8797ef;
 }
 
-#course-detail-list-wrap {
-    width: 75%;
-    min-width: 600px;
-    height: 60%;
-    background-color: lightgreen;
+.course-detail-list-wrap {
+  width: 75%;
+  height: 100%;
+  overflow: auto;
 }
 
 .detail-roster-list-wrap {
