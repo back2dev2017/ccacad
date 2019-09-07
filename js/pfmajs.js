@@ -33,6 +33,9 @@ function data_setup() {
 
 function go_app() {
 	gen_course_content(17);
+	// going to specifically 'build' these tables because the courses tab is already 'visible' underneath the
+	// login overlay. But the tables were not displaying right (squished columns). Building them here and then
+	// calling the tab click should get them to display correctly.
 	$('.login-overlay').addClass('hidediv');
 }
 
@@ -48,17 +51,16 @@ function selecttopsection (btnclicked) {
 	$(".content-sect").addClass("hidediv");
 	// setup_data_area();
 	
-	console.log(btnval);
 	switch (btnval) {
 		case 'acadmgt':
 			$(".academy-mgmt-sect").removeClass("hidediv");
 			break;
 		case 'acaddash':
-      $(".dashboard-sect").removeClass("hidediv");
-      gen_attendance_chart();
-      gen_progress_chart();
-      gen_via_chart();
-      gen_1on1_chart();
+			$(".dashboard-sect").removeClass("hidediv");
+			gen_attendance_chart();
+			gen_progress_chart();
+			gen_via_chart();
+			gen_1on1_chart();
 			break;
 		case 'acadrpts':
 			$(".reports-sect").removeClass("hidediv");
@@ -76,40 +78,42 @@ function allnavclick (tabclicked) {
 	var nparmht = 0;
 	var calcpad = "0px";
 		/* clear active class off other buttons */
-	$(".tablinks").removeClass("active");
-	tabclicked.classList.add("active");
-	/* hide all the divs then show the one needed. Note: this assumes jquery .addClass will not dupe class names*/
-	$(".mainzone-sel").addClass('hidediv');
+		$(".tablinks").removeClass("active");
+		tabclicked.classList.add("active");
+		/* hide all the divs then show the one needed. Note: jquery .addClass will not dupe class names*/
+		$(".mainzone-sel").addClass('hidediv');
 
 	// setup_data_area();
 	
 	switch (btnval) {
 		case 'curriculums':
-      console.log('should have unhidden curriculums-disp');
 			$(".curriculums-disp").removeClass("hidediv");
 			break;
+
 		case 'courses':
 			$(".courses-disp").removeClass("hidediv");
 			if ( $.fn.DataTable.isDataTable ('#course-detail-list-tbl')) {
-        destroy_datatable('#course-detail-list-tbl');
-        destroy_datatable('#detail-roster-list-tbl');
-      }
-      build_sel_course_tbl(window.dataobj.course_selected);
-      build_sel_course_roster_tbl(window.dataobj.course_roster);
-      // $('.course-grid').width('300px');
-      // $('#course-list-tbl tbody td').width('300px');
+				// because of display issues, it is better to destroy the tables each time coming into this 'tab'
+				console.log('yep destroyed tables');
+				destroy_datatable('#course-detail-list-tbl');
+				destroy_datatable('#detail-roster-list-tbl');
+		 	}
+			build_sel_course_tbl(window.dataobj.course_selected);
+			build_sel_course_roster_tbl(window.dataobj.course_roster);
 			break;
+
 		case 'surveys':
 			$(".surveys-disp").removeClass("hidediv");
 			break;
+
 		case 'misc':
-		$(".misc-disp").removeClass("hidediv");
-		// the default selection is the user list, but remember they may be going back and forth between options
-		// so only trigger the 'click' (to force a DataTable draw), if it is the current selection
-		if ($('#pick-sys-user').hasClass('active')) {
-			$("#pick-sys-user").trigger('click');
-		}
-		break;
+			$(".misc-disp").removeClass("hidediv");
+			// the default selection is the user list, but remember they may be going back and forth between options
+			// so only trigger the 'click' (to force a DataTable draw), if it is the current selection
+			if ($('#pick-sys-user').hasClass('active')) {
+				$("#pick-sys-user").trigger('click');
+			}
+			break;
 	}
 }
 
@@ -129,7 +133,7 @@ function build_user_tbl (rsltdata) {
 		stateSave: true,
 		paging: false,
 		"data": rsltdata,
-    rowId: 'id',
+	rowId: 'id',
 		// note the passing of 'id' as the second column - the reason is for the render, and the resulting link set up
 			columns: [
 				{ data: "id", "width": "20px", "title": "ID", className: "q-cent" }, 
@@ -154,7 +158,6 @@ function build_user_tbl (rsltdata) {
 	}
 
 function set_currsect(btn) {
-	console.log(btn.id);
 	$('.curr-item').addClass('hidediv');
 	$('.btncurr-submenu').removeClass('active');
 	$('#' + btn.id).addClass('active');
@@ -251,7 +254,6 @@ function build_course_tbl (rsltdata) {
 
 function call_getapiversion () {
 	var sel_option = $('#aboutapiparm').val();
-	console.log(sel_option);
 	var apicall = 'ADD_GETAPI_VERSION';
 	$(".div-api").removeClass("hidediv");
 	$("#apiinfo").removeClass("hidediv");
@@ -361,7 +363,6 @@ function search_execute () {
 			
 		case "sourcetxt":
 			tmptext1 = ($("#srch-source").val() === "" ? "(nothing entered)" : $("#srch-source").val());
-			console.log(tmptext1);
 			$("#result-head").html("<p>Data Definitions having the specified Source</p>");
 			if ( ! $.fn.DataTable.isDataTable ('#srch-tbl-rslt')) {
 				$.post(service_def,
@@ -498,8 +499,8 @@ function misc_execute () {
 			it may be nice to display the copied values after the process has completed  */
 			var info_from = $("#dropsel-fromtable").val();
 			var info_to = $("#txt-totable").val();
-			console.log('from table - ' + info_from);
-			console.log('to table - ' + info_to);
+			// console.log('from table - ' + info_from);
+			// console.log('to table - ' + info_to);
 			if (info_from.trim().length == 0 || info_to.trim().length == 0) {
 				modal_msg('Selection Error', 'Please enter both <b>From Table</b> and <b>To Table</b> values');
 			} else {
@@ -766,12 +767,11 @@ function unit_edit_data() {
 	console.log('well crap');
 }
 
-function make_item_id_link (data, type, row, meta) {
-//	var idstr = data.toString();
+function make_item_id_link (idval, type, row, meta) {
 	if (type === 'display') {
-		var idstr = data;
+		var idstr = idval;
 		var tblid = "'#srch-tbl-rslt'";
-		var linkret = '<a href="#" onclick="ed_data(' + idstr + ', ' + tblid + ')">' + idstr + '</a>';
+		var linkret = '<a href="javascript" onclick="ed_data(' + idstr + ', ' + tblid + ')">' + idstr + '</a>';
 		// console.log(row.table_name + " - " + row.column_name);
 	} else {
 		linkret = data;
@@ -780,7 +780,7 @@ function make_item_id_link (data, type, row, meta) {
 }
 
 function gen_course_content(course_id) {
-	// filter out the content of just the desired course
+	// filter out the content of just the desired course - this only sets up the data, no visual update
 	let newdata = window.dataobj.course_content.filter(function (e) { return e.acad_id == course_id });
 
 	let tblarray = [];
@@ -808,8 +808,6 @@ function gen_course_content(course_id) {
 		tmpobj = {};
 	}
 	window.dataobj.course_selected = tblarray;
-	// build_sel_course_tbl(window.dataobj.course_selected);
-	// build_sel_course_roster_tbl(window.dataobj.course_roster);
 }
 
 function build_sel_course_tbl (rsltdata) {
@@ -849,13 +847,13 @@ function build_sel_course_tbl (rsltdata) {
 		var column_num = parseInt( $(this).index() ) + 1;
 		var row_num = parseInt( $(this).parent().index() ) + 1;
 		let weekpick = ((row_num - 1) * 13) + (column_num - 1);
-		console.log(row_num, column_num, weekpick);
+		// console.log(row_num, column_num, weekpick);
 	});
 	$('#course-detail-list-tbl td').dblclick(function() {
 		var column_num = parseInt( $(this).index() ) + 1;
 		var row_num = parseInt( $(this).parent().index() ) + 1;
 		let weekpick = ((row_num - 1) * 13) + (column_num - 1);
-		console.log('user double-clicked', row_num, column_num, weekpick);
+		// console.log('user double-clicked', row_num, column_num, weekpick);
 	});
 }
 

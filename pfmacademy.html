@@ -48,16 +48,15 @@
         <!-- This is the Academy Management Div -->
         <div class="academy-mgmt-sect content-sect hidediv">
           <div id="am-topmenu">
-            <button class="tablinks active" id="courses" value="courses" onclick="allnavclick(this)">Courses</button>
-            <button class="tablinks" id="curriculums" value="curriculums" onclick="allnavclick(this)">Curriculums</button>
+            <button class="tablinks" id="courses" value="courses" onclick="allnavclick(this)">Courses</button>
+            <button class="tablinks active" id="curriculums" value="curriculums" onclick="allnavclick(this)">Curriculums</button>
             <button class="tablinks" id="surveys" value="surveys" onclick="allnavclick(this)">Surveys/Tests</button>
             <button class="tablinks" id="misc" value="misc" onclick="allnavclick(this)">System Administration</button>
             <!-- <button class="tablinks" id="aboutapi" value="api_info" onclick="allnavclick(this)">API Info</button> -->
           </div>
 
           <div id="am-contents">
-            <div class="courses-disp mainzone-sel">
-
+            <div class="courses-disp mainzone-sel hidediv">
 
                 <div class="courses-all-list hidediv">
                   <!-- hard lesson learned, need to use 'class defs if want to use class 'hidediv' to control visibility
@@ -84,87 +83,84 @@
             
                 <!-- This display is just for 1 course -->
                   <div class="course-container">
-                  <div class='course-detail-sel'>
-                    <h3 id='course-detail-title' class='space-right'>Facility: Saint Brides Correctional Center [PFM] / Course: Spring-2019</h3>
-                    <div>
-                      <select>
-                        <option value='prep week'>Prep Week</option>
-                        <option value='qtr view' selected>Quarterly View</option>
-                        <option value='week view'>Weekly View</option> </option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class='course-detail-and-stats'>
-                    <div class='course-detail-list-wrap'>
-                      <table id='course-detail-list-tbl'>
-                      </table>
-                    </div>
-                    <div class='course-detail-stats stat-section'>
-                      <p>Current week: 11 (2019-09-09)</p>
-                      <p>Unit Tracking: 0 due</p>
-                      <p>Enrollment: 40</p>
-                      <p>Total VIAs: 8</p>
-                      <p>Total 1 on 1's performed: 10</p>
-                    </div>
-                  </div>
-            
-                  <div class="course-detail-roster">
-                    <div class="detail-roster-list-wrap space-right">
-                      <h3>Enrollment Roster</h3>
-                      <table id='detail-roster-list-tbl'></table>
-                    </div>
-                    <div class="detail-roster-1on1">
-                      <h3>1 on 1's</h3>
-                      <div id='name1o1'>
-                        Click on an attendee for data
+                    <div class='course-detail-sel'>
+                      <h3 id='course-detail-title' class='space-right'>Facility: Saint Brides Correctional Center [PFM] / Course: Spring-2019</h3>
+                      <div>
+                        <select>
+                          <option value='prep week'>Prep Week</option>
+                          <option value='qtr view' selected>Quarterly View</option>
+                          <option value='week view'>Weekly View</option> </option>
+                        </select>
                       </div>
-                      <div class='samp1o1 hidediv'>
-                        <table>
-                          <thead>
-                            <th></th>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td><div class='gridcell'><strong>2019-04-01</strong><br>
-                                <p>The ipso factorum sample text that does not mean anything 
-                                    but is simply taking up the region of the screen to show
-                                    samples of information that might be useful to see 
-                                    and understand function and format/layout.
-                                </p></div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td><div class='gridcell'><strong>2019-07-01</strong><br>
-                                <p>The ipso factorum sample text that does not mean anything 
-                                    but is simply taking up the region of the screen to show
-                                    samples of information that might be useful to see 
-                                    and understand function and format/layout.
-                                </p></div>
-                              </td>
-                            </tr>
-                          </tbody>
+                    </div>
+                    <div class='course-detail-and-stats'>
+                      <div class='course-detail-list-wrap'>
+                        <table id='course-detail-list-tbl'>
                         </table>
                       </div>
-                    </div>
-            
-                    <div class="detail-roster-via">
-                      <h3>VIAs</h3>
-                      <div id='via1'>
-                        Click on an attendee for data
-                      </div>
-                      <div class='viasamp hidediv'>
+                      <div class='course-detail-stats stat-section'>
+                        <p>Current week: 11 (2019-09-09)</p>
+                        <p>Unit Tracking: 0 due</p>
+                        <p>Enrollment: 40</p>
+                        <p>Total VIAs: 8</p>
+                        <p>Total 1 on 1's performed: 10</p>
                       </div>
                     </div>
-            
+              
+                    <div class="course-detail-roster">
+                      <div class="detail-roster-list-wrap space-right">
+                        <h3>Enrollment Roster</h3>
+                        <table id='detail-roster-list-tbl'></table>
+                      </div>
+                      <div class="detail-roster-1on1">
+                        <h3>1 on 1's</h3>
+                        <div id='name1o1'>
+                          Click on an attendee for data
+                        </div>
+                        <div class='samp1o1 hidediv'>
+                          <table>
+                            <thead>
+                              <th></th>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td><div class='gridcell'><strong>2019-04-01</strong><br>
+                                  <p>The ipso factorum sample text that does not mean anything 
+                                      but is simply taking up the region of the screen to show
+                                      samples of information that might be useful to see 
+                                      and understand function and format/layout.
+                                  </p></div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td><div class='gridcell'><strong>2019-07-01</strong><br>
+                                  <p>The ipso factorum sample text that does not mean anything 
+                                      but is simply taking up the region of the screen to show
+                                      samples of information that might be useful to see 
+                                      and understand function and format/layout.
+                                  </p></div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+              
+                      <div class="detail-roster-via">
+                        <h3>VIAs</h3>
+                        <div id='via1'>
+                          Click on an attendee for data
+                        </div>
+                        <div class='viasamp hidediv'>
+                        </div>
+                      </div>
+              
+                    </div>
                   </div>
-                </div>
-
-
-
 
 
             </div>
-            <div class="curriculums-disp mainzone-sel hidediv">
+            <div class="curriculums-disp mainzone-sel">
 
               <div id='curr-mgmt'>
                   <button class='btncurr-submenu submenu active' id='pick-curr-course' value='pick-curr-course' onclick="set_currsect(this)">Generate Course</button>
@@ -268,7 +264,7 @@
             <div class='dash-inner-content'>
               <h3>1 on 1's performed</h3>
               <div id="chart_1on1"></div>
-              <p><em>Target: 4 sessions per participant by end of Course</em></p>
+              <p><em>Target: 2 sessions per month per participant</em></p>
             </div>
 
           </div>
