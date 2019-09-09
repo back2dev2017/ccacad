@@ -29,11 +29,12 @@ function data_setup() {
 		function (rslt) {
 			window.dataobj.course_roster = rslt;
     }, "json");
-  $.post(service_def, 
-    { api_func: "GET_COURSE_ATTEND", p_acad_id: "11" },
-    function (rslt) {
-      window.dataobj.course_attendance = rslt;
-    }, 'json');
+
+	$.post(service_def,
+		{ api_func: "GET_COURSE_ATTEND", p_acad_id: "11" },
+		function (rslt) {
+			window.dataobj.course_attendance = rslt;
+		}, "json");
 }
 
 function go_app() {

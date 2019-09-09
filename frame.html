@@ -33,19 +33,18 @@
             </table>
           </div>
           <div class='course-item-entry'>
-            <!-- <button onclick='test_togg()'>Diff type item</button> -->
+            <input type='text' class='inp-sm' id='course-de-id' value=0>
             <div class='hidediv' id='course-chkbox-entry'>
-              <!-- <p class='label-line' id='course-de-label'>Item is completed:</p><span><input type='checkbox' id='course-de-done' ></span> -->
-              <input type='checkbox' id='course-de-done'> Item is completed
+              <input type='checkbox' id='course-de-done' onchange='course_de_change(this)'> Item is completed
             </div>
             <div id='course-hr-entry'>
               <label for='course-de-time'>Time Performed: </label>
-              <input type='text' class='inp-sm' id='course-de-time'>
+              <input type='text' class='inp-sm' id='course-de-time' onchange='course_de_change(this)'>
             </div>
             <br>
             <br>
-            <p class='label-line' id='course-de-label1' style='margin-top: 5px'>Notes on Unit:</p>
-            <textarea class='gen-notes' id='course-de-notes'></textarea>
+            <p class='label-line' id='course-de-label1' style='margin-top: 5px'>Comments:</p>
+            <textarea class='gen-notes' id='course-de-comments' onchange='course_de_change(this)'></textarea>
 
           </div>
         </div>
@@ -53,9 +52,9 @@
       </div>
       <br>
       <div class='course-edit-bottom'>
-        <div class='course-edit-attendance smaller-font scroller' id='course-week-edit-attendance'>
+        <div class='course-edit-attendance scroller' id='course-week-edit-attendance'>
           <h3 id='course-de-attend-title'>Attendance for unit ... </h3>
-          <table class='cell-border' id='course-week-edit-attend'>
+          <table class='cell-border compact' id='course-week-edit-attend'>
           </table>
         </div>
       </div>

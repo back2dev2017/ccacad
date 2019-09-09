@@ -18,6 +18,7 @@
   flex-flow: row wrap;
 }
 
+
 #course-detail-list-tbl td {
   margin: 0 0 0 0;
   padding: 0 0 0 0;
@@ -88,7 +89,7 @@
 .course-edit-bottom {
   display: flex;
   flex-flow: row nowrap;
-  justify-content: center;
+  justify-content: left;
   margin-top: 20px;
 }
 
@@ -107,7 +108,17 @@
   padding-left: 20px;
 }
 .course-edit-attendance {
-  width: 420px;
+  width: 440px;
+  overflow: auto;
+}
+
+/* do not want editing tables to have the alternating colors */
+
+#week-edit-table.dataTable tbody tr {
+  background-color: white;
+}
+#course-week-edit-attend.dataTable tbody tr {
+  background-color: white;
 }
 
 
@@ -134,3 +145,6 @@
   color: white;
 }
 
+.font0-8 {
+  font-size: 0.8em;
+}

@@ -168,10 +168,10 @@ function show_roster_1o1(refinfo) {
 
 function course_edit_data (course_id, nweeknum) {
   $('#modal_overlay').removeClass('hidediv');
-  let wkdata = window.dataobj.course_content
+  window.dataobj.wkdata = window.dataobj.course_content
     .filter(function(e) { return ((e.acad_id == course_id) && (e.week_num == nweeknum)) } );
-  // console.log(wkdata);
-  build_edit_course_tbl(wkdata);
+  console.log(window.dataobj.wkdata);
+  build_edit_course_tbl(window.dataobj.wkdata);
 }
 
 function build_edit_course_tbl (rsltdata) {
@@ -179,17 +179,9 @@ function build_edit_course_tbl (rsltdata) {
 		// var tblhtpx = tblht.toString() + "px";
 		// $("#user-list-tbl").removeAttr('width').DataTable( {
 	$("#week-edit-table").DataTable( {
-		"bInfo": false,
-		"bFilter": false,
-		autoWidth: true,
-		responsive: true,
-		scrollY: "250px",
-		scrollX: true,
-		scrollCollapse: true,
-		stateSave: true,
-		paging: false,
-		"data": rsltdata,
-		rowId: 'id',
+		"bInfo": false,	"bFilter": false,	autoWidth: true, responsive: true,	scrollY: "250px",	scrollX: true,
+		scrollCollapse: true, stateSave: true, paging: false,	
+		"data": rsltdata,	rowId: 'id',
     columns: [
       { data: "unit_title", "width": "300px", "title": "Unit Title", 
           "render": function (data,type,row,meta) {
@@ -210,12 +202,61 @@ function build_edit_course_tbl (rsltdata) {
                         retdata = data;
                       }
                       return retdata;
-                    } }, 
-      { data: "id", "width": "40px", "title": "ID", "visible": false}
+										} }, 
+			{ data: "hours_done", "width": "40px", "title": "hrsdone", "visible": false}, 
+			{ data: "id", "width": "40px", "title": "ID", "visible": false}, 
+			{ data: "comments", "width": "50px", "title": "comments", "visible": false }, 
+			{ data: 'tally_hours', 'width': '30px', 'title': 'logtype', 'visible': false }
     ] } );
-    
+
+		// set up the click function when selecting a row
+		$('#week-edit-table td').click(function() {
+			let tblid = '#week-edit-table';
+			let tblref = $(tblid).DataTable();
+			let rowidx = tblref.cell( this ).index().row;
+			// recall that a 'row' in a jquery DataTable is an object - a rather complex object, so get a reference to it here
+			let refinfo = tblref.rows(rowidx).data();
+			// may want to console.log() the refinfo item if there is a problem with understanding what is available
+			// $("#name1o1").html(refinfo[0].fname + ' ' + refinfo[0].lname);
+			if (refinfo[0].tally_hours == 0) {
+				$('#course-chkbox-entry').removeClass('hidediv');
+				$('#course-hr-entry').addClass('hidediv');
+			} else {
+				$('#course-chkbox-entry').addClass('hidediv');
+				$('#course-hr-entry').removeClass('hidediv');
+			}
+			// do the row highlighting
+			$(tblid + ' tbody tr').removeClass('row-selected');
+			$(this).parent().addClass('row-selected');
+			$('#course-de-id').val(refinfo[0].id);
+			$('#course-de-comments').val(refinfo[0].comments);
+			if (refinfo[0].tally_hours == 1) {
+				// the type of data entry is actual hours, so put the value in the input
+				$('#course-de-time').val(refinfo[0].hours_done);
+			} else {
+				//   if tally_hours is 0, this is a 'checkbox' type input. we still use the hours_done for actual recording - i.e. if
+				// hours_done is 1, check the box, if 0, uncheck the box
+				if (refinfo[0].hours_done == 0) {
+					// remove the check on the checkbox
+					// $('#coures-de-done').val(refinfo[0].hours_done);
+					$('#course-de-done').attr('checked',false);
+				} else {
+					// check the box in the checkbox
+					$('#course-de-done').attr('checked',true);
+				}
+
+			}
+			$('#coures-de-id').val(refinfo[0].id);
+			// $('#detail-roster-list-tbl tbody tr').removeClass('row-selected');
+			// $(this).parent().addClass('row-selected');
+			// // add row selection highlight stuff - remove existing highlight, then add back
+			// var column_num = parseInt( $(this).index() ) + 1;
+			// var row_num = parseInt( $(this).parent().index() ) + 1;
+		});
+
+
     // Build the attendance table as well - thus can use the same weeknum and course id
-    var edit_attend_data = window.dataobj.course_attendance.filter(function (e) { return e.course_id == 11 && e.unit_id == 257 });
+    let edit_attend_data = window.dataobj.course_attendance.filter(function (e) { return e.course_id == 11 && e.unit_id == 257 });
     let tmpobj = '';
     for (let nd = 0; nd < edit_attend_data.length; nd++) {
       tmpobj = edit_attend_data[nd];
@@ -231,17 +272,64 @@ function build_edit_course_tbl (rsltdata) {
     };
 
     $("#course-week-edit-attend").DataTable( {
-      "bInfo": false, autoWidth: true, responsive: true, scrollY: "200px",
+      "bInfo": false, autoWidth: false, responsive: true, scrollY: "200px",
       scrollX: true, scrollCollapse: true, stateSave: true, paging: false,
       "data": edit_attend_data,
       rowId: 'id',
       columns: [
         { data: "fname", "width": "100px", "title": "First Name" },
         { data: "lname", "width": "100px", "title": "Last Name" },
-        { data: "attend_type", "width": "100px", "title": "Attendance" },
+				{ data: "attend_type", "width": "80px", "title": "Attendance", 
+					"render": function (data,type,row,meta) {
+							let retdata = null;
+							if (type == 'display') {
+								retdata = "<select>" + 
+								"<option value='Present' selected>Present</option>" +
+								"<option value='Tardy'>Tardy</option>" + 
+								"<option value='Absent'>Absent</option>" + 
+								"</select>";
+							} else {
+								retdata = data;
+							}
+							return retdata;
+				} },
         { data: "id", "width": "40px", "title": "ID", "visible": false}
       ] } );
 }
+
+function course_de_change(editobj) {
+	// this function is for data entry of course performance only - so it is assuming specific html elements
+	// exist - '#course-de-id', '#week-edit-table', etc
+	let datatable = $('#week-edit-table').DataTable();
+	let dataid = $('#course-de-id').val();
+	let dtdataid = '#' + dataid;
+	let dataindex = 0
+	for (ni=0; ni < window.dataobj.wkdata.length; ni++) {
+		if (window.dataobj.wkdata[ni].id == dataid) {
+			dataindex = ni;
+			break;
+		}
+	}
+	switch (editobj.id) {
+		case 'course-de-comments':
+			window.dataobj.wkdata[dataindex].comments = $('#course-de-comments').val();
+			datatable.row(dtdataid).invalidate();
+			datatable.row(dtdataid).draw('page');
+			console.log('should have updated wkdata array');
+			break;
+		case 'course-de-time':
+			console.log('time save');
+			
+			break;
+		case 'course-de-done':
+			console.log('chkbox save');
+
+			break;
+		default:
+
+	}
+}
+
 
 function course_edit_cancel() {
 	$('.course-edit').addClass('hidediv');
