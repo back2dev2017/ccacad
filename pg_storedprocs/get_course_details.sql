@@ -12,9 +12,10 @@ CREATE OR REPLACE FUNCTION public.get_course_details(IN p_course_id bigint DEFAU
       week_num bigint, 
       module_id bigint,
       expected_hrs numeric,
-      sess_retired date,
-      sess_title character varying,
-      module_name character varying
+      unit_retired date,
+      unit_title character varying,
+      module_name character varying,
+      tally_hours integer
       )
 
     LANGUAGE 'plpgsql'
@@ -36,8 +37,8 @@ BEGIN
 
   if v_courseid < 0 then
     return query execute 'select aa.id, aa.acad_id, aa.comments, aa.curr_cont_t_id, aa.date_done, aa.day_seq, aa.hours_done, ' || 
-                            'aa.sess_id, aa.time_seq, aa.week_num, bb.module_id, bb.expected_hrs, bb.retired sess_retired, ' || 
-                            'bb.title sess_title, cc.module_name ' || 
+                            'aa.sess_id, aa.time_seq, aa.week_num, bb.module_id, bb.expected_hrs, bb.retired unit_retired, ' || 
+                            'bb.title unit_title, cc.module_name, cc.tally_hours ' || 
                           'from acad_course_content aa ' || 
                             'left outer join session_list bb on aa.sess_id = bb.id ' || 
                             'left outer join module_categories cc on bb.module_id = cc.id ' || 
@@ -45,8 +46,8 @@ BEGIN
 
   else
     return query execute 'select aa.id, aa.acad_id, aa.comments, aa.curr_cont_t_id, aa.date_done, aa.day_seq, aa.hours_done, ' || 
-                            'aa.sess_id, aa.time_seq, aa.week_num, bb.module_id, bb.expected_hrs, bb.retired sess_retired, ' || 
-                            'bb.title sess_title, cc.module_name ' || 
+                            'aa.sess_id, aa.time_seq, aa.week_num, bb.module_id, bb.expected_hrs, bb.retired unit_retired, ' || 
+                            'bb.title unit_title, cc.module_name, cc.tally_hours ' || 
                           'from acad_course_content aa ' || 
                             'left outer join session_list bb on aa.sess_id = bb.id ' || 
                             'left outer join module_categories cc on bb.module_id = cc.id ' || 

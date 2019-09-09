@@ -17,108 +17,51 @@
   <script src="js/jquery-3.2.1.js"></script>
   <script src="js/datatables.min.js"></script>
   <script src="js/pfmajs.js"></script>
+  <script src="js/courses.js"></script>
 
 </head>
 <body>
   <div class="tempcontainer">
     <!-- copy after this line to paste into main document -->
-    <div class="courses-all-list hidediv">
-      <!-- hard lesson learned, need to use 'class defs if want to use class 'hidediv' to control visibility
-      because if we use ids and set properties of those ids, the hidediv class will not override settings -->
-      <div id="course-list-wrap">
-        <table id="course-list-tbl" class="cell-border">          
-        </table>
-      </div>
-      <div id='course-status-info'>
-        <p>Start Date: </p>
-        <p>Units Performed: </p>
-        <p>Unites Late: </p>
-        <p>Schedule Elapsed: </p>
-      </div>
-      <div id='roster-list-wrap'>
-        <table id='roster-list-tbl'>
-        </table>
-      </div>
-      <div>
-        <button id="roster-vias" class='btn-standard'>VIAs</button>
-        <button id="roster-1on1" class='btn-standard'>1 on 1's</button>
-      </div>
-    </div>
 
-    <!-- This display is just for 1 course -->
-      <div class="course-container">
-      <div class='course-detail-sel'>
-        <h3 id='course-detail-title' class='space-right'>Facility: Saint Brides Correctional Center [PFM] / Course: Spring-2019</h3>
-        <div>
-          <select>
-            <option value='prep week'>Prep Week</option>
-            <option value='qtr view' selected>Quarterly View</option>
-            <option value='week view'>Weekly View</option> </option>
-          </select>
-        </div>
-      </div>
-      <div class='course-detail-and-stats'>
-        <div id='course-detail-list-wrap'>
-          <table id='course-detail-list-tbl'>
-          </table>
-        </div>
-        <div class='course-detail-stats stat-section'>
-          <p>Current week: 11 (2019-09-09)</p>
-          <p>Unit Tracking: 0 due</p>
-          <p>Enrollment: 40</p>
-          <p>Total VIAs: 8</p>
-          <p>Total 1 on 1's performed: 10</p>
-        </div>
-      </div>
-
-      <div class="course-detail-roster">
-        <div class="detail-roster-list-wrap space-right">
-          <h3>Enrollment Roster</h3>
-          <table id='detail-roster-list-tbl'></table>
-        </div>
-        <div class="detail-roster-1on1">
-          <h3>1 on 1's</h3>
-          <div id='name1o1'>
-            Click on an attendee for data
-          </div>
-          <div class='samp1o1 hidediv'>
-            <table>
-              <thead>
-                <th></th>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><div class='gridcell'><strong>2019-04-01</strong><br>
-                    <p>The ipso factorum sample text that does not mean anything 
-                        but is simply taking up the region of the screen to show
-                        samples of information that might be useful to see 
-                        and understand function and format/layout.
-                    </p></div>
-                  </td>
-                </tr>
-                <tr>
-                  <td><div class='gridcell'><strong>2019-07-01</strong><br>
-                    <p>The ipso factorum sample text that does not mean anything 
-                        but is simply taking up the region of the screen to show
-                        samples of information that might be useful to see 
-                        and understand function and format/layout.
-                    </p></div>
-                  </td>
-                </tr>
-              </tbody>
+    <div class='course-week-edit'>
+      <div class='heading' id='course-week-edit-title'>Course Name: </div>
+      <div class='course-edit-wrapper1'>
+        <div class='course-conduct' id='course-week-edit-conduct'>
+          <div class='course-edit-tbl-wrap smaller-font'>
+            <table class="cell-border" id='week-edit-table'>
             </table>
           </div>
+          <div class='course-item-entry'>
+            <!-- <button onclick='test_togg()'>Diff type item</button> -->
+            <div class='hidediv' id='course-chkbox-entry'>
+              <!-- <p class='label-line' id='course-de-label'>Item is completed:</p><span><input type='checkbox' id='course-de-done' ></span> -->
+              <input type='checkbox' id='course-de-done'> Item is completed
+            </div>
+            <div id='course-hr-entry'>
+              <label for='course-de-time'>Time Performed: </label>
+              <input type='text' class='inp-sm' id='course-de-time'>
+            </div>
+            <br>
+            <br>
+            <p class='label-line' id='course-de-label1' style='margin-top: 5px'>Notes on Unit:</p>
+            <textarea class='gen-notes' id='course-de-notes'></textarea>
+
+          </div>
         </div>
 
-        <div class="detail-roster-via">
-          <h3>VIAs</h3>
-          <div id='via1'>
-            Click on an attendee for data
-          </div>
-          <div class='viasamp hidediv'>
-          </div>
+      </div>
+      <br>
+      <div class='course-edit-bottom'>
+        <div class='course-edit-attendance smaller-font scroller' id='course-week-edit-attendance'>
+          <h3 id='course-de-attend-title'>Attendance for unit ... </h3>
+          <table class='cell-border' id='course-week-edit-attend'>
+          </table>
         </div>
-
+      </div>
+      <div class='popup-footer'>
+          <button class='edit-btn clr-yes' id='coursebtn-save'>Save</button>
+          <button class='edit-btn clr-no' id='coursebtn-cancel' onclick="course_edit_cancel()">Cancel</button>
       </div>
     </div>
 
@@ -142,8 +85,22 @@
     var dataobj = {};
     $(document).ready(function() {
       data_setup();
+      // need to allow time for data to come back from database
       // setTimeout('build_course_tbl(window.dataobj.courses)', 1000);
-      setTimeout('gen_course_content(17)', 1500);
+      setTimeout('gen_course_content(170)', 1500);
+      setTimeout('course_edit_data(17,1)', 1600);
     });
+
+    function test_togg() {
+      if ($('#course-hr-entry').hasClass('hidediv')) {
+        console.log('unhiding text entry');
+        $('#course-chkbox-entry').addClass('hidediv');
+        $('#course-hr-entry').removeClass('hidediv');
+      } else {
+        console.log('unhiding checkbox');
+        $('#course-hr-entry').addClass('hidediv');
+        $('#course-chkbox-entry').removeClass('hidediv');
+      };
+    };
   </script>
 </html>

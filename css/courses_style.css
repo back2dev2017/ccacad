@@ -1,0 +1,136 @@
+.course-container {
+  display: flex;
+  flex-flow: column nowrap;
+}
+.courses-all-list {
+  height: 200px;
+  width: 800px;
+  background-color: lightyellow;
+}
+.course-detail-sel {
+    display: flex;
+    flex-flow: row wrap;
+    width: 75%;
+}
+.course-detail-and-stats {
+  height: 55%;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+#course-detail-list-tbl td {
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+}
+#course-detail-list-tbl td:hover {
+  background-color: #8797ef;
+}
+
+.course-detail-list-wrap {
+  width: 75%;
+  height: 100%;
+  overflow: auto;
+}
+
+.detail-roster-list-wrap {
+  height: 100%;
+  width: 450px;
+  display: flex;
+  flex-flow: column nowrap;
+}
+.course-detail-roster {
+  background-color: white;
+  display: flex;
+  flex-flow: row wrap;
+  height: 45;
+  min-height: 300px;
+  width: 100%;
+}
+
+.detail-roster-1on1 {
+  height: 100%;
+  width: 175px;
+  border: 1px solid #99ccff;
+}
+.detail-roster-via {
+  height: 100%;
+  width: 175px;
+  border: 1px solid #99ccff;
+}
+.course-detail-stats {
+  width: 25%;
+}
+
+.samp1o1 {
+  overflow-x: auto;
+  max-width: 150px;
+}
+.stat-section {
+  border: 1px solid lightgrey;
+  padding-left: 2px;
+}
+
+.course-conduct {
+  display: flex;
+  flex-flow: row wrap;
+  height: 60%;
+}
+.course-week-edit {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 90%;
+  width: 100%;
+}
+.course-edit-wrapper1 {
+  display: flex;
+  flex-flow: row wrap;
+}
+.course-edit-bottom {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* .course-edit-tbl-wrap {
+  font-size: 12px;
+} */
+
+.smaller-font {
+  font-size: 0.8em;
+}
+
+.course-item-entry {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  padding-left: 20px;
+}
+.course-edit-attendance {
+  width: 420px;
+}
+
+
+/* for course detail datatables */
+.gridcell {
+  /* for the text content of the table grid showing units */
+  border: 1px solid lightgrey;
+  height: 100px;
+  margin: 0 0 0 0;
+  overflow: auto;
+  padding: 1px 1px 1px 1px;
+}
+
+.gridtext {
+  font-size: 10px;
+  margin: 0 0 0 0;
+  /* overflow: hidden; */
+  /* width: 300px; */
+}
+
+.row-selected {
+  /* note the use of !important - bg is way 'down' inside datatables styling, so really need to do this here */
+  background-color: #4545ff !important;
+  color: white;
+}
+

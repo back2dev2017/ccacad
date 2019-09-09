@@ -1,4 +1,5 @@
 @import url('frame.css');
+@import url('courses_style.css');
 /* import frame.css - the temporary stuff there will eventually be moved */
 
 
@@ -38,6 +39,21 @@ nav a, button {
   min-width: 36px;
 }
 
+.label-line {
+  /* mainly to override <p> spacing */
+  margin: 0 0 0 0;
+}
+
+.gen-notes {
+  /* mainly for textarea data entry */
+  font-family: Calibri;
+	height: 190px;
+	width: 200px;
+}
+
+.scroller {
+  overflow: auto;
+}
 .ew-but:hover {
   /* this box-shadow had multiple shadows defined, kinda cool
   /* 	box-shadow: 7px 7px 7px 7px rgba(0,0,0,0.24),14px 14px 14px 14px rgba(0,0,0,0.19); */
@@ -265,19 +281,19 @@ h2 {
 }
 
 .dashb-part {
-  min-width: 500px;
-  min-height: 350px;
+  min-width: 45%;
+  min-height: 40%;
   border: 2px solid lightblue;
 }
 
-#chart_attendance {
+/* #chart_attendance {
   height: 70%;
   width: 80%;
 }
 #chart_progress {
   height: 70%;
   width: 80%;
-}
+} */
 
 #courses-all-list {
   display: flex;
@@ -687,6 +703,8 @@ th {
 
 /* put this last so that it will always override other div settings */
 .tempcontainer {
+  display: flex;
+  flex-flow: column nowrap;
   border: 1px solid lightblue;
 }
 

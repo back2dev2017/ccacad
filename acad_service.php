@@ -75,8 +75,11 @@ switch ($c_apifunc) {
 		echo json_encode($ret_array);
 		break;
 	
-	case "GET_COURSE_ATTEND":
-		$result = pg_query($dbconn, 'select * from acad_course_attendance');
+  case "GET_COURSE_ATTEND":
+    $v_course_id = isset($_POST['p_acad_id']) ? $_POST['p_acad_id'] : null;
+    $v_unit_id = (isset($_POST['p_unit_id']) ? $_POST['p_unit_id'] : null);
+    
+    $result = pg_query_params($dbconn, 'select * from get_course_attend($1, $2)', array($v_course_id, $v_unit_id));
 		$ret_array = pg_fetch_all($result);
 		echo json_encode($ret_array);
 		break;

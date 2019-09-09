@@ -22,6 +22,7 @@
   <script src="js/d3.v4.min.js"></script>
   <script src="js/c3.js"></script>
   <script src="js/pfm_charts.js"></script>
+  <script src="js/courses.js"></script>
 
 
 </head>
@@ -49,7 +50,7 @@
         <div class="academy-mgmt-sect content-sect hidediv">
           <div id="am-topmenu">
             <button class="tablinks" id="courses" value="courses" onclick="allnavclick(this)">Courses</button>
-            <button class="tablinks active" id="curriculums" value="curriculums" onclick="allnavclick(this)">Curriculums</button>
+            <button class="tablinks" id="curriculums" value="curriculums" onclick="allnavclick(this)">Curriculums</button>
             <button class="tablinks" id="surveys" value="surveys" onclick="allnavclick(this)">Surveys/Tests</button>
             <button class="tablinks" id="misc" value="misc" onclick="allnavclick(this)">System Administration</button>
             <!-- <button class="tablinks" id="aboutapi" value="api_info" onclick="allnavclick(this)">API Info</button> -->
@@ -100,6 +101,7 @@
                       </div>
                       <div class='course-detail-stats stat-section'>
                         <p>Current week: 11 (2019-09-09)</p>
+                        <button class='btn-standard' id='btn-edit-week' onclick="course_edit_data(17,11)">Edit</button>
                         <p>Unit Tracking: 0 due</p>
                         <p>Enrollment: 40</p>
                         <p>Total VIAs: 8</p>
@@ -160,7 +162,7 @@
 
 
             </div>
-            <div class="curriculums-disp mainzone-sel">
+            <div class="curriculums-disp mainzone-sel hidediv">
 
               <div id='curr-mgmt'>
                   <button class='btncurr-submenu submenu active' id='pick-curr-course' value='pick-curr-course' onclick="set_currsect(this)">Generate Course</button>
@@ -188,7 +190,7 @@
 
 
             </div>
-            <div class="surveys-disp mainzone-sel hidediv">
+            <div class="surveys-disp mainzone-sel">
               Surveys
             </div>
             <div class="misc-disp mainzone-sel hidediv">
@@ -240,12 +242,11 @@
               <p><strong>Course LEW 1906</strong></p>
               <p><strong>Started:</strong> 7/1/2019  <strong> Projected Graduation:</strong> 6/30/2020</p>
               <div id="chart_progress"></div>
-                            
             </div>
           </div>
           <div class="dashb-part dsh-attend">
             <div id="attendence-stats" class='dash-inner-content'>
-              <h3>Session attendance</h3>
+              <h3>Unit attendance</h3>
               <p>Attendance to date by week</p>
               <!-- <p>Enrolled: 40</p>
               <p>Adds: 0</p>
@@ -375,12 +376,12 @@
 	// set up global variables
 	var service_def = 'acad_service.php';
   var chkstr = '(holds last api call)';
+  var signals = {'startup': 1};
   var dataobj = {};
   $(document).ready(function() {
     data_setup();
     // display the dashboard to start
     $("#acaddash").trigger('click');
-    console.log('doc done');
   });
 </script>
 
