@@ -24,45 +24,7 @@
   <div class="tempcontainer">
     <!-- copy after this line to paste into main document -->
 
-    <div class='course-week-edit'>
-      <div class='heading' id='course-week-edit-title'>Course Name: </div>
-      <div class='course-edit-wrapper1'>
-        <div class='course-conduct' id='course-week-edit-conduct'>
-          <div class='course-edit-tbl-wrap smaller-font'>
-            <table class="cell-border" id='week-edit-table'>
-            </table>
-          </div>
-          <div class='course-item-entry'>
-            <input type='text' class='inp-sm' id='course-de-id' value=0>
-            <div class='hidediv' id='course-chkbox-entry'>
-              <input type='checkbox' id='course-de-done' onchange='course_de_change(this)'> Item is completed
-            </div>
-            <div id='course-hr-entry'>
-              <label for='course-de-time'>Time Performed: </label>
-              <input type='text' class='inp-sm' id='course-de-time' onchange='course_de_change(this)'>
-            </div>
-            <br>
-            <br>
-            <p class='label-line' id='course-de-label1' style='margin-top: 5px'>Comments:</p>
-            <textarea class='gen-notes' id='course-de-comments' onchange='course_de_change(this)'></textarea>
 
-          </div>
-        </div>
-
-      </div>
-      <br>
-      <div class='course-edit-bottom'>
-        <div class='course-edit-attendance scroller' id='course-week-edit-attendance'>
-          <h3 id='course-de-attend-title'>Attendance for unit ... </h3>
-          <table class='cell-border compact' id='course-week-edit-attend'>
-          </table>
-        </div>
-      </div>
-      <div class='popup-footer'>
-          <button class='edit-btn clr-yes' id='coursebtn-save'>Save</button>
-          <button class='edit-btn clr-no' id='coursebtn-cancel' onclick="course_edit_cancel()">Cancel</button>
-      </div>
-    </div>
 
     <!-- Hidden variables to hold on to useful data -->
     <!-- <input type=text name="user-id" id="user-id" class="hidevar" value="">
@@ -90,16 +52,5 @@
       setTimeout('course_edit_data(17,1)', 1600);
     });
 
-    function test_togg() {
-      if ($('#course-hr-entry').hasClass('hidediv')) {
-        console.log('unhiding text entry');
-        $('#course-chkbox-entry').addClass('hidediv');
-        $('#course-hr-entry').removeClass('hidediv');
-      } else {
-        console.log('unhiding checkbox');
-        $('#course-hr-entry').addClass('hidediv');
-        $('#course-chkbox-entry').removeClass('hidediv');
-      };
-    };
   </script>
 </html>

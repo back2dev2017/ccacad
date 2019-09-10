@@ -85,8 +85,8 @@
                 <!-- This display is just for 1 course -->
                   <div class="course-container">
                     <div class='course-detail-sel'>
-                      <h3 id='course-detail-title' class='space-right'>Facility: Saint Brides Correctional Center [PFM] / Course: Spring-2019</h3>
-                      <div>
+                      <h3 id='course-detail-title' style="margin: 5px 0px 2px 0px">Facility: Saint Brides Correctional Center [PFM] / Course: Spring-2019</h3>
+                      <div style="margin: 5px 0px 2px 20px">
                         <select>
                           <option value='prep week'>Prep Week</option>
                           <option value='qtr view' selected>Quarterly View</option>
@@ -101,7 +101,7 @@
                       </div>
                       <div class='course-detail-stats stat-section'>
                         <p>Current week: 11 (2019-09-09)</p>
-                        <button class='btn-standard' id='btn-edit-week' onclick="course_edit_data(17,11)">Edit</button>
+                        <button class='btn-standard' id='btn-edit-week' onclick="course_edit_data(17,1)">Edit Current Week</button>
                         <p>Unit Tracking: 0 due</p>
                         <p>Enrollment: 40</p>
                         <p>Total VIAs: 8</p>
@@ -198,6 +198,7 @@
                 <button class='btnsys-submenu submenu active' id='pick-sys-user' value='pick-sys-user' onclick="set_syssect(this)">User Administration</button>
                 <button class='btnsys-submenu submenu' id='pick-sys-facsteps' value='pick-sys-facsteps' onclick="set_syssect(this)">Facility Setup</button>
                 <button class='btnsys-submenu submenu' id='pick-sys-modules' value='pick-sys-modules' onclick="set_syssect(this)">Define Modules</button>
+                <button class='btnsys-submenu submenu' id='pick-sys-facilities' value='pick-sys-facilities' onclick="set_syssect(this)">Manage Facilities</button>
               </div>
               <div id="sysadmin">
                 <div class='sys-sect-users sys-item hidediv'>
@@ -213,6 +214,7 @@
           
                 <div class='sys-sect-facsteps sys-item hidediv'>
                   <button class="btn-standard" id="add-fac-task" value="add-fac-task">Add Setup Task</button>
+                  --the tasks that track Facility building would be below--
                   <div id='facstepslistwrap'>
                     <table class="cell-border" id="facsetup-list-tbl">
           
@@ -223,8 +225,15 @@
                 </div>
           
                 <div class='sys-sect-modules sys-item hidediv'>
-                  the place to manage modules
+                  <button class="btn-standard" id="add-module" value="add-module">Add New Module</button>
+                  --the list of module names would be below--
                 </div>
+
+                <div class='sys-sect-facilities sys-item hidediv'>
+                  <button class="btn-standard" id="add-facility" value="add-facility">Add New Facility</button>
+                  --list of existing facilities would be below--
+                </div>
+
               </div>
 
             </div>
@@ -284,6 +293,8 @@
   </div>
   <!--  ---------------------------------- end of the main content divs ---------------------------------- -->
   <!--  these are divs for setting modal dialog messages. See the css for details -->
+
+  <!-- the login overlay -->
   <div class='login-overlay'>
     <div class='login-content'>
       <div class='login-row'>
@@ -326,50 +337,96 @@
     </div>
   </div>
 
+  <!-- the user editing overlay -->
   <div class="user-edit popup-edit hidediv">
-      <p class="div-title">User Details</p>
-      <div class="edit-group">
-        <label for="user-fname">First Name:</label>
-        <input type="text" name="fname" id="user-fname" class="inp-med " value="">
-      </div>
-      <div class="edit-group">
-        <label for="user-lname">Last Name:</label>
-        <input type="text" name="lname" id="user-lname" class="inp-med"  value="">
-      </div>
-      <div class="edit-group">
-        <label for="user-email">Email:</label>
-        <input type="email" name="email" id="user-email" class="inp-xlrg"  value="">
-      </div>
-      <div class="edit-group">
-        <label for="user-phone">Phone:</label>
-        <input type="tel" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"  id="user-phone" class="inp-med"  value="" placeholder="999-999-9999">
-      </div>
-      <div class="edit-group">
-        <label for="user-phone-ext">Phone Extension:</label>
-        <input type="text" name="phone" id="user-phone-ext" class="inp-sm"  value="">
-      </div>
-      <div class="edit-group">
-        <label for="user-role">Role:</label>
-        <select id="user-role">
-          <option value="Academy Admin">Academy Admin</option>
-          <option value="Academy Manager">Academy Manager</option>
-          <option value="Coordinator">Coordinator</option>
-          <option value="Counselor">Counselor</option>
-        </select>
-      </div>
-      <div class="edit-group">
-        <label for="user-new-password">Password reset:</label>
-        <input type="password" name="user-new-password" id="user-new-password" class="inp-med" value="">
-      </div>
-      <!-- Hidden variables to hold on to useful data -->
-      <input type=text name="user-id" id="user-id" class="hidevar" value="">
-      <input type=text name="edit-mode-user" id="edit-mode-user" class="hidevar" value="">
-      <input type=text name="user-datatable" id="user-datatable" class="hidevar" value="">
-      <div class="popup-footer">
-        <button class='edit-btn clr-yes' id='userbtn-save'>Save</button>
-        <button class='edit-btn clr-no' id='userbtn-cancel' onclick="user_edit_cancel()">Cancel</button>
+    <p class="div-title">User Details</p>
+    <div class="edit-group">
+      <label for="user-fname">First Name:</label>
+      <input type="text" name="fname" id="user-fname" class="inp-med " value="">
+    </div>
+    <div class="edit-group">
+      <label for="user-lname">Last Name:</label>
+      <input type="text" name="lname" id="user-lname" class="inp-med"  value="">
+    </div>
+    <div class="edit-group">
+      <label for="user-email">Email:</label>
+      <input type="email" name="email" id="user-email" class="inp-xlrg"  value="">
+    </div>
+    <div class="edit-group">
+      <label for="user-phone">Phone:</label>
+      <input type="tel" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"  id="user-phone" class="inp-med"  value="" placeholder="999-999-9999">
+    </div>
+    <div class="edit-group">
+      <label for="user-phone-ext">Phone Extension:</label>
+      <input type="text" name="phone" id="user-phone-ext" class="inp-sm"  value="">
+    </div>
+    <div class="edit-group">
+      <label for="user-role">Role:</label>
+      <select id="user-role">
+        <option value="Academy Admin">Academy Admin</option>
+        <option value="Academy Manager">Academy Manager</option>
+        <option value="Coordinator">Coordinator</option>
+        <option value="Counselor">Counselor</option>
+      </select>
+    </div>
+    <div class="edit-group">
+      <label for="user-new-password">Password reset:</label>
+      <input type="password" name="user-new-password" id="user-new-password" class="inp-med" value="">
+    </div>
+    <!-- Hidden variables to hold on to useful data -->
+    <input type=text name="user-id" id="user-id" class="hidevar" value="">
+    <input type=text name="edit-mode-user" id="edit-mode-user" class="hidevar" value="">
+    <input type=text name="user-datatable" id="user-datatable" class="hidevar" value="">
+    <div class="popup-footer">
+      <button class='edit-btn clr-yes' id='userbtn-save'>Save</button>
+      <button class='edit-btn clr-no' id='userbtn-cancel' onclick="user_edit_cancel()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- The week editing overlay (aka data entry of progress of units in a week) -->
+  <div class='course-week-edit hidediv'>
+    <div class='pop-win-title-line'>
+      <div id='course-week-edit-title' style="padding-left: 3px;">Course Name: </div>
+      <button title="Close Window" class='btn-min' onclick="week_edit_close()">X</button>
+    </div>
+    <div class='course-edit-wrapper1'>
+      <div class='course-conduct' id='course-week-edit-conduct'>
+        <div class='course-edit-tbl-wrap smaller-font'>
+          <table class="cell-border" id='week-edit-table'>
+          </table>
+        </div>
+        <div class='course-item-entry'>
+          <input type='text' class='inp-sm hidevar' id='course-de-id' value=0>
+          <div class='hidediv' id='course-chkbox-entry'>
+            <input type='checkbox' id='course-de-done' onchange='course_de_change(this)'> Item is completed
+          </div>
+          <div id='course-hr-entry'>
+            <label for='course-de-time'>Time Performed: </label>
+            <input type='text' class='inp-sm' id='course-de-time' onchange='course_de_change(this)'>
+          </div>
+          <br>
+          <br>
+          <p class='label-line' id='course-de-label1' style='margin-top: 5px'>Comments:</p>
+          <textarea class='gen-notes' id='course-de-comments' onchange='course_de_change(this)'></textarea>
+
+        </div>
       </div>
     </div>
+    <br>
+    <div class='course-edit-bottom'>
+      <div class='course-edit-attendance scroller' id='course-week-edit-attendance'>
+        <h4 id='course-de-attend-title' style="margin 0px 0px 2px 0px">Attendance for unit ... </h3>
+        <table class='cell-border compact' id='course-week-edit-attend'>
+        </table>
+      </div>
+    </div>
+    <div class='popup-footer hidediv'>
+        <button class='edit-btn clr-yes' id='coursebtn-save'>Save</button>
+        <button class='edit-btn clr-no' id='coursebtn-cancel' onclick="course_edit_cancel()">Cancel</button>
+    </div>
+  </div>
+
+
   <!--  --------------------------------- end of the modal dialog divs --------------------------------- -->
 </body>
 <script>

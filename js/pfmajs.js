@@ -199,16 +199,21 @@ function set_syssect(btn) {
 		case 'pick-sys-facsteps':
 			$(".sys-sect-facsteps").removeClass("hidediv");
 			break;
-		case 'pick-sys-modules':
+
+    case 'pick-sys-modules':
 			$(".sys-sect-modules").removeClass("hidediv");
 			break;
-		case 'pick-sys-user':
-		$(".sys-sect-users").removeClass("hidediv");
-		if ( ! $.fn.DataTable.isDataTable ('#user-list-tbl')) {
-		build_user_tbl(window.dataobj.users);
+
+    case 'pick-sys-user':
+  		$(".sys-sect-users").removeClass("hidediv");
+		  if ( ! $.fn.DataTable.isDataTable ('#user-list-tbl')) {
+		  build_user_tbl(window.dataobj.users);
 		}
 		break;
-	}
+
+    case 'pick-sys-facilities':
+      $(".sys-sect-facilities").removeClass("hidediv");
+  }
 }
 
 

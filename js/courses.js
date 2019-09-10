@@ -167,23 +167,34 @@ function show_roster_1o1(refinfo) {
 }
 
 function course_edit_data (course_id, nweeknum) {
-  $('#modal_overlay').removeClass('hidediv');
+  let coursename = '';
+  $('#modal-overlay').removeClass('hidediv');
+  for (ni=0; ni < window.dataobj.courses.length; ni++) {
+    if (window.dataobj.courses[ni].id == course_id) {
+      coursename = ' ' + window.dataobj.courses[ni].fac_name + ' ' + window.dataobj.courses[ni].cohort_title;
+      $('#course-week-edit-title').text(coursename + ' - Week 11');
+      // $('#course-week-edit-title').text(coursename + ' - Week ' + nwwknum);
+      break;
+    }
+  };
+  $('.course-week-edit').removeClass('hidediv');
+  pop_div_center('.course-week-edit');
+
   window.dataobj.wkdata = window.dataobj.course_content
     .filter(function(e) { return ((e.acad_id == course_id) && (e.week_num == nweeknum)) } );
-  console.log(window.dataobj.wkdata);
   build_edit_course_tbl(window.dataobj.wkdata);
 }
 
 function build_edit_course_tbl (rsltdata) {
 	// var tblht = $("#user-list-tbl").height() - 88;
-		// var tblhtpx = tblht.toString() + "px";
-		// $("#user-list-tbl").removeAttr('width').DataTable( {
+	// var tblhtpx = tblht.toString() + "px";
+	// $("#user-list-tbl").removeAttr('width').DataTable( {
 	$("#week-edit-table").DataTable( {
 		"bInfo": false,	"bFilter": false,	autoWidth: true, responsive: true,	scrollY: "250px",	scrollX: true,
 		scrollCollapse: true, stateSave: true, paging: false,	
 		"data": rsltdata,	rowId: 'id',
     columns: [
-      { data: "unit_title", "width": "300px", "title": "Unit Title", 
+      { data: "unit_title", "width": "250px", "title": "Unit Title", 
           "render": function (data,type,row,meta) {
                       let retdata = null;
                       if (type == 'display') {
@@ -202,8 +213,18 @@ function build_edit_course_tbl (rsltdata) {
                         retdata = data;
                       }
                       return retdata;
-										} }, 
-			{ data: "hours_done", "width": "40px", "title": "hrsdone", "visible": false}, 
+                    } }, 
+      { data: "hours_done", "width": "50px", "title": "Actual Hours", 
+          "render": function (data,type,row,meta) {
+            let retdata = null;
+            if (type == 'display') {
+              retdata = row.tally_hours == 1 ? data : "N/A";
+            } else {
+              retdata = data;
+            }
+            return retdata;
+          }}, 
+      { data: "unit_title", "width": "100px", "title": "unittitle", "visible": false },
 			{ data: "id", "width": "40px", "title": "ID", "visible": false}, 
 			{ data: "comments", "width": "50px", "title": "comments", "visible": false }, 
 			{ data: 'tally_hours', 'width': '30px', 'title': 'logtype', 'visible': false }
@@ -229,47 +250,46 @@ function build_edit_course_tbl (rsltdata) {
 			$(tblid + ' tbody tr').removeClass('row-selected');
 			$(this).parent().addClass('row-selected');
 			$('#course-de-id').val(refinfo[0].id);
-			$('#course-de-comments').val(refinfo[0].comments);
+      $('#course-de-comments').val(refinfo[0].comments);
+      $('#course-de-attend-title').text("Attendance for Unit: " + refinfo[0].unit_title);
 			if (refinfo[0].tally_hours == 1) {
 				// the type of data entry is actual hours, so put the value in the input
 				$('#course-de-time').val(refinfo[0].hours_done);
+        $('.course-edit-bottom').removeClass('hidediv');
 			} else {
 				//   if tally_hours is 0, this is a 'checkbox' type input. we still use the hours_done for actual recording - i.e. if
-				// hours_done is 1, check the box, if 0, uncheck the box
+				// hours_done is 1, check the box, if 0, uncheck the box. Also, do not show attendance for that unit
+        $('.course-edit-bottom').addClass('hidediv');
 				if (refinfo[0].hours_done == 0) {
 					// remove the check on the checkbox
-					// $('#coures-de-done').val(refinfo[0].hours_done);
-					$('#course-de-done').attr('checked',false);
+          // $('#coures-de-done').val(refinfo[0].hours_done);
+          $('#course-de-done').prop('checked',false);
 				} else {
 					// check the box in the checkbox
-					$('#course-de-done').attr('checked',true);
+					$('#course-de-done').prop('checked',true);
 				}
-
-			}
-			$('#coures-de-id').val(refinfo[0].id);
-			// $('#detail-roster-list-tbl tbody tr').removeClass('row-selected');
-			// $(this).parent().addClass('row-selected');
-			// // add row selection highlight stuff - remove existing highlight, then add back
-			// var column_num = parseInt( $(this).index() ) + 1;
-			// var row_num = parseInt( $(this).parent().index() ) + 1;
+      }
 		});
 
 
     // Build the attendance table as well - thus can use the same weeknum and course id
-    let edit_attend_data = window.dataobj.course_attendance.filter(function (e) { return e.course_id == 11 && e.unit_id == 257 });
-    let tmpobj = '';
+    
+    let edit_attend_data = window.dataobj.course_attendance.filter(function (e) { return e.course_id == 11 && e.unit_id == 255 });
+    let tmpobj = {};
     for (let nd = 0; nd < edit_attend_data.length; nd++) {
       tmpobj = edit_attend_data[nd];
       // console.log(tmpobj);
       for (nx=0; nx < window.dataobj.course_roster.length; nx++) {
         if (window.dataobj.course_roster[nx].id == tmpobj.attend_id) {
+          console.log(window.dataobj.course_roster[nx].fname, window.dataobj.course_roster[nx].lname);
           tmpobj['fname']=window.dataobj.course_roster[nx].fname;
           tmpobj['lname']=window.dataobj.course_roster[nx].lname;
           break;
         }
       };
-      edit_attend_data[nx] = tmpobj;
+      edit_attend_data[nd] = tmpobj;
     };
+    console.log(edit_attend_data);
 
     $("#course-week-edit-attend").DataTable( {
       "bInfo": false, autoWidth: false, responsive: true, scrollY: "200px",
@@ -295,6 +315,11 @@ function build_edit_course_tbl (rsltdata) {
 				} },
         { data: "id", "width": "40px", "title": "ID", "visible": false}
       ] } );
+  
+  //   now that all the tables are built, etc, select the 1st row in the week's units to get things started. Note that the click
+  // was set up for the 'td' elements
+  $('#week-edit-table>tbody>tr:first>td:first').trigger('click');
+
 }
 
 function course_de_change(editobj) {
@@ -313,25 +338,30 @@ function course_de_change(editobj) {
 	switch (editobj.id) {
 		case 'course-de-comments':
 			window.dataobj.wkdata[dataindex].comments = $('#course-de-comments').val();
-			datatable.row(dtdataid).invalidate();
-			datatable.row(dtdataid).draw('page');
-			console.log('should have updated wkdata array');
 			break;
 		case 'course-de-time':
-			console.log('time save');
-			
-			break;
-		case 'course-de-done':
-			console.log('chkbox save');
+      window.dataobj.wkdata[dataindex].hours_done = $('#course-de-time').val();
+      // want the Datatable to redraw to show the new data
+			datatable.row(dtdataid).invalidate();
+      datatable.row(dtdataid).draw('page');
+      break;
 
+    case 'course-de-done':
+      if ($('#course-de-done').is(':checked')) {
+        window.dataobj.wkdata[dataindex].hours_done = 1;
+      } else {
+        window.dataobj.wkdata[dataindex].hours_done = 0;
+      }
 			break;
-		default:
+
+    default:
 
 	}
 }
 
-
-function course_edit_cancel() {
-	$('.course-edit').addClass('hidediv');
+function week_edit_close() {
+	$('.course-week-edit').addClass('hidediv');
 	$('#modal-overlay').addClass('hidediv');
+  destroy_datatable("#course-week-edit-attend");
+  destroy_datatable("#week-edit-table");
 }

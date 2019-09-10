@@ -77,20 +77,30 @@
   height: 60%;
 }
 .course-week-edit {
+  background-color: white;
+  box-shadow: 4px 4px 4px 4px #444444;
+  border: 2px solid grey;
   display: flex;
   flex-flow: column nowrap;
-  height: 90%;
-  width: 100%;
+  position: fixed;
+  margin-left: auto;
+  margin-right: auto;
+  height: 620px;
+  width: 750px;
+  padding: 0 0 0 0;
+  z-index: 1200;
 }
 .course-edit-wrapper1 {
   display: flex;
   flex-flow: row wrap;
+  margin-left: 3px;
 }
 .course-edit-bottom {
   display: flex;
   flex-flow: row nowrap;
   justify-content: left;
-  margin-top: 20px;
+  margin-top: 10px;
+  margin-left: 3px;
 }
 
 /* .course-edit-tbl-wrap {

@@ -47,8 +47,8 @@ nav a, button {
 .gen-notes {
   /* mainly for textarea data entry */
   font-family: Calibri;
-	height: 190px;
-	width: 200px;
+	height: 175px;
+	width: 220px;
 }
 
 .scroller {
@@ -87,6 +87,13 @@ nav a, button {
 .btn-standard:hover {
 /* this box-shadow had multiple shadows defined, kinda cool */
 	box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.50)
+}
+
+.btn-min {
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  min-height: 20px;
+  min-width: 20px;
 }
 
 h2 {
@@ -706,6 +713,18 @@ th {
   display: flex;
   flex-flow: column nowrap;
   border: 1px solid lightblue;
+}
+
+.pop-win-title-line {
+  background-color: blue;
+	color: white;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  font-size: 1.3em;
+  width: 100%;
+	margin: 0px 0px 0px 0px;
+	padding: 3px 0px 2px 0px;
 }
 
 .space-right {
