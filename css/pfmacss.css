@@ -89,11 +89,28 @@ nav a, button {
 	box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.50)
 }
 
+.btn-small {
+	background-color: blue;
+	border-radius: 8px;
+	color: white;
+	font-size: 0.8em;
+	font-weight: bold;
+	padding: 0px 4px 0px 4px;
+	min-width: 10px;
+	min-height: 10px;
+}
+.btn-small:hover {
+	/* this box-shadow had multiple shadows defined, kinda cool */
+		box-shadow: 2px 4px 2px 1px rgba(0,0,0,0.50)
+	}
+
+
 .btn-min {
   margin: 0 0 0 0;
   padding: 0 0 0 0;
   min-height: 20px;
-  min-width: 20px;
+	min-width: 20px;
+	z-index: 1500;
 }
 
 h2 {
@@ -532,7 +549,7 @@ h2 {
 
 /* specific edit windows */
 .user-edit {
-  background-color: lightgrey;
+  background-color: #dddddd;
 	border: 1px solid grey;
 	font-size: 12px;
 	margin: auto auto auto auto;
@@ -542,6 +559,14 @@ h2 {
 	z-index: 1500;
 }
 
+.bio-total {
+	background-color: white;
+	overflow: auto;
+	position: fixed;
+	width: 90%;
+	height: 90%;
+	z-index: 1500;
+}
 
 /* This section is CSS for editing window contents */
 .div-title {
@@ -716,20 +741,44 @@ th {
 }
 
 .pop-win-title-line {
-  background-color: blue;
+	background-image: linear-gradient(to right, blue,rgb(100,100,255),lightblue);
+	background-color: blue;
 	color: white;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
   font-size: 1.3em;
-  width: 100%;
+	width: 100%;
+	position: fixed;
 	margin: 0px 0px 0px 0px;
 	padding: 3px 0px 2px 0px;
 }
-
+.row-group {
+	display: flex;
+	flex-flow: row wrap;
+	padding: 5px 10px 0px 10px;
+}
+.row-group-label {
+	font-weight: bold;
+	padding: 5px 0px 0px 5px;
+}
+.col-group {
+	display: flex;
+	flex-flow: column nowrap;
+	padding: 5px 10px 5px 10px;
+	justify-content: left;
+}
+.row-group-tight {
+	display: flex;
+	flex-flow: row wrap;
+}
 .space-right {
   /* a general class to pop in to give a right margin */
   margin-right: 5px;
+}
+.space-left {
+	/* a general class to pop in to give a left margin */
+	margin-left: 5px;
 }
 .space-down {
 	margin-bottom: 5px;

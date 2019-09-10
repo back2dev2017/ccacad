@@ -744,6 +744,26 @@ function user_edit_data(p_itemid, p_dtref, editmode = "E") {
 	}
 }
 
+function bio_edit_data(userid, courseid, editmode = "E") {
+	$("#modal-overlay").removeClass("hidediv");
+	$(".bio-total").removeClass("hidediv");
+	// try to center the window vertically
+	pop_div_center(".bio-total");
+	$('#bio-fname').val('Charlie');
+	$('#bio-lname').val('Coleman');
+	$('#bio-age').val(57);
+	$('#bio-doc-num').val('12345Z54321');
+	$('#bio-first-arrest-age').val('n/a');
+	$('#bio-prev-conv').val('0');
+	$('#bio-fam-crime').val('none');
+	$('#bio-num-child').val('1');
+	$('#bio-marr-status').val('Married');
+	$('#bio-num-pos-model').val('3');
+	// adjust the title line - special 'row' that acts as a window title
+	$('#bio-win-title').width($('.bio-total').width() - 20) ;
+}
+
+
 function make_link_unit_edit (data, type, row, meta, tableselect) {
 	// tableselect should be of form '#datatable-selector'
 	if (type === 'display') {
@@ -786,7 +806,7 @@ function ed_data(p_itemid, p_dtref, editmode = "E") {
 	var edht = $(".edit-win").height();
 	var newtop = Math.max(( (availht - edht) / 2 ), 2);
 	$(".edit-win").css({top: newtop.toString() + 'px'});
-	
+
 	$("#e-item_id").val(p_itemid);
 	$("#e-editmode").val(editmode);
 	$("#e-dt-ident").val(p_dtref);
@@ -1143,3 +1163,7 @@ function movable_test () {
 	draggable_div(document.getElementById(("pop-mov1")));
 }
 
+function bio_edit_close() {
+	$('.bio-total').addClass('hidediv');
+	$('#modal-overlay').addClass('hidediv');
+}

@@ -122,7 +122,15 @@ function build_sel_course_roster_tbl (rsltdata) {
 		columns: [
 			{ data: "fname", "width": "100px", "title": "First Name" },
 			{ data: "lname", "width": "100px", "title": "Last Name" },
-			{ data: "att_id_use", "width": "77px", "title": "ID" },
+			{ data: "att_id_use", "width": "77px", "title": "ID", 
+				'render': function (data,type,row,meta) {
+					let retdata = data;
+					let attid = row.id.toString();
+					if (type == 'display') {
+						retdata = '<a href="javascript:bio_edit_data(' + attid + ');" title="Show Bio">' + data + '</a>';
+					}
+					return retdata;
+				}},
 			{ data: "enroll_date", "width": "100px", "title": "Enrolled"},
 			{ data: "drop_date", "width": "100px", "title": "Drop Date"},
 			{ data: "id", "width": "40px", "title": "ID", "visible": false}
@@ -168,7 +176,7 @@ function show_roster_1o1(refinfo) {
 
 function course_edit_data (course_id, nweeknum) {
   let coursename = '';
-  $('#modal-overlay').removeClass('hidediv');
+	$('#modal-overlay').removeClass('hidediv');
   for (ni=0; ni < window.dataobj.courses.length; ni++) {
     if (window.dataobj.courses[ni].id == course_id) {
       coursename = ' ' + window.dataobj.courses[ni].fac_name + ' ' + window.dataobj.courses[ni].cohort_title;
@@ -176,9 +184,10 @@ function course_edit_data (course_id, nweeknum) {
       // $('#course-week-edit-title').text(coursename + ' - Week ' + nwwknum);
       break;
     }
-  };
+	};
   $('.course-week-edit').removeClass('hidediv');
   pop_div_center('.course-week-edit');
+	$('#course-week-edit-title').width($('.course-week-edit').width() - 25) ;
 
   window.dataobj.wkdata = window.dataobj.course_content
     .filter(function(e) { return ((e.acad_id == course_id) && (e.week_num == nweeknum)) } );
