@@ -326,7 +326,7 @@ function build_edit_course_tbl (rsltdata) {
 				} },
         { data: "id", "width": "40px", "title": "ID", "visible": false}
       ] } );
-  
+    $('#course-week-edit-attend').DataTable.search('').draw();
   //   now that all the tables are built, etc, select the 1st row in the week's units to get things started. Note that the click
   // was set up for the 'td' elements
   $('#week-edit-table>tbody>tr:first>td:first').trigger('click');
