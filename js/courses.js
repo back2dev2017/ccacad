@@ -188,7 +188,6 @@ function course_edit_data (course_id, nweeknum) {
   $('.course-week-edit').removeClass('hidediv');
   $('#course-week-edit-title').width($('.course-week-edit').width() - 25);
   $('#course-edit-title-line').width($('.course-week-edit').width());
-  console.log($('.course-week-edit').width());
   pop_div_center('.course-week-edit');
 
   window.dataobj.wkdata = window.dataobj.course_content
@@ -326,7 +325,10 @@ function build_edit_course_tbl (rsltdata) {
 				} },
         { data: "id", "width": "40px", "title": "ID", "visible": false}
       ] } );
-    $('#course-week-edit-attend').DataTable.search('').draw();
+    // $('#course-week-edit-attend').DataTable.search('').draw();
+    // $('input[type=search]').val('').change();
+    $('#course-week-edit-attend').DataTable().search('').columns().search('').draw();
+
   //   now that all the tables are built, etc, select the 1st row in the week's units to get things started. Note that the click
   // was set up for the 'td' elements
   $('#week-edit-table>tbody>tr:first>td:first').trigger('click');
@@ -372,7 +374,6 @@ function course_de_change(editobj) {
 
 function week_edit_close() {
 	$('.course-week-edit').addClass('hidediv');
-	$('#modal-overlay').addClass('hidediv');
-  destroy_datatable("#course-week-edit-attend");
+	$('#modal-overlay').addClass('hidediv');  destroy_datatable("#course-week-edit-attend");
   destroy_datatable("#week-edit-table");
 }

@@ -1,6 +1,6 @@
 
 function gen_attendance_chart() {
-  console.log('in gen_attendance');
+  // console.log('in gen_attendance');
   var chart_attendance = c3.generate({
     bindto: '#chart_attendance',
     data: {
@@ -30,8 +30,6 @@ function gen_attendance_chart() {
       }
     }
   });
-  // console.log('why God why?');
-
   // var chart = c3.generate({
   //   bindto: '#chart_attendance',
   //   data: {
@@ -41,7 +39,7 @@ function gen_attendance_chart() {
 }
 
 function gen_progress_chart() {
-  console.log('in gen_progress');
+  // console.log('in gen_progress');
   var chart_attendance = c3.generate({
     bindto: '#chart_progress',
     data: {

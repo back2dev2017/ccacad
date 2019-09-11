@@ -778,7 +778,7 @@ function make_link_unit_edit (data, type, row, meta, tableselect) {
 }
 
 function unit_edit_data() {
-	console.log('well crap');
+	console.log('this is the data editing of units');
 }
 
 function make_item_id_link (idval, type, row, meta) {
@@ -874,7 +874,7 @@ function ew_save_edit() {
 							p_steward:trdata.steward_primary_attuid,p_steward_backups:trdata.steward_backup_attuids,
 							p_definition_confidence:trdata.definition_confidence, p_tbl:tbl_nm, p_col:col_nm},
 				function (rslt) {
-					console.log(rslt);
+					// console.log(rslt);
 				});
 		$(tblid).DataTable().row(t_itemid_sel).invalidate();
 		$(tblid).DataTable().row(t_itemid_sel).draw('page');
