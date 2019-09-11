@@ -739,7 +739,6 @@ function user_edit_data(p_itemid, p_dtref, editmode = "E") {
 		$("#user-phone").val('');
 		$("#user-phone-ext").val('');
 		$("#user-role").val('');
-
 		$("#user-delete-btn").addClass('hidevar');
 	}
 }

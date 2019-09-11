@@ -100,6 +100,7 @@ function build_sel_course_tbl (rsltdata) {
 		var row_num = parseInt( $(this).parent().index() ) + 1;
 		let weekpick = ((row_num - 1) * 13) + (column_num - 1);
 		course_edit_data(17,weekpick);
+		
 		// console.log('user double-clicked', row_num, column_num, weekpick);
 	});
 }
