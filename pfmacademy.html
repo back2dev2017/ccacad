@@ -391,11 +391,14 @@
 
   <!-- The week editing overlay (aka data entry of progress of units in a week) -->
   <div class='course-week-edit hidediv'>
-    <div class='pop-win-title-line' style="display: flex; flex-flow: row wrap" id='course-week-edit-title'>
-      <div id='course-week-edit-title' style='padding-left: 3px;'>Course Name: </div>
+    <div class='pop-win-title-line' id='course-edit-title-line'>
+      <div id='course-week-edit-title' style='padding-left: 3px;'>
+        Course Name:
+      </div>
       <button title="Close Window" class='btn-min' onclick="week_edit_close()">X</button>
     </div>
-    <!-- <div class='pop-win-title-line' id='course-week-edit-title'>
+
+  <!-- <div class='pop-win-title-line' id='course-week-edit-title'>
       <div id='course-week-edit-title' style="padding-left: 3px">Course Name: </div>
       <button class='btn-min' id='abcdefg' title="Close Window" onclick='week_edit_close()'>X</button>
     </div> -->
@@ -710,7 +713,7 @@
           </div>
         </div>
 
-        <div class='row-group' style='border: 1px solid lightblue; width: 100%;'>
+        <div class='row-group hidediv' style='border: 1px solid lightblue; width: 100%;'>
           <div class='row-group-label'>Social Skills</div>
           <div class='col-group'>
             <div class='row-group'>

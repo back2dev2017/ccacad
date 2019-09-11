@@ -186,8 +186,10 @@ function course_edit_data (course_id, nweeknum) {
     }
 	};
   $('.course-week-edit').removeClass('hidediv');
+  $('#course-week-edit-title').width($('.course-week-edit').width() - 25);
+  $('#course-edit-title-line').width($('.course-week-edit').width());
+  console.log($('.course-week-edit').width());
   pop_div_center('.course-week-edit');
-	$('#course-week-edit-title').width($('.course-week-edit').width() - 25) ;
 
   window.dataobj.wkdata = window.dataobj.course_content
     .filter(function(e) { return ((e.acad_id == course_id) && (e.week_num == nweeknum)) } );
@@ -290,7 +292,7 @@ function build_edit_course_tbl (rsltdata) {
       // console.log(tmpobj);
       for (nx=0; nx < window.dataobj.course_roster.length; nx++) {
         if (window.dataobj.course_roster[nx].id == tmpobj.attend_id) {
-          console.log(window.dataobj.course_roster[nx].fname, window.dataobj.course_roster[nx].lname);
+          // console.log(window.dataobj.course_roster[nx].fname, window.dataobj.course_roster[nx].lname);
           tmpobj['fname']=window.dataobj.course_roster[nx].fname;
           tmpobj['lname']=window.dataobj.course_roster[nx].lname;
           break;
@@ -298,7 +300,7 @@ function build_edit_course_tbl (rsltdata) {
       };
       edit_attend_data[nd] = tmpobj;
     };
-    console.log(edit_attend_data);
+    // console.log(edit_attend_data);
 
     $("#course-week-edit-attend").DataTable( {
       "bInfo": false, autoWidth: false, responsive: true, scrollY: "200px",
