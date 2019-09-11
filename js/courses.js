@@ -99,6 +99,7 @@ function build_sel_course_tbl (rsltdata) {
 		var column_num = parseInt( $(this).index() ) + 1;
 		var row_num = parseInt( $(this).parent().index() ) + 1;
 		let weekpick = ((row_num - 1) * 13) + (column_num - 1);
+		course_edit_data(17,weekpick);
 		// console.log('user double-clicked', row_num, column_num, weekpick);
 	});
 }
@@ -180,7 +181,7 @@ function course_edit_data (course_id, nweeknum) {
   for (ni=0; ni < window.dataobj.courses.length; ni++) {
     if (window.dataobj.courses[ni].id == course_id) {
       coursename = ' ' + window.dataobj.courses[ni].fac_name + ' ' + window.dataobj.courses[ni].cohort_title;
-      $('#course-week-edit-title').text(coursename + ' - Week 11');
+			$('#course-week-edit-title').text(coursename + ' - Week ' + nweeknum);
       // $('#course-week-edit-title').text(coursename + ' - Week ' + nwwknum);
       break;
     }

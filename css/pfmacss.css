@@ -138,12 +138,14 @@ h2 {
 
 .l-sidebar {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column nowrap;
   width: 9%;
-  padding: 0px 2px 2px 1px;
-  height: 100%;
+	padding: 0px 2px 2px 1px;
+	min-height: 400px;
+  height: 100px;
   max-width: 200px;
-  border: 1px solid grey;
+	border: 1px solid grey;
+	justify-content: space-between;
 }
 .left-menu {
   width: 99%;
@@ -154,6 +156,12 @@ h2 {
 .l-sidebar button.active {
   background-color: #6bbdb9;
   color: white;
+}
+
+.link-area {
+	border: 1px solid lightgrey;
+	font-size: 0.9em;
+
 }
 
 #maindiv {

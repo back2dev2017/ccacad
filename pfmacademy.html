@@ -39,10 +39,27 @@
 
     <div id="allcontent">
       <div class="l-sidebar">
-        <button class="left-menu" id="acadmgt" value="acadmgt" onclick="selecttopsection(this)">Academy Management</button>
+        <!-- <button class="left-menu" id="acadmgt" value="acadmgt" onclick="selecttopsection(this)">Academy Management</button>
         <button class="left-menu" id="acaddash" value="acaddash" onclick="selecttopsection(this)">Dashboards</button>
         <button class="left-menu" id="acadrpts" value="acadrpts" onclick="selecttopsection(this)">Reports</button>
-        <button class="left-menu" id="acadspec" value="acadspec" onclick="selecttopsection(this)">Special</button>
+        <button class="left-menu" id="acadspec" value="acadspec" onclick="selecttopsection(this)">Special</button> -->
+        <div>
+          <button class="left-menu" id="acadmgt" value="acadmgt" onclick="selecttopsection(this)">Academy Management</button>
+          <button class="left-menu" id="acaddash" value="acaddash" onclick="selecttopsection(this)">Dashboards</button>
+          <button class="left-menu" id="acadrpts" value="acadrpts" onclick="selecttopsection(this)">Reports</button>
+          <button class="left-menu" id="acadspec" value="acadspec" onclick="selecttopsection(this)">Other...</button>
+        </div>
+        <div class='link-area'>
+          <div>
+            <label style='padding-left: 0'><strong>Quick Links</strong></label>
+          </div>
+          <div>
+            <a href=''>PFM Home page</a>
+          </div>
+          <div>
+            <button class='btn-small' style='margin-top: 20px' onclick="">Edit</button>
+          </div>
+        </div>
       </div>
 
       <div id="maindiv">
@@ -101,7 +118,7 @@
                       </div>
                       <div class='course-detail-stats stat-section'>
                         <p>Current week: 11 (2019-09-09)</p>
-                        <button class='btn-standard' id='btn-edit-week' onclick="course_edit_data(17,1)">Edit Current Week</button>
+                        <button class='btn-standard' id='btn-edit-week' onclick="course_edit_data(17,11)">Edit Current Week</button>
                         <p>Unit Tracking: 0 due</p>
                         <p>Enrollment: 40</p>
                         <p>Total VIAs: 8</p>
@@ -288,7 +305,7 @@
 
         <!-- The next div is the Reports div -->
         <div class="reports-sect content-sect hidediv">
-          This is the reports stuff
+          This section is for reporting needs - internal and external to PFM
         </div>
 
 
