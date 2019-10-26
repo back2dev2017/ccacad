@@ -65,7 +65,7 @@ function build_sel_course_tbl (rsltdata) {
 	"bFilter": false,
 	autoWidth: true,
 	responsive: true,
-	scrollY: "350px",
+	scrollY: "250px",
 	scrollX: true,
 	scrollCollapse: true,
 	stateSave: true,

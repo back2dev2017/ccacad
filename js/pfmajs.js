@@ -1127,13 +1127,15 @@ function draggable_div (divid) {
 	}
 }
 
-function pop_div_center(divselector) {
+function pop_div_center(divselector, outerdiv = null) {
 	// this function takes a passed "div selector" (hopefully an "id" - like "#user-edit") and will try
-	// to center it in the overall window. Note: CSS properties still do apply (aka position: fixed)
-	var availht = $(window).height();
+	// to center it within the boundaries of the outerdiv, but if the outerdiv is not specified it will
+	// center in regards to the overall window. Note: CSS properties still do apply (aka position: fixed)
+	contref = (outerdiv == null) ? window : outerdiv;
+	var availht = $(contref).height();
 	var edht = $(divselector).height();
 	var newtop = Math.max(( (availht - edht) / 2 ), 2);
-	var availwd = $(window).width();
+	var availwd = $(contref).width();
 	var edwd = $(divselector).width();
 	var newleft = Math.max(( (availwd - edwd) / 2 ), 2);
 	$(divselector).css({top: newtop.toString() + 'px'});
