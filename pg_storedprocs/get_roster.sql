@@ -1,7 +1,7 @@
 CREATE OR REPLACE FUNCTION public.get_roster(IN p_course_id bigint DEFAULT NULL::bigint)
 	RETURNS TABLE(
 		id bigint, 
-		acad_id bigint, 
+		course_id bigint, 
 		att_id_use character varying,
 		enroll_date date,
 		drop_date date,
@@ -25,16 +25,16 @@ BEGIN
   end if;
 
   if v_courseid < 0 then
-		return query execute 'select aa.id, aa.acad_id, aa.att_id_use, ' || 
+		return query execute 'select aa.id, aa.course_id, aa.att_id_use, ' || 
 						'aa.enroll_date, aa.drop_date, aa.fname, aa.lname ' ||
 						'from course_attendee_list aa ' || 
 						'order by aa.fname, aa.lname';
 
   else
-		return query execute 'select aa.id, aa.acad_id, aa.att_id_use, ' || 
+		return query execute 'select aa.id, aa.course_id, aa.att_id_use, ' || 
 						'aa.enroll_date, aa.drop_date, aa.fname, aa.lname ' || 
 						'from course_attendee_list aa ' || 
-						'where aa.acad_id = $1 ' || 
+						'where aa.course_id = $1 ' || 
 						'order by aa.fname, aa.lname' using v_courseid;
   end if;
 

@@ -27,7 +27,7 @@ function build_course_tbl (rsltdata) {
 
 function gen_course_content(course_id) {
   // filter out the content of just the desired course - this only sets up the data, no visual update
-  let newdata = window.dataobj.course_content.filter(function (e) { return e.acad_id == course_id });
+  let newdata = window.dataobj.course_content.filter(function (e) { return e.course_id == course_id });
 
   let tblarray = [];
   let tmpobj = {};
@@ -193,7 +193,7 @@ function course_edit_data (course_id, nweeknum) {
   pop_div_center('.course-week-edit');
 
   window.dataobj.wkdata = window.dataobj.course_content
-    .filter(function(e) { return ((e.acad_id == course_id) && (e.week_num == nweeknum)) } );
+    .filter(function(e) { return ((e.course_id == course_id) && (e.week_num == nweeknum)) } );
   build_edit_course_tbl(window.dataobj.wkdata);
 }
 

@@ -1,7 +1,7 @@
 CREATE OR REPLACE FUNCTION public.get_course_details(IN p_course_id bigint DEFAULT NULL::bigint)
     RETURNS TABLE(
       id bigint, 
-      acad_id bigint,
+      course_id bigint,
       comments text, 
       curr_cont_t_id bigint, 
       date_done date, 
@@ -36,22 +36,22 @@ BEGIN
   end if;
 
   if v_courseid < 0 then
-    return query execute 'select aa.id, aa.acad_id, aa.comments, aa.curr_cont_t_id, aa.date_done, aa.day_seq, aa.hours_done, ' || 
+    return query execute 'select aa.id, aa.course_id, aa.comments, aa.curr_cont_t_id, aa.date_done, aa.day_seq, aa.hours_done, ' || 
                             'aa.sess_id, aa.time_seq, aa.week_num, bb.module_id, bb.expected_hrs, bb.retired unit_retired, ' || 
                             'bb.title unit_title, cc.module_name, cc.tally_hours ' || 
-                          'from acad_course_content aa ' || 
+                          'from courses_content aa ' || 
                             'left outer join session_list bb on aa.sess_id = bb.id ' || 
                             'left outer join module_categories cc on bb.module_id = cc.id ' || 
                           'order by aa.week_num, aa.day_seq ';
 
   else
-    return query execute 'select aa.id, aa.acad_id, aa.comments, aa.curr_cont_t_id, aa.date_done, aa.day_seq, aa.hours_done, ' || 
+    return query execute 'select aa.id, aa.course_id, aa.comments, aa.curr_cont_t_id, aa.date_done, aa.day_seq, aa.hours_done, ' || 
                             'aa.sess_id, aa.time_seq, aa.week_num, bb.module_id, bb.expected_hrs, bb.retired unit_retired, ' || 
                             'bb.title unit_title, cc.module_name, cc.tally_hours ' || 
-                          'from acad_course_content aa ' || 
+                          'from courses_content aa ' || 
                             'left outer join session_list bb on aa.sess_id = bb.id ' || 
                             'left outer join module_categories cc on bb.module_id = cc.id ' || 
-                          'where aa.acad_id = $1 ' || 
+                          'where aa.course_id = $1 ' || 
                           'order by aa.week_num, aa.day_seq ' 
                           using v_courseid;
   end if;

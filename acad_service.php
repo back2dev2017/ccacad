@@ -76,7 +76,7 @@ switch ($c_apifunc) {
 		break;
 	
   case "GET_COURSE_ATTEND":
-    $v_course_id = isset($_POST['p_acad_id']) ? $_POST['p_acad_id'] : null;
+    $v_course_id = isset($_POST['p_course_id']) ? $_POST['p_course_id'] : null;
     $v_unit_id = isset($_POST['p_unit_id']) ? $_POST['p_unit_id'] : null;
     
 		// $result = pg_query_params($dbconn, 'select * from get_course_attend($1, $2)', array($v_course_id, $v_unit_id));
@@ -86,8 +86,8 @@ switch ($c_apifunc) {
 		break;
 
   case "GET_COURSE_CONTENT":
-    if (isset($_POST['p_acad_id'])) {
-      $v_course_id = strval($_POST['p_acad_id']);
+    if (isset($_POST['p_course_id'])) {
+      $v_course_id = strval($_POST['p_course_id']);
     } else {
       $v_course_id = null;
     }
@@ -97,8 +97,8 @@ switch ($c_apifunc) {
 		break;
 
 	case "GET_COURSE_ROSTER":
-		if (isset($_POST['p_acad_id'])) {
-			$v_course_id = $_POST['p_acad_id'];
+		if (isset($_POST['p_course_id'])) {
+			$v_course_id = $_POST['p_course_id'];
 		} else {
 			$v_course_id = null;
 		}

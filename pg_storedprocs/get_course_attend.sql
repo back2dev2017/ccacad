@@ -34,16 +34,16 @@ BEGIN
   -- if the course id was not passed, will assume all data pulled, ignore weeknum. but if course id was passed see if
   -- unit id was passed - if it wasn't then get all weeks for the course, otherwise both coure id and unit id are used
   if v_courseid < 0 then
-    return query execute 'select aa.id, aa.attend_id, sess_id unit_id, acad_id course_id, attend_type ' || 
-                   'from acad_course_attendance aa';
+    return query execute 'select aa.id, aa.attend_id, sess_id unit_id, course_id course_id, attend_type ' || 
+                   'from course_attendance aa';
   elsif v_unitid < 0 then
-    return query execute 'select aa.id, aa.attend_id, sess_id unit_id, acad_id course_id, attend_type ' || 
-                    'from acad_course_attendance aa ' ||
-                    'where aa.acad_id = $1' using v_courseid;
+    return query execute 'select aa.id, aa.attend_id, sess_id unit_id, course_id course_id, attend_type ' || 
+                    'from course_attendance aa ' ||
+                    'where aa.course_id = $1' using v_courseid;
   else
-    return query execute 'select aa.id, aa.attend_id, sess_id unit_id, acad_id course_id, attend_type ' || 
-                    'from acad_course_attendance aa ' ||
-                    'where aa.acad_id = $1 and aa.sess_id = $2' using v_courseid, v_unitid;
+    return query execute 'select aa.id, aa.attend_id, sess_id unit_id, course_id course_id, attend_type ' || 
+                    'from course_attendance aa ' ||
+                    'where aa.course_id = $1 and aa.sess_id = $2' using v_courseid, v_unitid;
 
   end if;
 END

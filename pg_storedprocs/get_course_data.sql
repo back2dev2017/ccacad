@@ -38,7 +38,7 @@ BEGIN
                    'aa.cohort_id, aa.assigned_am, aa.start_date, aa.projected_grad_date, aa.grad_date, ' || 
                    'bb.title tmplt_title, cc.fac_name, cc.fac_abbrev, dd.title cohort_title, ' || 
                    'ee.fname, ee.lname ' ||
-                   'from acad_course aa ' ||
+                   'from courses aa ' ||
                       'left outer join curriculum_t bb on aa.curr_t_id = bb.id ' || 
                       'left outer join facility cc on aa.facility_id = cc.id ' ||
                       'left outer join acad_cohort dd on aa.cohort_id = dd.id ' ||
@@ -50,7 +50,7 @@ BEGIN
                    'aa.cohort_id, aa.assigned_am, aa.start_date, aa.projected_grad_date, aa.grad_date, ' || 
                    'bb.title tmplt_title, cc.fac_name, cc.fac_abbrev, dd.title cohort_title, ' || 
                    'ee.fname, ee.lname ' ||
-                   'from acad_course aa ' ||
+                   'from courses aa ' ||
                       'left outer join curriculum_t bb on aa.curr_t_id = bb.id ' || 
                       'left outer join facility cc on aa.facility_id = cc.id ' ||
                       'left outer join acad_cohort dd on aa.cohort_id = dd.id ' ||
