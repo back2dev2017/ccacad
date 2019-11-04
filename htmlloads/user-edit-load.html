@@ -1,0 +1,42 @@
+<p class="div-title">User Details</p>
+<div class="edit-group">
+  <label for="user-fname">First Name:</label>
+  <input type="text" name="fname" id="user-fname" class="inp-med " value="">
+</div>
+<div class="edit-group">
+  <label for="user-lname">Last Name:</label>
+  <input type="text" name="lname" id="user-lname" class="inp-med"  value="">
+</div>
+<div class="edit-group">
+  <label for="user-email">Email:</label>
+  <input type="email" name="email" id="user-email" class="inp-xlrg"  value="">
+</div>
+<div class="edit-group">
+  <label for="user-phone">Phone:</label>
+  <input type="tel" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"  id="user-phone" class="inp-med"  value="" placeholder="999-999-9999">
+</div>
+<div class="edit-group">
+  <label for="user-phone-ext">Phone Extension:</label>
+  <input type="text" name="phone" id="user-phone-ext" class="inp-sm"  value="">
+</div>
+<div class="edit-group">
+  <label for="user-role">Role:</label>
+  <select id="user-role">
+    <option value="Academy Admin">Academy Admin</option>
+    <option value="Academy Manager">Academy Manager</option>
+    <option value="Coordinator">Coordinator</option>
+    <option value="Counselor">Counselor</option>
+  </select>
+</div>
+<div class="edit-group">
+  <label for="user-new-password">Password reset:</label>
+  <input type="password" name="user-new-password" id="user-new-password" class="inp-med" value="">
+</div>
+<!-- Hidden variables to hold on to useful data -->
+<input type=text name="user-id" id="user-id" class="hidevar" value="">
+<input type=text name="edit-mode-user" id="edit-mode-user" class="hidevar" value="">
+<input type=text name="user-datatable" id="user-datatable" class="hidevar" value="">
+<div class="popup-footer">
+  <button class='edit-btn clr-yes' id='userbtn-save'>Save</button>
+  <button class='edit-btn clr-no' id='userbtn-cancel' onclick="user_edit_cancel()">Cancel</button>
+</div>

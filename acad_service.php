@@ -143,27 +143,16 @@ switch ($c_apifunc) {
 		$ret_array = pg_fetch_all($result);
 		echo json_encode($ret_array);
 		break;
-	
 
-	case "ADD_PUTDD_ITEM":
-		//	    echo 'called add_getdd_by_steward';
-		$t_item = ($_POST['p_item_id']);
-		$t_tbl = ($_POST['p_tbl']);
-		$t_col = ($_POST['p_col']);
-		$t_meaning = ($_POST['p_meaning']);
-		$t_source = ($_POST['p_data_source']);
-		$t_upfreq = ($_POST['p_update_frequency']);
-		$t_sec = ($_POST['p_security']);
-		$t_stew = ($_POST['p_steward']);
-		$t_stewb = ($_POST['p_steward_backups']);
-		$t_defconf = ($_POST['p_definition_confidence']);
-			// going to use positional parameters - less to type - also the parameter names of the stored proc may change. The Stored procs
-			// for SQL Server and Postgres are different at the moment (Postgres parms have a "p_" on the front... probably need to make same)
-			$sqlcmd = "select * from add_putdd_item($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)";
-			$result = pg_query_params($dbconn, $sqlcmd, 
-					array($t_item, $t_tbl, $t_col, $t_meaning, $t_source, $t_upfreq, $t_sec, $t_stew, $t_stewb, $t_defconf));
-		echo 'ADD_PUTDD_ITEM Call completed';
-		break;
+  case "GET_FORMATION_GROUP":
+    $v_course_id = isset($_POST['p_course_id']) ? $_POST['p_course_id'] : null;
+    $v_fg_id = isset($_POST['p_fg_id']) ? $_POST['p_fg_id'] : null;
+    // echo 'trying get formation group';
+    // echo 'vals: ' . $v_course_id;
+    $result = pg_query_params($dbconn, 'select * from get_formation_group($1, $2)', array($v_course_id, $v_fg_id));
+		$ret_array = pg_fetch_all($result);
+		echo json_encode($ret_array);
+    break;
 
 	case "UTIL TABLE NAMES":
 		// returns only the list of table names currently in add_definitions. To ensure it is up to date it may be advisable

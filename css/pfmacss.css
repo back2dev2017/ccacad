@@ -1,5 +1,6 @@
 @import url('frame.css');
-@import url('courses_style.css');
+@import url('courses.css');
+@import url('curriculum.css');
 /* import frame.css - the temporary stuff there will eventually be moved */
 
 
@@ -179,12 +180,7 @@ h2 {
 	border: 1px solid grey;
 }
 
-.curriculums-disp {
-  /* background-color: #a88; */
-  border: 1px solid lightgrey;
-  min-width: 400px;
-  min-height: 400px;
-}
+
 #courses-disp {
   /* background-color: #77f; */
   min-width: 400px;
@@ -651,6 +647,26 @@ select {
 	box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.50)
 }
 
+.edit-btn-sm {
+  border-radius: 8px;
+	cursor: pointer;
+	font-family: Arial;
+	font-size: 11px;
+	/* font-weight: bold; */
+  /* height: 20px; */
+  margin: auto;
+  padding: 1px 1px 1px 1px;
+  text-align: center;
+  height: 20px;
+	transition-duration: 0.2s;
+	width: 50px;
+}
+
+.edit-btn-sm:hover {
+  /* this box-shadow had multiple shadows defined, kinda cool */
+    box-shadow: 4px 4px 4px 4px rgba(0,0,0,0.50)
+}
+
 .tighttext {
 	margin: 2px 2px 2px 0px;
 	color: #666666;
@@ -689,6 +705,11 @@ select {
 	color: white;
 }
 
+.txt-red {
+  color: red;
+  text-decoration: underline;
+}
+
 /* override jquery datatables center align of headers */
 
 #srch-tbl-rslt thead th {
@@ -702,11 +723,6 @@ select {
   width: 80%;
   margin-left: 0;
   overflow: auto;
-}
-
-#unit-list-wrap {
-	width: 80%;
-	margin-left: 0;
 }
 
 .course-list-wrap {

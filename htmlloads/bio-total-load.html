@@ -1,0 +1,384 @@
+<h3>Attendee Records</h3>
+<button class='btn-min' onclick="bio_edit_close()">Back</button>
+<div class='bio-container'>
+  <div id='bio-personal' class='row-group'>
+    <div class='row-group'>
+      <div class='col-group'>
+        <label for='bio-fname'>First Name:</label>
+        <input id='bio-fname' type='text'>
+      </div>
+      <div class='col-group' style='margin-left: 10px;'>
+        <label for='bio-lname'>Last Name:</label>
+        <input id='bio-lname' type='text'>
+      </div>
+      <div class='col-group' style='margin-left: 30px;'>
+        <label for='bio-age'>Age:</label>
+        <input id='bio-age' type='text' class='inp-xsm'>
+      </div>
+    </div>
+
+    <div class="bio-more hidediv">
+
+      <div class='row-group'>
+        <div class='col-group' style='margin-left: 30px;'>
+          <label>Gender:</label>
+          <div class='row-group-tight'>
+            <input type='radio' name='bio-gender' style='margin-left: 0;' id='bio-male' value='male' checked/>
+            <label for='bio-male'>Male</label>
+            <input type='radio' name='bio-gender' id='bio-female' value='female'/>
+            <label for='bio-female'>Female</label>
+          </div>
+        </div>
+        <div class='col-group' style='margin-left: 30px;'>
+          <label>Race/ethnicity:</label>
+          <select id='bio-race'>
+            <option value='african american'>African American</option>
+            <option value='asian'>Asian</option> </option>
+            <option value='caucasion' selected>Caucasion</option>
+            <option value='hispanic'>Hispanic</option> </option>
+            <option value='native american'>Native American</option> </option>
+          </select>
+        </div>
+
+        <div class='col-group'>
+          <label>Military Veteran: </label>
+          <div class='row-group-tight'>
+            <input type='radio' name='bio-military' style='margin-left: 0' id='bio-mil-yes' value='Yes'/>
+            <label for='bio-mil-yes'>Yes</label>
+            <input type='radio' name='bio-military' id='bio-mil-no' value='No' checked/>
+            <label for='bio-mil-no'>No</label>
+          </div>
+        </div>
+
+        <div class='col-group'>
+          <label>US Citizen:</label>
+          <div class='row-group-tight'>
+            <input type='radio' name='bio-us-citizen' id='bio-citizen-yes' value='Yes' checked/>
+            <label for='bio-citizen-yes'>Yes</label>
+            <input type='radio' name='bio-us-citizen' id='bio-citizen-no' value='No'/>
+            <label for='bio-citizen-no'>No</label>
+          </div>
+        </div>
+
+        <div style='margin-left: 10px;'>
+          <label for='bio-doc-num'>DOC #:</label>
+          <input type='text' id='bio-doc-num' class='inp-med'/>
+          <label for='bio-email' style='margin-left: 30px'>Email: </label>
+          <input type='text' id='bio-email' class='inp-lrg'/>
+        </div>
+      </div>
+
+      <div class='row-group' style='border: 1px solid lightblue; width: 100%;'>
+        <div class='row-group-label'>Criminal History</div>
+        <div class='col-group'>
+          <div class='row-group'>
+            <label for='bio-first-arrest-age'>1. Age at first arrest (regardless of conviction/adjudication result): </label>
+            <input type='text' id='bio-first-arrest-age' class='space-left inp-xsm'/>
+          </div>
+          <div class='row-group'>
+            <label for='bio-prev-conv'>2. Previous adult convictions (Choose 0 if the current offense was the first on record): </label>
+            <input type='text' id='bio-prev-conv' class='space-left inp-xsm'/>
+          </div>
+          <div class='row-group'>
+            <label for='bio-adult-incar'>3. Incarcerations as an adult (including current incarceration): </label>
+            <input type='text' id='bio-adult-incar' class='space-left inp-xsm'/>
+          </div>
+          <div class='row-group'>
+            <label for='bio-fam-crime'>4. Does anyone in your family have a criminal history: </label>
+            <input type='text' id='bio-fam-crime' class='space-left inp-xsm'/>
+          </div>
+          <div class='row-group'>
+            <label for='bio-fam-crime-who'>5. If you answered 'yes' (#4), who in your family has a criminal record: </label>
+            <input type='text' id='bio-fam-crime-who' class='space-left inp-med'/>
+          </div>
+        </div>
+      </div>
+
+      <div class='row-group' style='border: 1px solid lightblue; width: 100%;'>
+        <div class='row-group-label'>Response to Supervision</div>
+        <div class='col-group'>
+          <div class='row-group'>
+            <label for='bio-num-discipline'>1. Number of disciplinary infractions (for current incarceration): </label>
+            <input type='text' id='bio-num-discipline' class='space-left inp-xsm'/>
+          </div>
+        </div>
+      </div>
+
+      <div class='row-group' style='border: 1px solid lightblue; width: 100%;'>
+        <div class='row-group-label'>Family and Children</div>
+        <div class='col-group'>
+          <div class='row-group'>
+            <label for='bio-num-child'>1. Total number of children: </label>
+            <input type='text' id='bio-num-child' class='space-left inp-xsm'/>
+          </div>
+          <div class='row-group'>
+            <label for='bio-marr-status'>2. Marital status: </label>
+            <input type='text' id='bio-marr-status' class='space-left inp-med'/>
+          </div>
+          <div class='row-group'>
+            <label for='bio-num-pos-model'>3. Number of positive, prosocial models in your family of origin, marital, or extended family: </label>
+            <input type='text' id='bio-num-pos-model' class='space-left inp-xsm'/>
+          </div>
+          <div class='row-group'>
+            <label for='bio-fam-involve'>4. Family involvement during incarceration: </label>
+            <input type='text' id='bio-fam-involve' class='space-left inp-xsm'/>
+          </div>
+          <div class='row-group'>
+            <label for='bio-fam-relation'>5. Please describe your current relationship with your family (communication, confict, areas of growth, etc): </label>
+            <input type='text' id='bio-fam-relation' class='space-left inp-med'/>
+          </div>
+          <div class='row-group'>
+            <label for='bio-num-addr-change'>6. Number of address changes in the year prior to your incarceration: </label>
+            <input type='text' id='bio-num-addr-change' class='space-left inp-xsm'/>
+          </div>
+        </div>
+      </div>
+
+      <div class='row-group' style='border: 1px solid lightblue; width: 100%;'>
+        <div class='row-group-label'>Social Network</div>
+        <div class='col-group'>
+          <div class='row-group'>
+            <label for='bio-friends'>1. Friendships prior to your incarceration: </label>
+            <input type='text' id='bio-friends' class='space-left inp-xlrg'/>
+          </div>
+          <div class='row-group'>
+            <label for='bio-friend-record'>2. How many of your friends prior to your incarceration had a criminal record: </label>
+            <input type='text' id='bio-friend-record' class='space-left inp-xsm'/>
+          </div>
+          <div class='row-group'>
+            <label for='bio-friend-incarc'>3. Friendships during incarceration: </label>
+            <input type='text' id='bio-friend-incarc' class='space-left inp-xsm'/>
+          </div>
+        </div>
+      </div>
+
+      <div class='row-group' style='border: 1px solid lightblue; width: 100%;'>
+        <div class='row-group-label'>Substance Abuse</div>
+        <div class='col-group'>
+          <div class='row-group'>
+            <label>1. Did you have an alcohol problem prior to incarceration: </label>
+            <input type='radio' name='bio-use-alc' style='margin-left: 10px;' id='bio-use-alcohol-yes' value='yes' checked/>
+            <label for='bio-use-alcohol-yes'>Yes</label>
+            <input type='radio' name='bio-use-alc' id='bio-use-alcohol-no' value='no'/>
+            <label for='bio-use-alcohol-no'>No</label>
+          </div>
+          <div class='row-group'>
+            <label>2. Did you have a drug problem prior to incarceration: </label>
+            <input type='radio' name='bio-use-drug' style='margin-left: 10px;' id='bio-use-drug-yes' value='yes' checked/>
+            <label for='bio-use-drug-yes'>Yes</label>
+            <input type='radio' name='bio-use-drug' id='bio-use-drug-no' value='no'/>
+            <label for='bio-use-drug-no'>No</label>
+          </div>
+          <div class='row-group'>
+            <label>3. Do you currently have an alcohol problem during incarcaration: </label>
+            <input type='radio' name='bio-curr-alc' style='margin-left: 10px;' id='bio-curr-alc-yes' value='yes' checked/>
+            <label for='bio-curr-alc-yes'>Yes</label>
+            <input type='radio' name='bio-curr-alc' id='bio-curr-alc-no' value='no'/>
+            <label for='bio-curr-alc-no'>No</label>
+          </div>
+          <div class='row-group'>
+            <label>4. Do you currently have a drug problem during incarceration: </label>
+            <input type='radio' name='bio-curr-drug' style='margin-left: 10px;' id='bio-curr-drug-yes' value='yes' checked/>
+            <label for='bio-curr-drug-yes'>Yes</label>
+            <input type='radio' name='bio-curr-drug' id='bio-curr-drug-no' value='no'/>
+            <label for='bio-curr-drug-no'>No</label>
+          </div>
+          <div class='row-group'>
+            <label>5. Do you think that your use of drugs/alcohol, past or present, could contribute to law violations: </label>
+            <input type='radio' name='bio-use-crime' style='margin-left: 10px;' id='bio-use-crime-yes' value='yes' checked/>
+            <label for='bio-use-crime-yes'>Yes</label>
+            <input type='radio' name='bio-use-crime' id='bio-use-crime-no' value='no'/>
+            <label for='bio-use-crime-no'>No</label>
+          </div>
+        </div>
+      </div>
+
+      <div class='row-group' style='border: 1px solid lightblue; width: 100%;'>
+        <div class='row-group-label'>Education</div>
+        <div class='col-group'>
+          <div class='row-group'>
+            <label for='bio-highest-ed'>1. What is the higheset level of education you have completed: </label>
+            <input type='text' id='bio-highest-ed' class='space-left inp-lrg'/>
+          </div>
+          <div class='row-group'>
+            <label>2. Were you ever suspended or expelled from school: </label>
+            <input type='radio' name='bio-school-expel' style='margin-left: 10px;' id='bio-school-expel-yes' value='yes' checked/>
+            <label for='bio-school-expel-yes'>Yes</label>
+            <input type='radio' name='bio-school-expel' id='bio-school-expel-no' value='no'/>
+            <label for='bio-school-expel-no'>No</label>
+          </div>
+          <div class='row-group'>
+            <label>3. Do you have plans to further your education and/or technical skills: </label>
+            <input type='radio' name='bio-skill-plan' style='margin-left: 10px;' id='bio-skill-plan-yes' value='yes' checked/>
+            <label for='bio-skill-plan-yes'>Yes</label>
+            <input type='radio' name='bio-skill-plan' id='bio-skill-plan-no' value='no'/>
+            <label for='bio-skill-plan-no'>No</label>
+            <input type='text' id='bio-skill-plan-explain' class='space-left inp-xlrg' placeholder='If yes, explain'/>
+          </div>
+        </div>
+      </div>
+
+      <div class='row-group' style='border: 1px solid lightblue; width: 100%;'>
+        <div class='row-group-label'>Employment</div>
+        <div class='col-group'>
+          <div class='row-group'>
+            <label for='bio-employ'>1. What was your employment history at the time of your incarceration: </label>
+            <input type='text' id='bio-employ' class='space-left inp-xlrg'/>
+          </div>
+          <div class='row-group'>
+            <label>2. Are you currently employed while incarcerated: </label>
+            <input type='radio' name='bio-emp-incarc' style='margin-left: 10px;' id='bio-emp-incarc-yes' value='yes' checked/>
+            <label for='bio-emp-incarc-yes'>Yes</label>
+            <input type='radio' name='bio-emp-incarc' id='bio-emp-incarc-no' value='no'/>
+            <label for='bio-emp-incarc-no'>No</label>
+          </div>
+          <div class='row-group'>
+            <label>3. Do you have future plans for employment, whether in prison or when released (if applicable): </label>
+            <input type='radio' name='bio-emp-plan' style='margin-left: 10px;' id='bio-emp-plan-yes' value='yes' checked/>
+            <label for='bio-emp-plan-yes'>Yes</label>
+            <input type='radio' name='bio-emp-plan' id='bio-emp-plan-no' value='no'/>
+            <label for='bio-emp-plan-no'>No</label>
+            <input type='text' id='bio-emp-plan-explain' class='space-left inp-xlrg' placeholder='If yes, explain'/>
+          </div>
+        </div>
+      </div>
+
+      <div class='row-group' style='border: 1px solid lightblue; width: 100%;'>
+        <div class='row-group-label'>Leisure/recreation</div>
+        <div class='col-group'>
+          <div class='row-group'>
+            <label for='bio-clubs'>1. What kind of activities or clubs did you belong to prior to incarceration, if any: </label>
+            <input type='text' id='bio-clubs' class='space-left inp-xlrg'/>
+          </div>
+          <div class='row-group'>
+            <label for='bio-clubs-incarc'>2. What kind of activities or clubs do you belong to during your incarceration, if any? (Besides Academy program): </label>
+            <input type='text' id='bio-clubs-incarc' class='space-left inp-xlrg'/>
+          </div>
+          <div class='row-group'>
+            <label>3. Were you a leader of any prosocial clubs or activities prior to your incarceration, if any: </label>
+            <input type='radio' name='bio-lead-prosocial' style='margin-left: 10px;' id='bio-lead-prosocial-yes' value='yes' checked/>
+            <label for='bio-lead-prosocial-yes'>Yes</label>
+            <input type='radio' name='bio-lead-prosocial' id='bio-lead-prosocial-no' value='no'/>
+            <label for='bio-lead-prosocial-no'>No</label>
+            <input type='text' id='bio-lead-prosocial-explain' class='space-left inp-lrg' placeholder='If yes, explain'/>
+          </div>
+          <div class='row-group'>
+            <label for='bio-lead-club-incarc'>4. Are you or do you plan to lead any prosocial clubs or activities during your incarceration, if any: </label>
+            <input type='text' id='bio-lead-club-incarc' class='space-left inp-xlrg'/>
+          </div>
+        </div>
+      </div>
+
+      <div class='row-group hidediv' style='border: 1px solid lightblue; width: 100%;'>
+        <div class='row-group-label'>Social Skills</div>
+        <div class='col-group'>
+          <div class='row-group'>
+            <label for='bio-express'>1. Can you express your needs in a confident yet non-confrontational way? (LOGIC MODEL self-advocacy): </label>
+            <select class='space-left' id='bio-express'>
+              <option value='never'>Never</option>
+              <option value='sometimes' selected>Sometimes</option>
+              <option value='usually'>Usually</option>
+              <option value='always'>Always</option>
+            </select>
+          </div>
+          <div class='row-group'>
+            <label for='bio-understand'>2. Do you try to understand other points of view: </label>
+            <select class='space-left' id='bio-understand'>
+              <option value='never'>Never</option>
+              <option value='sometimes' selected>Sometimes</option>
+              <option value='usually'>Usually</option>
+              <option value='always'>Always</option>
+            </select>
+          </div>
+          <div class='row-group'>
+            <label for='bio-trust'>3. Can you appropriately trust others? (LOGIC MODEL): </label>
+            <select class='space-left' id='bio-trust'>
+              <option value='never'>Never</option>
+              <option value='sometimes' selected>Sometimes</option>
+              <option value='usually'>Usually</option>
+              <option value='always'>Always</option>
+            </select>
+          </div>
+          <div class='row-group'>
+            <label for='bio-make-friends'>4. Can you make friends easily: </label>
+            <select class='space-left' id='bio-make-friends'>
+              <option value='never'>Never</option>
+              <option value='sometimes' selected>Sometimes</option>
+              <option value='usually'>Usually</option>
+              <option value='always'>Always</option>
+            </select>
+          </div>
+          <div class='row-group'>
+            <label for='bio-accept-critic'>5. Can you accept constructive criticism from others? (LOGIC MODEL): </label>
+            <select class='space-left' id='bio-accept-critic'>
+              <option value='never'>Never</option>
+              <option value='sometimes' selected>Sometimes</option>
+              <option value='usually'>Usually</option>
+              <option value='always'>Always</option>
+            </select>
+          </div>
+          <div class='row-group'>
+            <label for='bio-give-critic'>6. Can you provide constructive criticism to others? (LOGIC MODEL): </label>
+            <select class='space-left' id='bio-give-critic'>
+              <option value='never'>Never</option>
+              <option value='sometimes' selected>Sometimes</option>
+              <option value='usually'>Usually</option>
+              <option value='always'>Always</option>
+            </select>
+          </div>
+          <div class='row-group'>
+            <label for='bio-accept-resp'>7. Do you accept responsibility for your mistakes? (LOGIC MODEL): </label>
+            <select class='space-left' id='bio-accept-resp'>
+              <option value='never'>Never</option>
+              <option value='sometimes' selected>Sometimes</option>
+              <option value='usually'>Usually</option>
+              <option value='always'>Always</option>
+            </select>
+          </div>
+          <div class='row-group'>
+            <label for='bio-confident-prob'>8. Are you confident in your ability to manage problems? (LOGIC MODEL, self-confidence): </label>
+            <select class='space-left' id='bio-confident-prob'>
+              <option value='never'>Never</option>
+              <option value='sometimes' selected>Sometimes</option>
+              <option value='usually'>Usually</option>
+              <option value='always'>Always</option>
+            </select>
+          </div>
+          <div class='row-group'>
+            <label for='bio-dev-goals'>9. Can you develop realistic goals and take steps to achieve them? (LOGIC MODEL, productivity): </label>
+            <select class='space-left' id='bio-dev-goals'>
+              <option value='never'>Never</option>
+              <option value='sometimes' selected>Sometimes</option>
+              <option value='usually'>Usually</option>
+              <option value='always'>Always</option>
+            </select>
+          </div>
+          <div class='row-group'>
+            <label for='bio-mng-money'>10. Are you confident in your ability to manage your finances: </label>
+            <select class='space-left' id='bio-mng-money'>
+              <option value='never'>Never</option>
+              <option value='sometimes' selected>Sometimes</option>
+              <option value='usually'>Usually</option>
+              <option value='always'>Always</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class='bio-display-control'>More Bio</div>
+
+<div class='attendee-stats'>
+  <div class='attendee-stats-attendance'>
+
+  </div>
+  <div class='attendee-stats-1on1'>
+    
+  </div>
+</div>
+

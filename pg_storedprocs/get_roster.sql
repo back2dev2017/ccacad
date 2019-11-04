@@ -6,7 +6,9 @@ CREATE OR REPLACE FUNCTION public.get_roster(IN p_course_id bigint DEFAULT NULL:
 		enroll_date date,
 		drop_date date,
 		fname character varying,
-		lname character varying
+		lname character varying,
+    formation_group_id bigint,
+    group_name character varying
 		)
 	LANGUAGE 'plpgsql'
 	STABLE
@@ -26,14 +28,18 @@ BEGIN
 
   if v_courseid < 0 then
 		return query execute 'select aa.id, aa.course_id, aa.att_id_use, ' || 
-						'aa.enroll_date, aa.drop_date, aa.fname, aa.lname ' ||
-						'from course_attendee_list aa ' || 
+						'aa.enroll_date, aa.drop_date, aa.fname, aa.lname, formation_group_id, ' ||
+            'bb.group_name ' || 
+						'from course_attendee_list aa left outer join course_formation_group bb ' || 
+              'on aa.formation_group_id = bb.id ' || 
 						'order by aa.fname, aa.lname';
 
   else
 		return query execute 'select aa.id, aa.course_id, aa.att_id_use, ' || 
-						'aa.enroll_date, aa.drop_date, aa.fname, aa.lname ' || 
-						'from course_attendee_list aa ' || 
+						'aa.enroll_date, aa.drop_date, aa.fname, aa.lname, formation_group_id, ' || 
+            'bb.group_name ' || 
+						'from course_attendee_list aa left outer join course_formation_group bb ' || 
+              'on aa.formation_group_id = bb.id ' || 
 						'where aa.course_id = $1 ' || 
 						'order by aa.fname, aa.lname' using v_courseid;
   end if;

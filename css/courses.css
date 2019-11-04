@@ -1,6 +1,8 @@
 .course-container {
   display: flex;
   flex-flow: column nowrap;
+  height: 90%;
+  overflow: auto;
 }
 .courses-all-list {
   height: 200px;
@@ -30,7 +32,7 @@
 .course-detail-list-wrap {
   width: 75%;
   height: 100%;
-  overflow: auto;
+  overflow: scroll;
 }
 
 .detail-roster-list-wrap {
@@ -119,6 +121,42 @@
 .course-edit-attendance {
   width: 440px;
   overflow: auto;
+}
+
+.course-attendee {
+  display: flex;
+  flex-flow: column;
+  height: 90%;
+  overflow: hidden;
+}
+
+.bio-display-control {
+  height: 20px;
+  font-size: 0.9em;
+  color: #777777;
+  border: 1px solid #bbbbbb;
+  border-radius: 4px;
+  width: 100%;
+  padding: 2px 0px 2px 3px;
+}
+
+.formation-group-mgmt {
+  display: flex;
+  flex-flow: row wrap;
+  height: 50%;
+  width: 50%;
+  max-width: 350px;
+  max-height: 450px;
+}
+.fg-tbl-sect {
+  width: 48%;
+  height: 80%
+}
+.fg-new-data {
+  width: 48%;
+  height: 80%;
+  display: flex;
+  flex-flow: column nowrap;
 }
 
 /* do not want editing tables to have the alternating colors */

@@ -22,7 +22,7 @@ function build_course_tbl (rsltdata) {
 			{ data: "cohort_title", "width": "150px", "title": "Cohort"},
 			{ data: "id", "width": "40px", "title": "ID", "visible": false}
 		] } );
-}
+};
 
 
 function gen_course_content(course_id) {
@@ -52,9 +52,9 @@ function gen_course_content(course_id) {
     tmpobj['quarter'] = nrow;
     tblarray.push(tmpobj);
     tmpobj = {};
-  }
+  };
   window.dataobj.course_selected = tblarray;
-}
+};
 
 function build_sel_course_tbl (rsltdata) {
 	// var tblht = $("#user-list-tbl").height() - 88;
@@ -103,7 +103,7 @@ function build_sel_course_tbl (rsltdata) {
 		
 		// console.log('user double-clicked', row_num, column_num, weekpick);
 	});
-}
+};
 
 function build_sel_course_roster_tbl (rsltdata) {
 	// var tblht = $("#user-list-tbl").height() - 88;
@@ -129,7 +129,7 @@ function build_sel_course_roster_tbl (rsltdata) {
 					let retdata = data;
 					let attid = row.id.toString();
 					if (type == 'display') {
-						retdata = '<a href="javascript:bio_edit_data(' + attid + ');" title="Show Bio">' + data + '</a>';
+						retdata = '<a href="javascript:bio_edit_data(' + attid + ');" title="Attendee Details">' + data + '</a>';
 					}
 					return retdata;
 				}},
@@ -137,7 +137,8 @@ function build_sel_course_roster_tbl (rsltdata) {
 			{ data: "drop_date", "width": "100px", "title": "Drop Date"},
 			{ data: "id", "width": "40px", "title": "ID", "visible": false}
 		] }
-	);
+  );
+  
 	$('#detail-roster-list-tbl td').click(function() {
 		let tblref = $('#detail-roster-list-tbl').DataTable();
 		let rowidx = tblref.cell( this ).index().row;
@@ -174,7 +175,7 @@ function show_roster_1o1(refinfo) {
 	} else {
 		$('.viasamp').html('No VIA yet');
 	}
-}
+};
 
 function course_edit_data (course_id, nweeknum) {
   let coursename = '';
@@ -195,7 +196,7 @@ function course_edit_data (course_id, nweeknum) {
   window.dataobj.wkdata = window.dataobj.course_content
     .filter(function(e) { return ((e.course_id == course_id) && (e.week_num == nweeknum)) } );
   build_edit_course_tbl(window.dataobj.wkdata);
-}
+};
 
 function build_edit_course_tbl (rsltdata) {
 	// var tblht = $("#user-list-tbl").height() - 88;
@@ -337,6 +338,43 @@ function build_edit_course_tbl (rsltdata) {
 
 }
 
+
+function build_fg_tbl (rsltdata) {
+	// var tblht = $("#user-list-tbl").height() - 88;
+		// var tblhtpx = tblht.toString() + "px";
+		// $("#user-list-tbl").removeAttr('width').DataTable( {
+	$("#fg-edit-table").DataTable( {
+		"bInfo": false,
+		"bFilter": false,
+		autoWidth: true,
+		responsive: true,
+		scrollY: "200px",
+		scrollX: true,
+		scrollCollapse: true,
+		stateSave: true,
+		paging: false,
+		"data": rsltdata,
+		rowId: 'id',
+		// note the passing of 'id' as the second column - the reason is for the render, and the resulting link set up
+		columns: [
+      { data: "fg_id", "width": "50px", "title": "id", "visible":false }, 
+      { data: "course_id", "width": "50px", "title": "course id", "visible":false }, 
+      { data: "group_name", "width": "120px", "title": "Group Name" }, 
+      { data: "group_name", "width": "50px", "title": "",
+        'render': function (data,type,row,meta) {
+          let retdata = data;
+          let delid = row.id.toString();
+          let delcourseid = row.course_id.toString();
+          if (type == 'display') {
+            retdata = '<a class="txt-link-red" href="javascript:fg_del_data(' + delid + ',' + delcourseid + ');" >Delete</a>';
+          }
+          return retdata;
+        }},
+		] } );
+};
+
+
+
 function course_de_change(editobj) {
 	// this function is for data entry of course performance only - so it is assuming specific html elements
 	// exist - '#course-de-id', '#week-edit-table', etc
@@ -370,12 +408,33 @@ function course_de_change(editobj) {
 			break;
 
     default:
-
-	}
-}
+	};
+};
 
 function week_edit_close() {
 	$('.course-week-edit').addClass('hidediv');
 	$('#modal-overlay').addClass('hidediv');  destroy_datatable("#course-week-edit-attend");
   destroy_datatable("#week-edit-table");
-}
+};
+
+function bio_edit_data(userid, courseid, editmode = "E") {
+	$(".one-course-pages").addClass("hidediv");
+	$(".course-attendee").removeClass("hidediv");
+	// try to center the window vertically
+	$('#bio-fname').val('Charlie');
+	$('#bio-lname').val('Coleman');
+	$('#bio-age').val(57);
+	$('#bio-doc-num').val('12345Z54321');
+	$('#bio-first-arrest-age').val('n/a');
+	$('#bio-prev-conv').val('0');
+	$('#bio-fam-crime').val('none');
+	$('#bio-num-child').val('1');
+	$('#bio-marr-status').val('Married');
+	$('#bio-num-pos-model').val('3');
+	// adjust the title line - special 'row' that acts as a window title
+};
+
+function bio_edit_close() {
+	$(".one-course-pages").addClass("hidediv");
+  $(".course-tracking").removeClass("hidediv");
+};

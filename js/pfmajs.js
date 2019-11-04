@@ -1,9 +1,12 @@
 function data_setup() {
-	// pull back all sessions (units)
+  // load up the html files
+  loadhtmls();
+
+  // pull back all sessions (units)
 	$.post(service_def, 
 		{ api_func: "GET_SESSION_LIST" },
 		function (rslt) {
-			window.dataobj.units = rslt;
+      window.dataobj.units = rslt;
 		}, "json" );
 
 	$.post(service_def, 
@@ -27,15 +30,23 @@ function data_setup() {
 	$.post(service_def,
 		{ api_func: "GET_COURSE_ROSTER", p_course_id: "11" },
 		function (rslt) {
-			window.dataobj.course_roster = rslt;
+      window.dataobj.course_roster = rslt;
     }, "json");
 
 	$.post(service_def,
 		{ api_func: "GET_COURSE_ATTEND", p_course_id: "11" },
 		function (rslt) {
-			window.dataobj.course_attendance = rslt;
-		}, "json");
-}
+      window.dataobj.course_attendance = rslt;
+    }, "json");
+
+  $.post(service_def,
+    { api_func: "GET_FORMATION_GROUP", p_course_id: "99" },
+    function (rslt) {
+      window.dataobj.course_fg = rslt;
+      console.log(window.dataobj.course_fg);
+    }, "json");
+};
+
 
 function go_app() {
 	gen_course_content(17);
@@ -182,11 +193,16 @@ function set_currsect(btn) {
 		case 'pick-curr-course':
 			$(".course-container").removeClass("hidediv");
 			break;
-		case 'pick-curr-units':
-		$(".curr-sect-units").removeClass("hidediv");
-		if ( ! $.fn.DataTable.isDataTable ('#unit-list-tbl')) {
-			build_unit_tbl(window.dataobj.units);
-		}
+    case 'pick-curr-modules':
+      $(".curr-sect-modules").removeClass("hidediv");
+      // resize_maindiv('.curr-sect-modules');
+      break;
+    case 'pick-curr-units':
+      $(".curr-sect-units").removeClass("hidediv");
+      resize_maindiv('.curr-sect-units');
+      if ( ! $.fn.DataTable.isDataTable ('#unit-list-tbl')) {
+        build_unit_tbl(window.dataobj.units);
+      };
 			break;
 	}
 }
@@ -213,37 +229,9 @@ function set_syssect(btn) {
 
     case 'pick-sys-facilities':
       $(".sys-sect-facilities").removeClass("hidediv");
-  }
-}
+  };
+};
 
-
-function build_unit_tbl (rsltdata) {
-	// var tblht = $("#user-list-tbl").height() - 88;
-	// var tblhtpx = tblht.toString() + "px";
-	// $("#user-list-tbl").removeAttr('width').DataTable( {
-	$("#unit-list-tbl").DataTable( {
-	"bInfo": false,
-	"bFilter": false,
-	autoWidth: true,
-	responsive: true,
-	scrollY: "300px",
-	scrollX: true,
-	scrollCollapse: true,
-	stateSave: true,
-	paging: false,
-	"data": rsltdata,
-	rowId: 'id',
-	// note the passing of 'id' as the second column - the reason is for the render, and the resulting link set up
-	columns: [
-		{ data: "id", "width": "20px", "title": "ID", className: "q-cent" }, 
-		{ data: "id", "width": "350px", "title": "Title", orderData: 1, 
-			"render" : function ( data, type, row, meta ) { return make_link_unit_edit(data, type, row, meta, "#unit-list-tbl"); } },
-		{ data: "module_category", "width": "350px", "title": "Category" },
-		{ data: "expected_hrs", "width": "90", "title": "Expected Duration", "defaultContent": "" },
-		{ data: "sex_focus", "width": "70px", "title": "Sex Focus", "defaultContent": "" }
-	] }
-	);
-}
 
 
 function call_getapiversion () {
@@ -686,9 +674,9 @@ function build_srch_tbl_dbstruc (rsltdata, enable_link = 1, sorttype = 'table/co
 		$('#srch-tbl-rslt').DataTable().order([10, 'desc']).draw();
 	} else {
 		$("#srch-tbl-rslt").DataTable().order( [ 1, 'asc' ], [ 2, 'asc' ] ).draw();
-	}
+	};
 
-}
+};
 
 function make_link_user_edit (data, type, row, meta, tableselect) {
 	// tableselect should be of form '#datatable-selector'
@@ -699,14 +687,14 @@ function make_link_user_edit (data, type, row, meta, tableselect) {
 		// console.log(row.table_name + " - " + row.column_name);
 	} else {
 		linkret = data;
-	}
+	};
 	return linkret;
-}
+};
 
 function user_edit_cancel() {
 	$('.user-edit').addClass('hidediv');
 	$('#modal-overlay').addClass('hidediv');
-}
+};
 
 function user_edit_data(p_itemid, p_dtref, editmode = "E") {
 	// p_itemid = item being edited, p_dtref = reference to DataTable, editmode = E for editing / A for adding
@@ -740,45 +728,9 @@ function user_edit_data(p_itemid, p_dtref, editmode = "E") {
 		$("#user-phone-ext").val('');
 		$("#user-role").val('');
 		$("#user-delete-btn").addClass('hidevar');
-	}
-}
+	};
+};
 
-function bio_edit_data(userid, courseid, editmode = "E") {
-	$("#modal-overlay").removeClass("hidediv");
-	$(".bio-total").removeClass("hidediv");
-	// try to center the window vertically
-	pop_div_center(".bio-total");
-	$('#bio-fname').val('Charlie');
-	$('#bio-lname').val('Coleman');
-	$('#bio-age').val(57);
-	$('#bio-doc-num').val('12345Z54321');
-	$('#bio-first-arrest-age').val('n/a');
-	$('#bio-prev-conv').val('0');
-	$('#bio-fam-crime').val('none');
-	$('#bio-num-child').val('1');
-	$('#bio-marr-status').val('Married');
-	$('#bio-num-pos-model').val('3');
-	// adjust the title line - special 'row' that acts as a window title
-	$('#bio-win-title').width($('.bio-total').width() - 20) ;
-}
-
-
-function make_link_unit_edit (data, type, row, meta, tableselect) {
-	// tableselect should be of form '#datatable-selector'
-	if (type === 'display') {
-		var idstr = data;
-		var tblid = "'" + tableselect + "'";
-		var linkret = '<a href="javascript:;" onclick="unit_edit_data(' + idstr + ', ' + tblid + ')">' + row.title + '</a>';
-		// console.log(row.table_name + " - " + row.column_name);
-	} else {
-		linkret = data;
-	}
-	return linkret;
-}
-
-function unit_edit_data() {
-	console.log('this is the data editing of units');
-}
 
 function make_item_id_link (idval, type, row, meta) {
 	if (type === 'display') {
@@ -788,12 +740,9 @@ function make_item_id_link (idval, type, row, meta) {
 		// console.log(row.table_name + " - " + row.column_name);
 	} else {
 		linkret = data;
-	}
+	};
 	return linkret;
-}
-
-
-
+};
 
 
 function ed_data(p_itemid, p_dtref, editmode = "E") {
@@ -835,8 +784,8 @@ function ed_data(p_itemid, p_dtref, editmode = "E") {
 		$("#e-column_name").prop('readonly', false);
 		$("#e-column_name").css({"background-color": "#ffffff"});
 		$("#ew-but-delete").addClass('hidevar');
-	}
-}
+	};
+};
 
 function ew_save_edit() {
 	// this function is specifically for the .edit-win class (a pop-up). Thus the hard-coded selectors
@@ -861,7 +810,7 @@ function ew_save_edit() {
 		allow_save = 1;
 	} else {
 		modal_msg('Entry required', 'An ID or a table/column pair is required before data can be saved',0,"#ffbbbb");
-	}
+	};
 
 	if (allow_save > 0) { 
 		// do the post call to invoke the ADD api to save data - add_putdd_item(...)
@@ -878,8 +827,8 @@ function ew_save_edit() {
 		$(tblid).DataTable().row(t_itemid_sel).invalidate();
 		$(tblid).DataTable().row(t_itemid_sel).draw('page');
 		kill_edit_win();
-	}
-}
+	};
+};
 
 function del_item_msg (deltype, item_idref, dt_ref) {
 /*	the deletion type can be either 'single' or 'multiple' (just checking single). The idea is this function can take care of deleting
@@ -896,8 +845,8 @@ function del_item_msg (deltype, item_idref, dt_ref) {
 		$("#del-id").val($(item_idref).val());
 	} else {
 		$("#del-id").val(-1);
-	}
-}
+	};
+};
 
 function delete_edit_item_process (do_delete) {
 	$('#ew-del-confirm').addClass('hidediv');
@@ -922,20 +871,20 @@ function delete_edit_item_process (do_delete) {
 		} else {
 			// loop through the datatable reference, grab each item_id - aka rowid of DataTable - and call the delete.
 			console.log('not doing a single item deletion');
-		}
-	}
-}
+		};
+	};
+};
 
 function show_ed_div () {
 	console.log("called show_ed_div");
 	// make sure the right stuff is hidden
 	$("#e-special").addClass('hidediv');
 	$(".edit-win").removeClass("hidediv");
-}
+};
 function kill_edit_win() {
 	$(".edit-win").addClass("hidediv");
 	$("#modal-overlay").addClass("hidediv");
-}
+};
 
 function rend_ell(data, type, row, meta, p_trim_len) {
 	// mainly used for DataTables rendering
@@ -950,7 +899,7 @@ function rend_ell(data, type, row, meta, p_trim_len) {
 		}
 	}
 	return retstr;
-}
+};
 
 function rend_yn(data, type, row, meta) {
 	// mainly for rendering a 0/1 to Yes/No in a DataTable
@@ -961,7 +910,7 @@ function rend_yn(data, type, row, meta) {
 		retstr = '<span>No</span>';
 	}
 	return retstr;
-}
+};
 
 
 function destroy_datatable(dtdivref) {
@@ -970,21 +919,37 @@ function destroy_datatable(dtdivref) {
 		$(dtdivref).DataTable().clear();
 		$(dtdivref).DataTable().destroy();
 		$(dtdivref).html('');
-	}	
-}
+	};
+};
 
 function resize_div (div_ident, bump_t = 0, bump_b = 0) {
-	/*	 sets the height of a div to keep it all on-screen with scrolling inside div
-			 div_ident: the div whose 'height' to set (jQuery form), bump_t and _b: values to allow more spacing
-		 e.g. an expected header above a Div, extra space at bottom of div for other objects, etc
-		 note, since div_ident will be used "as is" it could be a class identifier or an ID identifier, etc
-		 Important: div class .maincontent is expected to be the parent of all these resizes, so the top margin is already set */
+	//    sets the height of a div to keep it all on-screen with scrolling inside div
+	// 	div_ident: the div whose 'height' to set (jQuery form), bump_t and _b: values to allow more spacing
+	// 	e.g. an expected header above a Div, extra space at bottom of div for other objects, etc
+	// 	note, since div_ident will be used "as is" it could be a class identifier or an ID identifier, etc
+	// 	Important: div class .maincontent is expected to be the parent of all these resizes, so the top margin is already set
 	var nmainht = $("#main-heading").height();
 	var nmenht = $('#am-topmenu').height();
 		var calcht = nmainht - nmenht - bump_t - bump_b - 10;
 		$(div_ident).css({"height":calcht});
-	}
+	};
 
+function resize_maindiv (divpick) {
+  //   purpose: to resize a primary div in the app. Recall there is a left menu bar, then sometimes a top menu bar in the 
+  // app. This function accounts for those, and resizes the passed div to the 'rest' of the screen
+  // divpick - a string that is a jquery selector to select the div to be resized.
+  //
+  // get the available screen dimensions
+  let totalh = $(document).height();
+  let totalw = $(document).width();
+  let sidew = $('.l-sidebar').width();
+  // a little trick here. Using jQuery position(), can get the 'top'. That top is absolute so it will designate how much
+  // has been taken up by any other vertical elements.
+  let toppush = $(divpick).position().top;
+  // calc and set the height and width of the passed div
+  $(divpick).height(totalh - toppush - 40);
+  $(divpick).width(totalw - sidew - 30);
+};
 
 function get_steward_list() {
 	var tmptext1 = 'GET AVAILABLE';
@@ -992,7 +957,7 @@ function get_steward_list() {
 		$.post(service_def,
 			{api_func:'ADD_GETDD_BY_STEWARD',steward_id:tmptext1},
 			function(rslt) { build_stew_sel(rslt,sel_obj); }, "json");
-}
+};
 
 function build_stew_sel (jsonlist, htmlselobj) {
 	// clear out the existing options first
@@ -1004,7 +969,7 @@ function build_stew_sel (jsonlist, htmlselobj) {
 			$(htmlselobj).append('<option value="' + val + '">' + val + '</option>');
 		}
 	});
-}
+};
 
 function get_table_list() {
 	// want to build 2 selection boxes, so hold on to return data of post. Thus, doing function inside function
@@ -1019,7 +984,7 @@ function get_table_list() {
 
 	}
 
-}
+};
 
 
 function modal_msg(ctitle, cmsg, expandv = 0, hdbg = "#bbffbb") {
@@ -1037,7 +1002,7 @@ function modal_msg(ctitle, cmsg, expandv = 0, hdbg = "#bbffbb") {
 	$("#modal-overlay").removeClass('hidediv');
 	$(".modal-dialog").removeClass('hidediv');
 
-}
+};
 
 function processing_start (disptext = "Processing...") {
 	var statmsg = $("#pop-msg");
@@ -1049,10 +1014,10 @@ function processing_start (disptext = "Processing...") {
 	statmsg.left = 10;*/
 	statmsg.removeClass('hidediv');
 //	console.log('top: ' + statmsg.top.toString() + ', left: ' + statmsg.left.toString());
-}
+};
 function processing_end () {
 	$('#pop-msg').addClass('hidediv');
-}
+};
 
 function setup_data_area() {
 	// reposition the main section based on how tall the options area is
@@ -1061,7 +1026,7 @@ function setup_data_area() {
 	$(".maincontent").css({"height":calcmainht});
 	resize_div(".div-srch-rslt", 50);
 	srchdt_remove();
-}
+};
 
 function pop_desc(text_str, id_str = 0, dateval) {
 	var moddate = new Date();
@@ -1081,17 +1046,17 @@ function pop_desc(text_str, id_str = 0, dateval) {
 	
 	$("#pop-mov1").removeClass('hidediv');
 	draggable_div(document.getElementById(("pop-mov1")));
-}
+};
 
 
 function modal_close() {
 	$("#modal-overlay").addClass('hidediv');
 	$(".modal-dialog").addClass('hidediv');
-}
+};
 
 function pop_mov1_close () {
 	$("#pop-mov1").addClass('hidediv');
-}
+};
 
 function draggable_div (divid) {
 	var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -1109,7 +1074,7 @@ function draggable_div (divid) {
 		pos4 = evnt.clientY;
 		document.onmouseup = drag_div_close;
 		document.onmousemove = drag_div_move;
-	}
+	};
 	
 	function drag_div_move (evnt) {
 		evnt = evnt || window.event;
@@ -1119,13 +1084,13 @@ function draggable_div (divid) {
 		pos4 = evnt.clientY;
 		divid.style.top = (divid.offsetTop - pos2) + "px";
 		divid.style.left = (divid.offsetLeft - pos1) + "px";
-	}
+	};
 	
 	function drag_div_close () {
 		document.onmouseup = null;
 		document.onmousemove = null;
-	}
-}
+	};
+};
 
 function pop_div_center(divselector, outerdiv = null) {
 	// this function takes a passed "div selector" (hopefully an "id" - like "#user-edit") and will try
@@ -1141,11 +1106,11 @@ function pop_div_center(divselector, outerdiv = null) {
 	$(divselector).css({top: newtop.toString() + 'px'});
 	$(divselector).css({left: newleft.toString() + 'px'});
 
-}
+};
 
 function color_help() {
 	$("#clrbtn").css({'background-color': $("#clrbox").val()});
-}
+};
 
 function modal_test() {
 	// note: putting the call to the modal message inside the post makes sure I got the info from the post. And also, it means chkstr now has the value
@@ -1155,16 +1120,35 @@ function modal_test() {
 				chkstr = '<p>' + rslt + '</p>';
 				modal_msg('My Test Message', 'Did it <b>work</b>?' + '<p>' + service_def + '</p>' + chkstr);				
 			});	
-}
+};
 
 function movable_test () {
 	$("#pop-hd-text").text('Movable box');
 	$("#pop-content").html('<p>Move the box by dragging the heading around</p><p>Maybe this can be standardized</p>');
 	$("#pop-mov1").removeClass('hidediv');
 	draggable_div(document.getElementById(("pop-mov1")));
-}
+};
 
-function bio_edit_close() {
-	$('.bio-total').addClass('hidediv');
-	$('#modal-overlay').addClass('hidediv');
-}
+
+function loadhtmls() {
+  //   purpose: to load the html files that were split out for readability. It is important these get loaded ASAP
+  // because various code makes sections visible and such right away. Implement this by promises
+  // htmlload('.dashboard-sect', 'htmlloads/dashboard-sect-load.html');
+  htmlload('.user-edit', 'htmlloads/user-edit-load.html');
+  htmlload('.course-attendee', 'htmlloads/bio-total-load.html');
+  
+};
+
+function htmlload(divelem, fileref) {
+  //   the divelem is a selector to load the html file into e.g. "#divid" (or ".thisitem"). Note that 'classes' may have to
+  // be used in defining divs - otherwise trying to apply the 'hidediv' class will not override the display of an "id" div.
+  // the fileref is the string representing where the file is from, e.g. "htmlloads/dashboard-load.html"
+  // make sure the data has not already been loaded, some weird crap with timing here
+  // console.log($(divelem).html().length);
+  if ($(divelem).html().length < 100) {
+    $(divelem).load(fileref);
+    console.log('did load - ' + divelem + ' - ' + fileref);
+  } else {
+    console.log('div data already loaded - ' + divelem);
+  };
+};

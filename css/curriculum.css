@@ -1,0 +1,15 @@
+.curriculums-disp {
+  /* background-color: #a88; */
+  border: 1px solid lightgrey;
+  min-width: 400px;
+  min-height: 400px;
+}
+
+.curr-sect-units {
+  height: 100%;
+}
+
+#unit-list-wrap {
+	width: 95%;
+	margin-left: 0;
+}
