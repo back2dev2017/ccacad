@@ -284,7 +284,6 @@ function build_edit_course_tbl (rsltdata) {
       }
 		});
 
-
     // Build the attendance table as well - thus can use the same weeknum and course id
     
     let edit_attend_data = window.dataobj.course_attendance.filter(function (e) { return e.course_id == 11 && e.unit_id == 255 });
@@ -431,8 +430,24 @@ function bio_edit_data(userid, courseid, editmode = "E") {
 	$('#bio-num-child').val('1');
 	$('#bio-marr-status').val('Married');
 	$('#bio-num-pos-model').val('3');
-	// adjust the title line - special 'row' that acts as a window title
+  // adjust the title line - special 'row' that acts as a window title
+  
+  attendee_load_1on1();
+  attendee_load_vias();
+  attendee_load_attendance();
 };
+
+function attendee_load_1on1() {
+  console.log('load 1on1');
+};
+
+function attendee_load_vias() {
+  console.log('loading vias');
+};
+
+function attendee_load_attendance() {
+  console.log('loading attendance')
+}
 
 function bio_edit_close() {
 	$(".one-course-pages").addClass("hidediv");

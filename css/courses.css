@@ -32,7 +32,6 @@
 .course-detail-list-wrap {
   width: 75%;
   height: 100%;
-  overflow: scroll;
 }
 
 .detail-roster-list-wrap {
@@ -130,6 +129,9 @@
   overflow: hidden;
 }
 
+.bio-personal {
+  overflow: auto;
+}
 .bio-display-control {
   height: 20px;
   font-size: 0.9em;
@@ -139,6 +141,43 @@
   width: 100%;
   padding: 2px 0px 2px 3px;
 }
+
+.bio-1on1 {
+  width: 50%;
+  margin: 5px 5px 5px 5px;
+}
+
+#bio-1on1-table {
+  border: 1px solid #999999;
+	border-collapse: collapse;
+}
+
+#bio-1on1-table th {
+	border: 1px solid #999999;
+	min-width: 80px;
+}
+#bio-1on1-table td {
+  border: 1px solid #999999;
+}
+
+.bio-vias {
+  width: 50%;
+  margin: 5px 5px 5px 5px;
+}
+
+#bio-vias-table {
+  border: 1px solid #999999;
+	border-collapse: collapse;
+}
+
+#bio-vias-table th {
+	border: 1px solid #999999;
+	min-width: 80px;
+}
+#bio-vias-table td {
+  border: 1px solid #999999;
+}
+
 
 .formation-group-mgmt {
   display: flex;
