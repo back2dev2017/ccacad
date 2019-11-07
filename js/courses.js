@@ -146,7 +146,6 @@ function build_sel_course_roster_tbl (rsltdata) {
 		let refinfo = tblref.rows(rowidx).data();
 		// may want to console.log() the refinfo item if there is a problem with understanding what is available
 		// $("#name1o1").html(refinfo[0].fname + ' ' + refinfo[0].lname);
-		show_roster_1o1(refinfo);
 		$('#detail-roster-list-tbl tbody tr').removeClass('row-selected');
 		$(this).parent().addClass('row-selected');
 		// add row selection highlight stuff - remove existing highlight, then add back
@@ -155,27 +154,6 @@ function build_sel_course_roster_tbl (rsltdata) {
 	});
 }
 
-function show_roster_1o1(refinfo) {
-	// get the data for the person from the global object array
-	// $('#name1o1').html(
-	// 		'<p>' + refinfo[0].fname + ' ' + refinfo[0].lname + '</p>' +
-	// 		'<p>ID: ' + refinfo[0].id + '</p>'
-	// 		);
-	$('#name1o1').remove();
-	if ((refinfo[0].id % 2) == 1) {
-		$(".samp1o1").removeClass('hidediv');
-	} else {
-		$(".samp1o1").addClass('hidediv');
-	}
-
-	$('#via1').remove();
-	$('.viasamp').removeClass('hidediv');
-	if ((refinfo[0].id % 3) == 1) {
-		$('.viasamp').html('1 VIA');
-	} else {
-		$('.viasamp').html('No VIA yet');
-	}
-};
 
 function course_edit_data (course_id, nweeknum) {
   let coursename = '';
@@ -373,7 +351,6 @@ function build_fg_tbl (rsltdata) {
 };
 
 
-
 function course_de_change(editobj) {
 	// this function is for data entry of course performance only - so it is assuming specific html elements
 	// exist - '#course-de-id', '#week-edit-table', etc
@@ -416,7 +393,23 @@ function week_edit_close() {
   destroy_datatable("#week-edit-table");
 };
 
+function toggle_bio_detail() {
+	if ($('#bio-expand-div').text() == '+ Expand Bio') {
+		$('.bio-more').removeClass('hidediv');
+		$('#bio-expand-div').text('- Minimize Bio');
+		console.log('should have un-hidden');
+	} else {
+		$('.bio-more').addClass('hidediv');
+		$('#bio-expand-div').text('+ Expand Bio');
+	};
+};
+
 function bio_edit_data(userid, courseid, editmode = "E") {
+	let biodata = dataobj.course_roster.filter(function(btmp) {
+		return btmp.id == userid.toString();
+	});
+	
+	// TODO: hook up getting actual data of userid and populating
 	$(".one-course-pages").addClass("hidediv");
 	$(".course-attendee").removeClass("hidediv");
 	// try to center the window vertically
@@ -430,6 +423,7 @@ function bio_edit_data(userid, courseid, editmode = "E") {
 	$('#bio-num-child').val('1');
 	$('#bio-marr-status').val('Married');
 	$('#bio-num-pos-model').val('3');
+	$('#bio-attendee-id').val(biodata[0].att_id_use);
   // adjust the title line - special 'row' that acts as a window title
   
   attendee_load_1on1();
@@ -446,8 +440,19 @@ function attendee_load_vias() {
 };
 
 function attendee_load_attendance() {
-  console.log('loading attendance')
-}
+	console.log('loading attendance');
+	$.post(service_def, 
+		{ api_func: "GET_ATTENDEE_ATTEND", p_attendee_id: "65" },
+		function (rslt) {
+			// console.log(rslt);
+			dataobj.attendee_attend = rslt;
+			dataobj.attendee_attend.forEach(function(item) {
+				let newrow = '<tr><td>'+item.title+'</td><td>'+item.module_name+'</td><td>'+item.attend_type+'</td></tr>';
+				$('#bio-attend-body').append(newrow);
+				$('.bio-attend-rows-wrap').width($('#bio-attend-body').width()+17);
+			});
+		}, "json" );
+};
 
 function bio_edit_close() {
 	$(".one-course-pages").addClass("hidediv");

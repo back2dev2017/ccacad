@@ -43,7 +43,6 @@ function data_setup() {
     { api_func: "GET_FORMATION_GROUP", p_course_id: "99" },
     function (rslt) {
       window.dataobj.course_fg = rslt;
-      console.log(window.dataobj.course_fg);
     }, "json");
 };
 

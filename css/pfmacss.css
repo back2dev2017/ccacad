@@ -781,7 +781,7 @@ th {
 .row-group {
 	display: flex;
 	flex-flow: row wrap;
-	padding: 5px 10px 0px 10px;
+	padding: 5px 10px 0px 0px;
 }
 .row-group-label {
 	font-weight: bold;
@@ -790,7 +790,7 @@ th {
 .col-group {
 	display: flex;
 	flex-flow: column nowrap;
-	padding: 5px 10px 5px 10px;
+	padding: 5px 5px 5px 5px;
 	justify-content: left;
 }
 .row-group-tight {

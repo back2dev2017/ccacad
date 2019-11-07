@@ -20,7 +20,6 @@
   flex-flow: row wrap;
 }
 
-
 #course-detail-list-tbl td {
   margin: 0 0 0 0;
   padding: 0 0 0 0;
@@ -39,8 +38,10 @@
   width: 450px;
   display: flex;
   flex-flow: column nowrap;
+  border: 1px solid #99ccff;
 }
 .course-detail-roster {
+  margin-top: 10px;
   background-color: white;
   display: flex;
   flex-flow: row wrap;
@@ -49,14 +50,15 @@
   width: 100%;
 }
 
-.detail-roster-1on1 {
+.formation-group-view {
   height: 100%;
-  width: 175px;
+  width: 350px;
   border: 1px solid #99ccff;
 }
-.detail-roster-via {
+.roster-stats{
   height: 100%;
   width: 175px;
+  margin-left: 5px;
   border: 1px solid #99ccff;
 }
 .course-detail-stats {
@@ -132,12 +134,20 @@
 .bio-personal {
   overflow: auto;
 }
+
+.bio-container {
+  display: flex;
+  flex-flow: column;
+  margin-top: 0px;
+  padding-top: 0px;
+}
 .bio-display-control {
   height: 20px;
   font-size: 0.9em;
   color: #777777;
   border: 1px solid #bbbbbb;
   border-radius: 4px;
+  margin: 5px 3px 0px 0px;
   width: 100%;
   padding: 2px 0px 2px 3px;
 }
@@ -178,6 +188,48 @@
   border: 1px solid #999999;
 }
 
+#bio-attend-heading {
+  border: 1px solid #999999;
+	border-collapse: collapse;
+}
+
+#bio-attend-heading th {
+	border: 1px solid #999999;
+	min-width: 80px;
+}
+
+.bio-attend-rows-wrap {
+  margin-bottom: 5px;
+  overflow: hidden;
+  overflow-y: scroll;
+  height: 80px;
+  max-width: 80%
+}
+
+#bio-attend-body {
+  border: 1px solid #999999;
+  border-collapse: collapse;
+}
+
+#bio-attend-body td {
+  border: 1px solid #999999;
+}
+
+/* #btn-back2course {
+  background-color: #ffffff;
+  color: #6666ff;
+  max-width: 80px;
+  border-radius: 6px;
+} */
+.bio-btn-nav {
+  background-color: #ffffff;
+  color: #6666ff;
+  max-width: 80px;
+  border-radius: 6px;
+  padding: 0px 5px 0px 5px;
+  margin: 0;
+  min-width: 140px;
+}
 
 .formation-group-mgmt {
   display: flex;
@@ -217,12 +269,24 @@
   overflow: auto;
   padding: 1px 1px 1px 1px;
 }
+.biogridcell {
+  /* for the text content of the table grid showing units */
+  border: 1px solid lightgrey;
+  height: 80px;
+  margin: 0 0 0 0;
+  overflow: auto;
+  padding: 1px 1px 1px 1px;
+}
 
 .gridtext {
   font-size: 10px;
   margin: 0 0 0 0;
   /* overflow: hidden; */
   /* width: 300px; */
+}
+
+.tbl-col-2090 {
+  width: 200px;
 }
 
 .row-selected {

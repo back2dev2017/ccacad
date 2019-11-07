@@ -1,21 +1,72 @@
-<h3>Attendee Records</h3>
-<button class='btn-min' onclick="bio_edit_close()">Back</button>
+<h3 style='margin: 5px 0px 5px 0px;'>Participant Records for Saint Brides Correctional Center [PFM] / Course: Spring-2019</h3>
+<div class='row-group-tight'>
+  <!-- TODO: set up clicks for next previous buttons -->
+  <button id='btn-back2course' class='bio-btn-nav' style='min-width: 80px;' 
+      title='Back to course details' onclick="bio_edit_close()">Back</button>
+  <button id='btn-bio-next-attendee' class='bio-btn-nav' style='margin-left: 20px'>Next Participant</button>
+  <button id='btn-bio-prev-attendee' class='bio-btn-nav' style='margin-left: 5px;'>Previous Participant</button>
+</div>
+
 <div class='bio-container'>
-  <div id='bio-personal' class='row-group'>
+  <div id='bio-personal' class='row-group' style='padding: 0; margin: 0;'>
     <div class='row-group'>
       <div class='col-group'>
         <label for='bio-fname'>First Name:</label>
         <input id='bio-fname' type='text'>
       </div>
-      <div class='col-group' style='margin-left: 10px;'>
+      <div class='col-group' style='margin-left: 5px;'>
         <label for='bio-lname'>Last Name:</label>
         <input id='bio-lname' type='text'>
       </div>
-      <div class='col-group' style='margin-left: 30px;'>
+      <div class='col-group' style='margin-left: 5px;'>
         <label for='bio-age'>Age:</label>
         <input id='bio-age' type='text' class='inp-xsm'>
       </div>
+      <div class='col-group' style='margin-left: 5px;'>
+        <label for='bio-doc-num'>DOC #:</label>
+        <input type='text' id='bio-doc-num' class='inp-med'/>
+      </div>
+      <div class='col-group' style='margin-left: 5px;'>
+        <label for='bio-attendee-id'>Participant ID:</label>
+        <input type='text' id='bio-attendee-id' class='inp-med'/>
+      </div>
+      <!-- TODO: new data items: release date, parole eligiblity -->
+      <div class='col-group' style='margin-left: 5px;'>
+        <label for='bio-release-date'>Release:</label>
+        <input type='date' id='bio-release-date' value='2022-06-01'/>
+      </div>
+      <div class='col-group' style='margin-left: 5px;'>
+        <label for='bio-parole-eligible'>Parole Eligible:</label>
+        <input type='date' id='bio-parole-eligible'/>
+      </div>
     </div>
+    <div class='row-group'>
+      <!-- TODO: set up calculations for attend % (day/night flag in data), new data items: avg test, workbook complete, discplinary status -->
+      <div class='col-group'>
+        Daytime Attendance: 100% </br>
+        Evening Attendance: 90%
+      </div>
+      <div class='col-group'>
+        <label for='bio-tests-avg'>Avg Test Score:</label>
+        <input type='text' id='bio-tests-avg' class='inp-sm'/>
+      </div>
+      <div class='col-group'>
+        <label for='bio-workbook-stat'>Workbook Status:</label>
+        <input type='text' id='bio-workbook-stat' class='inp-sm'/>
+      </div>
+      <div class='col-group'>
+        <label for='bio-discipline-stat'>Disciplinary Action:</label>
+        <input type='text' id='bio-discipline-stat' class='inp-med' value='none'/>
+      </div>
+      <div class='col-group' style='margin-left: 40px; color: red;'>
+        PF Alert: </br>
+        Test scores seem low, VIAs lacking
+      </div>  
+
+    </div>
+
+
+    <div class='bio-display-control' id='bio-expand-div' onclick="toggle_bio_detail()">+ Expand Bio</div>
 
     <div class="bio-more hidediv">
 
@@ -61,8 +112,6 @@
         </div>
 
         <div style='margin-left: 10px;'>
-          <label for='bio-doc-num'>DOC #:</label>
-          <input type='text' id='bio-doc-num' class='inp-med'/>
           <label for='bio-email' style='margin-left: 30px'>Email: </label>
           <input type='text' id='bio-email' class='inp-lrg'/>
         </div>
@@ -368,97 +417,81 @@
 
     </div>
 
-    <div class='bio-display-control'>Expand Bio</div>
-
-    <div class='bio-1on1'>
-      <h4 style='margin-top: 10px;'>One on One Interviews <span style='margin-left: 10px'><button class=btn-small>Add</button></span></h4>
-      <div class='bio-1on1-list-wrap'>
-        <table id='bio-1on1-table'>
-          <thead>
-            <tr><th>Date</th><th>Comments</th></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="text-decoration: underline; color: blue;"><strong>2019-04-01</strong></td>
-              <td class='gridcell'>
-                  The ipso factorum sample text that does not mean anything 
-                  but is simply taking up the region of the screen to show
-                  samples of information that might be useful to see 
-                  and understand function and format/layout.
-              </td>
-            </tr>
-            <tr>
-              <td style="text-decoration: underline; color: blue;"><strong>2019-03-01</strong></td>
-              <td class='gridcell'>
-                  The ipso factorum sample text that does not mean anything 
-                  but is simply taking up the region of the screen to show
-                  samples of information that might be useful to see 
-                  and understand function and format/layout.
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-    </div>
-
-    <div class='bio-vias'>
-      <h4 style='margin-top: 10px;'>Values in Action <span style='margin-left: 10px'><button class=btn-small>Add</button></span></h4>
-      <div class='bio-vias-list-wrap'>
-        <table id='bio-vias-table'>
-          <thead>
-            <tr><th>Date</th><th>Category</th></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="text-decoration: underline; color: blue;"><strong>2019-03-11</strong></td>
-              <td>
-                Cooperation
-              </td>
-            </tr>
-            <tr>
-              <td style="text-decoration: underline; color: blue;"><strong>2019-01-18</strong></td>
-              <td>
-                Commitment
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class='bio-attendance'>
-      <h4 style='margin-top: 10px;'>Attendance Record <span style='margin-left: 10px'><button class=btn-small>Add</button></span></h4>
-      <div class='bio-attendance-list-wrap'>
-        <table id='bio-attend-heading'>
-          <thead><tr><th>Unit</th><th>Attendance</th></tr></thead>
-        </table>
-        <div class='bio-attend-rows-wrap'>
-          <table id='bio-attend-body'>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
   </div>
 
-</div>
-
-<div class='attendee-stats'>
-  <div class='attendee-stats-attendance'>
-    <table id='bio-attend-heading'>
-      <thead><tr><th>Unit</th><th>Attendance</th></tr></thead>
-    </table>
-
-    <div class='bio-attend-rows-wrap'>
-      <table id='bio-attend-body'>
-        <tbody></tbody>
+  <div class='bio-1on1'>
+    <h4 style='margin-top: 10px;'>One on One Interviews <span style='margin-left: 10px'><button class=btn-small>Add</button></span></h4>
+    <div class='bio-1on1-list-wrap'>
+      <table id='bio-1on1-table'>
+        <thead>
+          <tr><th>Date</th><th>Comments</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-decoration: underline; color: blue;"><strong>2019-04-01</strong></td>
+            <td class='biogridcell'>
+                The ipso factorum sample text that does not mean anything 
+                but is simply taking up the region of the screen to show
+                samples of information that might be useful to see 
+                and understand function and format/layout.
+            </td>
+          </tr>
+          <tr>
+            <td style="text-decoration: underline; color: blue;"><strong>2019-03-01</strong></td>
+            <td class='biogridcell'>
+                The ipso factorum sample text that does not mean anything 
+                but is simply taking up the region of the screen to show
+                samples of information that might be useful to see 
+                and understand function and format/layout.
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </div>
-  <div class='attendee-stats-1on1'>
 
+  <div class='bio-vias'>
+    <h4 style='margin-top: 10px;'>Values in Action <span style='margin-left: 10px'><button class=btn-small>Add</button></span></h4>
+    <div class='bio-vias-list-wrap'>
+      <table id='bio-vias-table'>
+        <thead>
+          <tr><th>Date</th><th>Category</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-decoration: underline; color: blue;"><strong>2019-03-11</strong></td>
+            <td>
+              Cooperation
+            </td>
+          </tr>
+          <tr>
+            <td style="text-decoration: underline; color: blue;"><strong>2019-01-18</strong></td>
+            <td>
+              Commitment
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
 
+  <div class='bio-attendance'>
+    <h4 style='margin-top: 10px;'>Attendance Record </h4>
+    <div class='bio-attendance-list-wrap'>
+      <table id='bio-attend-heading'>
+        <col width='150'><col width='120'><col width='90'>
+        <thead><tr><th>Unit</th><th>Module</th><th>Attendance</th></tr></thead>
+      </table>
+      <div class='bio-attend-rows-wrap'>
+        <table id='bio-attend-body'>
+          <col width='150'><col width='120'><col width='90'>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div style='margin-top: 5px; height: 20px;'>-</div>
+
+
+</div>

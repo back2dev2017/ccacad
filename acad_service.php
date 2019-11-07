@@ -34,9 +34,9 @@ $c_apifunc = strtoupper($_POST['api_func']);
 // $c_apifunc = 'testingnothing';
 
 // this connection is for a local db connection
-// $dbconn = pg_connect("host=localhost dbname=academydb user=cc2000 password=mssucksbad");
+$dbconn = pg_connect("host=localhost dbname=academydb user=cc2000 password=mssucksbad");
 // this connection is for the prod db (to be running from prod)
-$dbconn = pg_connect(getenv("DATABASE_URL"));
+// $dbconn = pg_connect(getenv("DATABASE_URL"));
 
 if (!$dbconn) {
 	echo "Error trying to just connect to DB";
@@ -81,6 +81,17 @@ switch ($c_apifunc) {
     
 		// $result = pg_query_params($dbconn, 'select * from get_course_attend($1, $2)', array($v_course_id, $v_unit_id));
 		$result = pg_query_params($dbconn, 'select * from get_course_attend($1)', array('11'));		
+		$ret_array = pg_fetch_all($result);
+		echo json_encode($ret_array);
+		break;
+
+	case "GET_ATTENDEE_ATTEND":
+		// gets an individuals attendance record 
+		$v_attendee_id = isset($_POST['p_attendee_id']) ? $_POST['p_attendee_id'] : null;
+
+		// note, forcing to ignore modue_id 13 for now - that is orientation week - look in stored procedure
+
+		$result = pg_query_params($dbconn, 'select * from get_attendee_attend($1)', array($v_attendee_id));
 		$ret_array = pg_fetch_all($result);
 		echo json_encode($ret_array);
 		break;
