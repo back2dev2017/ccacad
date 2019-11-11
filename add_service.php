@@ -246,7 +246,8 @@ switch ($c_apifunc) {
 	    break;
 
   case "CONN_INFO":
-	    echo pg_host($dbconn);
+      echo pg_host($dbconn) . '</br>' . getenv("CHARLIETESTENV");
+      
 	    break;
       
 	default:
