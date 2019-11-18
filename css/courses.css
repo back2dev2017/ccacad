@@ -135,6 +135,9 @@
   overflow: auto;
 }
 
+.bio-menu {
+  justify-content: space-between;
+}
 .bio-container {
   display: flex;
   flex-flow: column;
@@ -147,12 +150,12 @@
   color: #777777;
   border: 1px solid #bbbbbb;
   border-radius: 4px;
-  margin: 5px 3px 0px 0px;
-  width: 100%;
+  margin: 5px 5px 0px 5px;
+  width: 98%;
   padding: 2px 0px 2px 3px;
 }
 
-.bio-more {
+.bio-subsect {
   overflow: auto;
 }
 

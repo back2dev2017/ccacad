@@ -48,6 +48,12 @@ function data_setup() {
   // for now, forcing course to course id 11
   dataobj.selected_course = 11;
 
+	// set up 'main divs' dimentions - recall, single-page-app - hiding/showing divs is the navigation method - scrolling
+	// is bad design, so set up sizes for the main conent divs to be able to scroll internally only if needed
+  let totalh = Math.min($(window).height(), $(document).height(), 1024);
+  let totalw = Math.min($(window).width(), $(document).width(), 1280);
+  dataobj.maindivheight = totalh - $('#main-heading').height() - $('#am-topmenu').height() - 60;
+	dataobj.maindivwidth = totalw - $('.l-sidebar').width() - 40;
 };
 
 
@@ -84,6 +90,7 @@ function selecttopsection (btnclicked) {
 
     case 'acaddash':
 			$(".dashboard-sect").removeClass("hidediv");
+			resize_maindiv('.dashboard-sect');
 			gen_attendance_chart();
 			gen_progress_chart();
 			gen_via_chart();
@@ -926,6 +933,8 @@ function destroy_datatable(dtdivref) {
 };
 
 function resize_div (div_ident, bump_t = 0, bump_b = 0) {
+	// ******* DEPRECATED - DO NOT USE THIS
+
 	//    sets the height of a div to keep it all on-screen with scrolling inside div
 	// 	div_ident: the div whose 'height' to set (jQuery form), bump_t and _b: values to allow more spacing
 	// 	e.g. an expected header above a Div, extra space at bottom of div for other objects, etc
@@ -941,17 +950,10 @@ function resize_maindiv (divpick) {
   //   purpose: to resize a primary div in the app. Recall there is a left menu bar, then sometimes a top menu bar in the 
   // app. This function accounts for those, and resizes the passed div to the 'rest' of the screen
   // divpick - a string that is a jquery selector to select the div to be resized.
-  //
-  // get the available screen dimensions
-  let totalh = $(document).height();
-  let totalw = $(document).width();
-  let sidew = $('.l-sidebar').width();
-  // a little trick here. Using jQuery position(), can get the 'top'. That top is absolute so it will designate how much
-  // has been taken up by any other vertical elements.
-  let toppush = $(divpick).position().top;
-  // calc and set the height and width of the passed div
-  $(divpick).height(totalh - toppush - 40);
-  $(divpick).width(totalw - sidew - 30);
+	//
+	// recall, the global variable dataobj.maindivheight and .maindivwidth were set at the startup. Use those for this resizing
+  $(divpick).height(dataobj.maindivheight);
+  $(divpick).width(dataobj.maindivwidth);
 };
 
 function get_steward_list() {

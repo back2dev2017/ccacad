@@ -326,8 +326,6 @@ function edit_fg_data (coursenum) {
 };
 
 
-
-
 function build_fg_tbl (rsltdata) {
 	// var tblht = $("#user-list-tbl").height() - 88;
 		// var tblhtpx = tblht.toString() + "px";
@@ -426,14 +424,28 @@ function toggle_bio_detail() {
 };
 
 function bio_edit_data(userid, courseid, editmode = "E") {
-	let biodata = dataobj.course_roster.filter(function(btmp) {
+	let partdata = dataobj.course_roster.filter(function(btmp) {
 		return btmp.id == userid.toString();
 	});
-	
-	// TODO: hook up getting actual data of userid and populating
+	// display the content for editing
 	$(".one-course-pages").addClass("hidediv");
 	$(".course-attendee").removeClass("hidediv");
-	// try to center the window vertically
+	resize_maindiv('.course-attendee');
+	// set some visuals - prevent need to scroll whole page
+	// TODO: set height of div to prevent whole-screen scroll	
+	$('.bio-subsect').height(dataobj.maindivheight - $('#bio-expand-div').position().top);
+
+	// assign data to data entry items.
+	bio_assign_data(partdata);
+
+  // adjust the title line - special 'row' that acts as a window title
+  attendee_load_1on1();
+  attendee_load_vias();
+  attendee_load_attendance();
+};
+
+function bio_assign_data(biodata) {
+	// TODO: hook up getting actual data of userid and populating - in progress - assigned - still need to save data
 	$('#bio-fname').val(biodata[0].fname);
 	$('#bio-lname').val(biodata[0].lname);
 	$('#bio-age').val(biodata[0].age);
@@ -447,20 +459,80 @@ function bio_edit_data(userid, courseid, editmode = "E") {
   $('#bio-attendee-id').val(biodata[0].att_id_use);
   $('#bio-release-date').val(biodata[0].release_date);
   $('#bio-parole-eligible').val(biodata[0].parole_eligible);
-  $('#bio-workbook-stat').val(biodata[0].workbook_status);
-  biodata[0].gender.toUpperCase() == 'M' ? $('#bio-male').prop('checked',true) : $('#bio-female').prop('checked',true);
-  $('#bio-race').val(biodata[0].race);
-  biodata[0].military.toUpperCase() == 'Y' ? $('#bio-mil-yes').prop('checked',true) : $('#bio-mil-no').prop('checked',true);
-  biodata[0].citizen.toUpperCase() == 'Y' ? $('#bio-citizen-yes').prop('checked',true) : $('#bio-citizen-no').prop('checked',true);
+	$('#bio-workbook-stat').val(biodata[0].workbook_status);
+	if (biodata[0].gender != null) {
+		biodata[0].gender.toUpperCase() == 'M' ? $('#bio-male').prop('checked',true) : $('#bio-female').prop('checked',true);
+	};
+	$('#bio-race').val(biodata[0].race);
+	if (biodata[0].military != null) {
+		biodata[0].military.toUpperCase() == 'Y' ? $('#bio-mil-yes').prop('checked',true) : $('#bio-mil-no').prop('checked',true);
+	};
+	if (biodata[0].citizen != null) {
+		biodata[0].citizen.toUpperCase() == 'Y' ? $('#bio-citizen-yes').prop('checked',true) : $('#bio-citizen-no').prop('checked',true);
+	};
   $('#bio-email').val(biodata[0].email);
-  
-
-
-  // adjust the title line - special 'row' that acts as a window title
-  
-  attendee_load_1on1();
-  attendee_load_vias();
-  attendee_load_attendance();
+	$('#bio-first-arrest-age').val(biodata[0].first_arrest_age);
+	$('#bio-prev-conv').val(biodata[0].previous_convictions);
+	$('#bio-adult-incar').val(biodata[0].adult_incarcerations);
+	$('#bio-fam-crime').val(biodata[0].family_crime_history);
+	$('#bio-num-discipline').val(biodata[0].num_discipline_infractions);
+	$('#bio-num-child').val(biodata[0].num_child);
+	$('#bio-marr-status').val(biodata[0].marital_status);
+	$('#bio-num-pos-model').val(biodata[0].num_positive_model);
+	$('#bio-fam-involve').val(biodata[0].fam_involve);
+	$('#bio-fam-relation').val(biodata[0].fam_relationship);
+	$('#bio-num-addr-change').val(biodata[0].num_addr_change);
+	$('#bio-friends').val(biodata[0].friendships);
+	$('#bio-friend-record').val(biodata[0].num_friends_criminal);
+	$('#bio-friend-incarc').val(biodata[0].friends_during_prison);
+	$('#bio-use-alc').val(biodata[0].friends_during_prison);
+	if (biodata[0].use_alcohol != null) {
+		biodata[0].use_alcohol.toUpperCase() == 'Y' ? $('#bio-use-alcohol-yes').prop('checked',true) : $('#bio-use-alcohol-no').prop('checked',true);
+	};
+	if (biodata[0].use_drugs != null) {
+		biodata[0].use_drugs.toUpperCase() == 'Y' ? $('#bio-use-drug-yes').prop('checked',true) : $('#bio-use-drug-no').prop('checked',true);
+	};
+	if (biodata[0].current_alcohol != null) {
+		biodata[0].current_alcohol.toUpperCase() == 'Y' ? $('#bio-curr-alc-yes').prop('checked',true) : $('#bio-curr-alc-no').prop('checked',true);
+	};
+	if (biodata[0].current_drug != null) {
+		biodata[0].current_drug.toUpperCase() == 'Y' ? $('#bio-curr-drug-yes').prop('checked',true) : $('#bio-curr-drug-no').prop('checked',true);
+	};
+	if (biodata[0].use_contrib_crime != null) {
+		biodata[0].use_contrib_crime.toUpperCase() == 'Y' ? $('#bio-use-crime-yes').prop('checked',true) : $('#bio-use-crime-no').prop('checked',true);
+	};
+	$('#bio-highest-ed').val(biodata[0].highest_education);
+	if (biodata[0].school_expel != null) {
+		biodata[0].school_expel.toUpperCase() == 'Y' ? $('#bio-school-expel-yes').prop('checked',true) : $('#bio-school-expel-no').prop('checked',true);
+	};
+	if (biodata[0].skill_plan != null) {
+		biodata[0].skill_plan.toUpperCase() == 'Y' ? $('#bio-skill-plan-yes').prop('checked',true) : $('#bio-skill-plan-no').prop('checked',true);
+	};
+	$('#bio-skill-plan-explain').val(biodata[0].skill_plan_explain);	
+	$('#bio-employ').val(biodata[0].employ);
+	if (biodata[0].currently_employed != null) {
+		biodata[0].currently_employed.toUpperCase() == 'Y' ? $('#bio-emp-incarc-yes').prop('checked',true) : $('#bio-emp-incarc-no').prop('checked',true);
+	};
+	if (biodata[0].employ_plan != null) {
+		biodata[0].employ_plan.toUpperCase() == 'Y' ? $('#bio-emp-plan-yes').prop('checked',true) : $('#bio-emp-plan-no').prop('checked',true);
+	};
+	$('#bio-emp-plan-explain').val(biodata[0].employ_plan_explain);
+	$('#bio-clubs').val(biodata[0].clubs_prior);
+	$('#bio-clubs-incarc').val(biodata[0].clubs_in_prison);
+	if (biodata[0].club_leader != null) {
+		biodata[0].club_leader.toUpperCase() == 'Y' ? $('#bio-lead-prosocial-yes').prop('checked',true) : $('#bio-lead-prosocial-no').prop('checked',true);
+	};
+	$('#bio-lead-prosocial-explain').val(biodata[0].club_leader_explain);
+	$('#bio-lead-club-incarc').val(biodata[0].club_leader_explain);
+	$('#bio-express').val(biodata[0].express_needs);
+	$('#bio-understand').val(biodata[0].understand_other_views);
+	$('#bio-make-friends').val(biodata[0].make_friends);
+	$('#bio-accept-critic').val(biodata[0].accept_criticism);
+	$('#bio-give-critic').val(biodata[0].provide_good_criticism);
+	$('#bio-accept-resp').val(biodata[0].accept_responsibility);
+	$('#bio-confident-prob').val(biodata[0].manage_problems);
+	$('#bio-dev-goals').val(biodata[0].develop_goals);
+	$('#bio-mng-money').val(biodata[0].manage_money);
 };
 
 function attendee_load_1on1() {
