@@ -44,6 +44,10 @@ function data_setup() {
     function (rslt) {
       window.dataobj.course_fg = rslt;
     }, "json");
+
+  // for now, forcing course to course id 11
+  dataobj.selected_course = 11;
+
 };
 
 
@@ -122,7 +126,7 @@ function allnavclick (tabclicked) {
 				destroy_datatable('#course-detail-list-tbl');
 				destroy_datatable('#detail-roster-list-tbl');
 		 	}
-			build_sel_course_tbl(window.dataobj.course_selected);
+			build_sel_course_tbl(window.dataobj.course_data_list);
 			build_sel_course_roster_tbl(window.dataobj.course_roster);
 			break;
 

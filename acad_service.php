@@ -112,8 +112,9 @@ switch ($c_apifunc) {
 			$v_course_id = $_POST['p_course_id'];
 		} else {
 			$v_course_id = null;
-		}
-		$result = pg_query_params($dbconn, "select * from get_roster($1)", array($v_course_id));
+    }
+    $result = pg_query_params($dbconn, "select * from course_attendee_list where course_id = $1", array($v_course_id));
+		// $result = pg_query_params($dbconn, "select * from get_roster($1)", array($v_course_id));
 		$ret_array = pg_fetch_all($result);
 		echo json_encode($ret_array);
 		break;

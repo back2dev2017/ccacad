@@ -152,6 +152,10 @@
   padding: 2px 0px 2px 3px;
 }
 
+.bio-more {
+  overflow: auto;
+}
+
 .bio-1on1 {
   width: 50%;
   margin: 5px 5px 5px 5px;
@@ -235,7 +239,7 @@
   display: flex;
   flex-flow: row wrap;
   height: 50%;
-  width: 50%;
+  width: 100%;
   max-width: 350px;
   max-height: 450px;
 }
@@ -244,7 +248,7 @@
   height: 80%
 }
 .fg-new-data {
-  width: 48%;
+  width: 38%;
   height: 80%;
   display: flex;
   flex-flow: column nowrap;

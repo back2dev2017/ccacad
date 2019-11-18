@@ -39,13 +39,12 @@
         <label for='bio-parole-eligible'>Parole Eligible:</label>
         <input type='date' id='bio-parole-eligible'/>
       </div>
-    </div>
-    <div class='row-group'>
       <!-- TODO: set up calculations for attend % (day/night flag in data), new data items: avg test, workbook complete, discplinary status -->
       <div class='col-group'>
         Daytime Attendance: 100% </br>
         Evening Attendance: 90%
       </div>
+      <!-- TODO: set up new database table and design for 'alerts', to allow PF admins to kind of send messages in specific areas to AMs -->
       <div class='col-group'>
         <label for='bio-tests-avg'>Avg Test Score:</label>
         <input type='text' id='bio-tests-avg' class='inp-sm'/>
@@ -63,9 +62,7 @@
         PF Alert: </br>
         Test scores seem low, VIAs lacking
       </div>  
-
     </div>
-
 
     <div class='bio-display-control' id='bio-expand-div' onclick="toggle_bio_detail()">+ Expand Bio</div>
 

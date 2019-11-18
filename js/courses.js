@@ -53,7 +53,7 @@ function gen_course_content(course_id) {
     tblarray.push(tmpobj);
     tmpobj = {};
   };
-  window.dataobj.course_selected = tblarray;
+  window.dataobj.course_data_list = tblarray;
 };
 
 function build_sel_course_tbl (rsltdata) {
@@ -313,13 +313,34 @@ function build_edit_course_tbl (rsltdata) {
   // was set up for the 'td' elements
   $('#week-edit-table>tbody>tr:first>td:first').trigger('click');
 
-}
+};
+
+function edit_fg_data (coursenum) {
+	$.post(service_def, 
+		{ api_func: "GET_FORMATION_GROUP", p_course_id: coursenum },
+		function (rslt) {
+      console.log(rslt);
+			dataobj.fg_data = rslt;
+      build_fg_tbl(rslt);
+		}, "json" );
+};
+
+
 
 
 function build_fg_tbl (rsltdata) {
 	// var tblht = $("#user-list-tbl").height() - 88;
 		// var tblhtpx = tblht.toString() + "px";
 		// $("#user-list-tbl").removeAttr('width').DataTable( {
+  
+  for (let i=0; i<rsltdata.length; i++)  {
+    let tcount = 0;
+    dataobj.course_roster.forEach(function(person) {
+      if (rsltdata[i].id == person.formation_group_id) {tcount += 1;}
+    });
+    rsltdata[i].assigned_count = tcount;
+  };
+
 	$("#fg-edit-table").DataTable( {
 		"bInfo": false,
 		"bFilter": false,
@@ -337,7 +358,7 @@ function build_fg_tbl (rsltdata) {
       { data: "fg_id", "width": "50px", "title": "id", "visible":false }, 
       { data: "course_id", "width": "50px", "title": "course id", "visible":false }, 
       { data: "group_name", "width": "120px", "title": "Group Name" }, 
-      { data: "group_name", "width": "50px", "title": "",
+      { data: "assigned_count", "width": "100px", "title": "Assigned",
         'render': function (data,type,row,meta) {
           let retdata = data;
           let delid = row.id.toString();
@@ -413,17 +434,28 @@ function bio_edit_data(userid, courseid, editmode = "E") {
 	$(".one-course-pages").addClass("hidediv");
 	$(".course-attendee").removeClass("hidediv");
 	// try to center the window vertically
-	$('#bio-fname').val('Charlie');
-	$('#bio-lname').val('Coleman');
-	$('#bio-age').val(57);
-	$('#bio-doc-num').val('12345Z54321');
-	$('#bio-first-arrest-age').val('n/a');
-	$('#bio-prev-conv').val('0');
-	$('#bio-fam-crime').val('none');
-	$('#bio-num-child').val('1');
-	$('#bio-marr-status').val('Married');
-	$('#bio-num-pos-model').val('3');
-	$('#bio-attendee-id').val(biodata[0].att_id_use);
+	$('#bio-fname').val(biodata[0].fname);
+	$('#bio-lname').val(biodata[0].lname);
+	$('#bio-age').val(biodata[0].age);
+	$('#bio-doc-num').val(biodata[0].doc_number);
+	$('#bio-first-arrest-age').val(biodata[0].first_arrest_age);
+	$('#bio-prev-conv').val(biodata[0].previous_convictions);
+	$('#bio-fam-crime').val(biodata[0].fam_crime_history);
+	$('#bio-num-child').val(biodata[0].num_child);
+	$('#bio-marr-status').val(biodata[0].marital_status);
+	$('#bio-num-pos-model').val(biodata[0].num_positive_model);
+  $('#bio-attendee-id').val(biodata[0].att_id_use);
+  $('#bio-release-date').val(biodata[0].release_date);
+  $('#bio-parole-eligible').val(biodata[0].parole_eligible);
+  $('#bio-workbook-stat').val(biodata[0].workbook_status);
+  biodata[0].gender.toUpperCase() == 'M' ? $('#bio-male').prop('checked',true) : $('#bio-female').prop('checked',true);
+  $('#bio-race').val(biodata[0].race);
+  biodata[0].military.toUpperCase() == 'Y' ? $('#bio-mil-yes').prop('checked',true) : $('#bio-mil-no').prop('checked',true);
+  biodata[0].citizen.toUpperCase() == 'Y' ? $('#bio-citizen-yes').prop('checked',true) : $('#bio-citizen-no').prop('checked',true);
+  $('#bio-email').val(biodata[0].email);
+  
+
+
   // adjust the title line - special 'row' that acts as a window title
   
   attendee_load_1on1();
