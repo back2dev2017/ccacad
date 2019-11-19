@@ -535,6 +535,12 @@ function bio_assign_data(biodata) {
 	$('#bio-mng-money').val(biodata[0].manage_money);
 };
 
+function bio_save_data() {
+
+};
+
+
+
 function attendee_load_1on1() {
   console.log('load 1on1');
 };
