@@ -8,6 +8,10 @@
     <button id='btn-bio-prev-attendee' class='bio-btn-nav' style='margin-left: 5px;'>Previous Participant</button>
   </div>
   <div>
+      <button id='btn-bio-add' class='edit-btn'>Add</button>
+      <button id='btn-bio-drop' class='edit-btn'>Drop</button>    
+  </div>
+  <div class='bio-data-btns'>
     <button id='btn-bio-save' class='edit-btn clr-yes'>Save Changes</button>
     <button id='btn-bio-cancel' class='edit-btn clr-no'>Discard Changes</button>
   </div>
@@ -493,15 +497,14 @@
       </div>
 
     </div>
-
   </div>
-
-
-
-  <div style='margin-top: 5px; height: 20px;'>-</div>
 
   <!-- TODO: new data: infraction types - admin maintained -->
   <!-- TODO: new data: infraction history - AM maintains -->
-
+  <!-- some hidden variables useful later -->
+  <input type='text' id='bio-id' class='hidevar'/>
+  <input type='text' id='bio-course-id' class='hidevar'/>
+  <input type='text' id='bio-enroll-date' class='hidevar'/>
+  <input type='text' id='bio-drop-date' class='hidevar'/>
 
 </div>

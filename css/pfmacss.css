@@ -632,6 +632,8 @@ select {
 
 .edit-btn {
 	border-radius: 8px;
+	background-color: blue;
+	color: white;
 	cursor: pointer;
 	font-family: Arial;
 	font-size: 14px;

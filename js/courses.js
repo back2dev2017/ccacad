@@ -446,6 +446,10 @@ function bio_edit_data(userid, courseid, editmode = "E") {
 
 function bio_assign_data(biodata) {
 	// TODO: hook up getting actual data of userid and populating - in progress - assigned - still need to save data
+	$('#bio-id').val(biodata[0].id);
+	$('#bio-course-id').val(biodata[0].course_id);
+	$('#bio-enroll-date').val(biodata[0].enroll_date);
+	$('#bio-drop-date').val(biodata[0].drop_date);
 	$('#bio-fname').val(biodata[0].fname);
 	$('#bio-lname').val(biodata[0].lname);
 	$('#bio-age').val(biodata[0].age);
@@ -477,15 +481,12 @@ function bio_assign_data(biodata) {
 	$('#bio-fam-crime').val(biodata[0].family_crime_history);
 	$('#bio-num-discipline').val(biodata[0].num_discipline_infractions);
 	$('#bio-num-child').val(biodata[0].num_child);
-	$('#bio-marr-status').val(biodata[0].marital_status);
-	$('#bio-num-pos-model').val(biodata[0].num_positive_model);
 	$('#bio-fam-involve').val(biodata[0].fam_involve);
 	$('#bio-fam-relation').val(biodata[0].fam_relationship);
 	$('#bio-num-addr-change').val(biodata[0].num_addr_change);
 	$('#bio-friends').val(biodata[0].friendships);
 	$('#bio-friend-record').val(biodata[0].num_friends_criminal);
 	$('#bio-friend-incarc').val(biodata[0].friends_during_prison);
-	$('#bio-use-alc').val(biodata[0].friends_during_prison);
 	if (biodata[0].use_alcohol != null) {
 		biodata[0].use_alcohol.toUpperCase() == 'Y' ? $('#bio-use-alcohol-yes').prop('checked',true) : $('#bio-use-alcohol-no').prop('checked',true);
 	};
@@ -523,7 +524,7 @@ function bio_assign_data(biodata) {
 		biodata[0].club_leader.toUpperCase() == 'Y' ? $('#bio-lead-prosocial-yes').prop('checked',true) : $('#bio-lead-prosocial-no').prop('checked',true);
 	};
 	$('#bio-lead-prosocial-explain').val(biodata[0].club_leader_explain);
-	$('#bio-lead-club-incarc').val(biodata[0].club_leader_explain);
+	$('#bio-lead-club-incarc').val(biodata[0].club_leader_prison_explain);
 	$('#bio-express').val(biodata[0].express_needs);
 	$('#bio-understand').val(biodata[0].understand_other_views);
 	$('#bio-make-friends').val(biodata[0].make_friends);
@@ -536,6 +537,174 @@ function bio_assign_data(biodata) {
 };
 
 function bio_save_data() {
+	let tobj = {};
+	tobj.id = $('#bio-id').val();
+	tobj.course_id = $('#bio-course-id').val();
+	tobj.enroll_date = $('#bio-enroll-date').val();
+	tobj.drop_date = $('#bio-drop-date').val();
+	tobj.fname = $('#bio-fname').val();
+	tobj.lname = $('#bio-lname').val();
+	tobj.age = $('#bio-age').val();
+	tobj.doc_number = $('#bio-doc-num').val();
+	tobj.first_arrest_age = $('#bio-first-arrest-age').val();
+	tobj.previous_convictions = $('#bio-prev-conv').val();
+	tobj.fam_crime_history = $('#bio-fam-crime').val();
+	tobj.num_child = $('#bio-num-child').val();
+	tobj.marital_status = $('#bio-marr-status').val();
+	tobj.num_positive_model = $('#bio-num-pos-model').val();
+	tobj.att_id_use = $('#bio-attendee-id').val();
+	tobj.release_date = $('#bio-release-date').val();
+	tobj.parole_eligible = $('#bio-parole-eligible').val();
+	tobj.workbook_status = $('#bio-workbook-stat').val();
+	tobj.gender = $('#bio-male').prop('checked') ? 'Y' : 'N';
+	tobj.race = $('#bio-race').val();
+	tobj.military = $('#bio-mil-yes').prop('checked') ? 'Y' : 'N';
+	tobj.citizen = $('#bio-citizen-yes').prop('checked') ? 'Y' : 'N';
+	tobj.email = $('#bio-email').val();
+	tobj.first_arrest_age = $('#bio-first-arrest-age').val();
+	tobj.previous_convictions = $('#bio-prev-conv').val();
+	tobj.adult_incarcerations = $('#bio-adult-incar').val();
+	tobj.family_crime_history = $('#bio-fam-crime').val();
+	tobj.num_discipline_infractions = $('#bio-num-discipline').val();
+	tobj.num_child = $('#bio-num-child').val();
+	tobj.fam_involve = $('#bio-fam-involve').val();
+	tobj.fam_relationship = $('#bio-fam-relation').val();
+	tobj.num_addr_change = $('#bio-num-addr-change').val();
+	tobj.friendships = $('#bio-friends').val();
+	tobj.num_friends_criminal = $('#bio-friend-record').val();
+	tobj.friends_during_prison = $('#bio-friend-incarc').val();
+	tobj.use_alcohol = $('#bio-use-alcohol-yes').prop('checked') ? 'Y' : 'N';
+	tobj.use_drugs = $('#bio-use-drug-yes').prop('checked') ? 'Y' : 'N';
+	tobj.current_alcohol = $('#bio-curr-alc-yes').prop('checked') ? 'Y' : 'N';
+	tobj.current_drug = $('#bio-curr-drug-yes').prop('checked') ? 'Y' : 'N';
+	tobj.use_contrib_crime = $('#bio-use-crime-yes').prop('checked') ? 'Y' : 'N';
+	tobj.highest_education = $('#bio-highest-ed').val();
+	tobj.school_expel = $('#bio-school-expel-yes').prop('checked') ? 'Y' : 'N';
+	tobj.skill_plan = $('#bio-skill-plan-yes').prop('checked') ? 'Y' : 'N';
+	tobj.skill_plan_explain = $('#bio-skill-plan-explain').val();
+	tobj.employ = $('#bio-employ').val();
+	tobj.currently_employed = $('#bio-emp-incarc-yes').prop('checked') ? 'Y' : 'N';
+	tobj.employ_plan = $('#bio-emp-plan-yes').prop('checked') ? 'Y' : 'N';
+	tobj.employ_plan_explain = $('#bio-emp-plan-explain').val();
+	tobj.clubs_prior = $('#bio-clubs').val();
+	tobj.clubs_in_prison = $('#bio-clubs-incarc').val();
+	tobj.club_leader = $('#bio-lead-prosocial-yes').prop('checked') ? 'Y' : 'N';
+	tobj.club_leader_explain = $('#bio-lead-prosocial-explain').val();
+	tobj.club_leader_prison_explain = $('#bio-lead-club-incarc').val();
+	tobj.express_needs = $('#bio-express').val();
+	tobj.understand_other_views = $('#bio-understand').val();
+	tobj.make_friends = $('#bio-make-friends').val();
+	tobj.accept_criticism = $('#bio-accept-critic').val();
+	tobj.provide_good_criticism = $('#bio-give-critic').val();
+	tobj.accept_responsibility = $('#bio-accept-resp').val();
+	tobj.manage_problems = $('#bio-confident-prob').val();
+	tobj.develop_goals = $('#bio-dev-goals').val();
+	tobj.manage_money = $('#bio-mng-money').val();
+
+
+	$.post(service_def, 
+		{ api_func: "PUT_ATTENDEE_DATA", p_id:tobj.id, p_fname:tobj.fname, p_lname:tobj.lname, 
+			p_age:tobj.age, p_doc_number:tobj.doc_number, p_first_arrest_age:tobj.first_arrest_age, 
+			p_previous_convictions:tobj.previous_convictions, p_fam_crime_history:tobj.fam_crime_history, 
+			p_num_child:tobj.num_child, p_marital_status:tobj.marital_status, p_num_positive_model:tobj.num_positive_model, 
+			p_att_id_use:tobj.att_id_use, p_release_date:tobj.release_date, p_parole_eligible:tobj.parole_eligible, 
+			p_workbook_status:tobj.workbook_status, p_gender:tobj.gender, p_race:tobj.race, 
+			p_military:tobj.military, p_citizen:tobj.citizen, p_email:tobj.email, 
+			p_adult_incarcerations:tobj.adult_incarcerations, 
+			p_family_crime_history:tobj.family_crime_history, p_num_discipline_infractions:tobj.num_discipline_infractions, 
+			p_fam_involve:tobj.fam_involve, p_fam_relationship:tobj.fam_relationship, p_num_addr_change:tobj.num_addr_change, 
+			p_friendships:tobj.friendships, p_num_friends_criminal:tobj.num_friends_criminal, p_friends_during_prison:tobj.friends_during_prison, 
+			p_use_alcohol:tobj.use_alcohol, 
+			p_use_drugs:tobj.use_drugs, p_current_alcohol:tobj.current_alcohol, p_current_drug:tobj.current_drug, 
+			p_use_contrib_crime:tobj.use_contrib_crime, p_highest_education:tobj.highest_education, p_school_expel:tobj.school_expel, 
+			p_skill_plan:tobj.skill_plan, p_skill_plan_explain:tobj.skill_plan_explain, p_employ:tobj.employ, 
+			p_currently_employed:tobj.currently_employed, p_employ_plan:tobj.employ_plan, 
+			p_employ_plan_explain:tobj.employ_plan_explain, p_clubs_prior:tobj.clubs_prior, 
+			p_clubs_in_prison:tobj.clubs_in_prison, p_club_leader:tobj.club_leader, p_club_leader_explain:tobj.club_leader_explain, 
+			p_express_needs:tobj.express_needs, 
+			p_understand_other_views:tobj.understand_other_views, p_make_friends:tobj.make_friends, 
+			p_accept_criticism:tobj.accept_criticism, p_provide_good_criticism:tobj.provide_good_criticism, p_accept_responsibility:tobj.accept_responsibility, 
+			p_manage_problems:tobj.manage_problems, p_develop_goals:tobj.develop_goals, p_manage_money:tobj.manage_money,
+			p_course_id:tobj.course_id, p_enroll_date:tobj.enroll_date, p_drop_date:tobj.tobj.drop_date, 
+			p_club_leader_prison_explain:tobj.club_leader_prison_explain
+	 
+		}, 
+		function (rslt) {
+			console.log(rslt); 
+		}, "json" );
+
+	// put data into local array of data
+	for (let i=0; i<dataobj.course_roster.length; i++) {
+		if (dataobj.course_roster[i] == tobj.id) {
+
+		}
+	}
+
+
+
+	biodata[0].id = $('#bio-id').val();
+	biodata[0].fname = $('#bio-fname').val();
+	biodata[0].lname = $('#bio-lname').val();
+	biodata[0].age = $('#bio-age').val();
+	biodata[0].doc_number = $('#bio-doc-num').val();
+	biodata[0].first_arrest_age = $('#bio-first-arrest-age').val();
+	biodata[0].previous_convictions = $('#bio-prev-conv').val();
+	biodata[0].fam_crime_history = $('#bio-fam-crime').val();
+	biodata[0].num_child = $('#bio-num-child').val();
+	biodata[0].marital_status = $('#bio-marr-status').val();
+	biodata[0].num_positive_model = $('#bio-num-pos-model').val();
+	biodata[0].att_id_use = $('#bio-attendee-id').val();
+	biodata[0].release_date = $('#bio-release-date').val();
+	biodata[0].parole_eligible = $('#bio-parole-eligible').val();
+	biodata[0].workbook_status = $('#bio-workbook-stat').val();
+	biodata[0].gender = $('#bio-male').prop('checked') ? 'Y' : 'N';
+	biodata[0].race = $('#bio-race').val();
+	biodata[0].military = $('#bio-mil-yes').prop('checked') ? 'Y' : 'N';
+	biodata[0].citizen = $('#bio-citizen-yes').prop('checked') ? 'Y' : 'N';
+	biodata[0].email = $('#bio-email').val();
+	biodata[0].first_arrest_age = $('#bio-first-arrest-age').val();
+	biodata[0].previous_convictions = $('#bio-prev-conv').val();
+	biodata[0].adult_incarcerations = $('#bio-adult-incar').val();
+	biodata[0].family_crime_history = $('#bio-fam-crime').val();
+	biodata[0].num_discipline_infractions = $('#bio-num-discipline').val();
+	biodata[0].num_child = $('#bio-num-child').val();
+	biodata[0].marital_status = $('#bio-marr-status').val();
+	biodata[0].fam_involve = $('#bio-fam-involve').val();
+	biodata[0].fam_relationship = $('#bio-fam-relation').val();
+	biodata[0].num_addr_change = $('#bio-num-addr-change').val();
+	biodata[0].friendships = $('#bio-friends').val();
+	biodata[0].num_friends_criminal = $('#bio-friend-record').val();
+	biodata[0].friends_during_prison = $('#bio-friend-incarc').val();
+	biodata[0].friends_during_prison = $('#bio-use-alc').val();
+	biodata[0].use_alcohol = $('#bio-use-alcohol-yes').prop('checked') ? 'Y' : 'N';
+	biodata[0].use_drugs = $('#bio-use-drug-yes').prop('checked') ? 'Y' : 'N';
+	biodata[0].current_alcohol = $('#bio-curr-alc-yes').prop('checked') ? 'Y' : 'N';
+	biodata[0].current_drug = $('#bio-curr-drug-yes').prop('checked') ? 'Y' : 'N';
+	biodata[0].use_contrib_crime = $('#bio-use-crime-yes').prop('checked') ? 'Y' : 'N';
+	biodata[0].highest_education = $('#bio-highest-ed').val();
+	biodata[0].school_expel = $('#bio-school-expel-yes').prop('checked') ? 'Y' : 'N';
+	biodata[0].skill_plan = $('#bio-skill-plan-yes').prop('checked') ? 'Y' : 'N';
+	biodata[0].skill_plan_explain = $('#bio-skill-plan-explain').val();
+	biodata[0].employ = $('#bio-employ').val();
+	biodata[0].currently_employed = $('#bio-emp-incarc-yes').prop('checked') ? 'Y' : 'N';
+	biodata[0].employ_plan = $('#bio-emp-plan-yes').prop('checked') ? 'Y' : 'N';
+	biodata[0].employ_plan_explain = $('#bio-emp-plan-explain').val();
+	biodata[0].clubs_prior = $('#bio-clubs').val();
+	biodata[0].clubs_in_prison = $('#bio-clubs-incarc').val();
+	biodata[0].club_leader = $('#bio-lead-prosocial-yes').prop('checked') ? 'Y' : 'N';
+	biodata[0].club_leader_explain = $('#bio-lead-prosocial-explain').val();
+	biodata[0].club_leader_explain = $('#bio-lead-club-incarc').val();
+	biodata[0].express_needs = $('#bio-express').val();
+	biodata[0].understand_other_views = $('#bio-understand').val();
+	biodata[0].make_friends = $('#bio-make-friends').val();
+	biodata[0].accept_criticism = $('#bio-accept-critic').val();
+	biodata[0].provide_good_criticism = $('#bio-give-critic').val();
+	biodata[0].accept_responsibility = $('#bio-accept-resp').val();
+	biodata[0].manage_problems = $('#bio-confident-prob').val();
+	biodata[0].develop_goals = $('#bio-dev-goals').val();
+	biodata[0].manage_money = $('#bio-mng-money').val();
+
+	
 
 };
 

@@ -10,9 +10,7 @@ FUNCTION js_dom_to_data
 *-- expects form of $('<dom item>').val(
 
 cx = _cliptext
-
 nlines = ALINES(atmp, cx, 1+4)
-
 cresult = ''
 cother = ''
 FOR ni = 1 TO nlines
@@ -33,16 +31,163 @@ FOR ni = 1 TO nlines
 			tmpstr = SUBSTR(tline, npos + 1, npos1 - npos - 1)
 			npos = ATC('.',tmpstr)
 			cdom1 = ALLTRIM(SUBSTR(tmpstr, 1, npos - 1))
-			
 			cfinal = cvar + ' = ' + cdom1 + ".prop('checked') ? 'Y' : 'N';"
 			cresult = cresult + cfinal + CHR(13)
 		ENDIF
-
 	ENDIF
 ENDFOR
-
 _cliptext = cresult
+
+RETURN
+
+FUNCTION get_just_vars
+*-- pulls just javascript variables, creates param names for them (adds p_) and sets up jquery post
+
+
+cstart = "$.post(service_def, " + CHR(13) + ;
+		'{ api_func: "PUT CALL METHOD HERE"' ;
+
+cend = '}, ' + CHR(13) + ;
+		'function (rslt) {' + CHR(13) + ;
+		'	window.dataobj.users = rslt; ' + CHR(13) + ;
+		'}, "json" );'
+
+cprefixremove = 'tobj.'
+cx = _cliptext
+nlines = ALINES(atmp, cx, 1+4)
+clist = 'blahblahblahbla'
+ncount = 1
+FOR ni = 1 TO nlines
+	tline = STRTRAN(ALLTRIM(atmp[ni]),CHR(9),'')
+	cvar = ALLTRIM(SUBSTR(tline, 1, ATC('=', tline) - 1))
+	pvar = 'p_' + STRTRAN(cvar, cprefixremove, '')
+	IF LEN(clist) > 45
+		cstart = cstart + ', ' + pvar + ':' + cvar + ', ' + CHR(13)
+		clist = ''
+		ncount = 0
+	ELSE
+		cstart = cstart + IIF(ncount == 0, '', ', ') + pvar + ':' + cvar
+		clist = clist + ', ' + pvar + ':' + cvar
+		ncount = ncount + 1
+	ENDIF
+ENDFOR
+cfinal = cstart + cend
+_cliptext = cfinal
+
+RETURN
+
+*---------------------
+FUNCTION make_php_var_list
+cx = _cliptext
+nlines = ALINES(atmp, cx, 1+4)
+cprefixremove = 'tobj.'
+phpstmnt = ''
+FOR ni = 1 TO nlines
+	tline = STRTRAN(ALLTRIM(atmp[ni]),CHR(9),'')
+	cvar = ALLTRIM(SUBSTR(tline, 1, ATC('=', tline) - 1))
+	pvar = 'p_' + STRTRAN(cvar, cprefixremove, '')
+	phpvar = '$v_' + SUBSTR(pvar, 3)
+	phpstmnt = phpstmnt + phpvar + " = isset($_POST['" + pvar + "']) ? $_POST['" + pvar + "'] : null;" + CHR(13)
+ENDFOR 
+_cliptext = phpstmnt;
+
+RETURN
+
+*----------------------------------
+FUNCTION make_sp_call_phparray
+*-- highlight the variable list in the PHP code
+cx = _cliptext
+nlines = ALINES(atmp, cx, 1+4)
+arrlist = ''
+FOR ni = 1 TO nlines
+	tline = STRTRAN(ALLTRIM(atmp[ni]),CHR(9),'')
+	cvar = ALLTRIM(SUBSTR(tline, 1, ATC('=', tline) - 1))
+	arrlist = arrlist + IIF(EMPTY(arrlist), '', ',') + cvar
+ENDFOR 
+_cliptext = arrlist
+
+*-- create list of '$x' for the php param
+*-- highlight the variable list in php code
+cx = _cliptext
+nlines = ALINES(atmp, cx, 1+4)
+parmlist = ''
+FOR ni = 1 TO nlines
+	parmlist = parmlist + IIF(EMPTY(parmlist),'',',') + '$' + ALLTRIM(STR(ni))
+ENDFOR 
+_cliptext = parmlist
 
 
 RETURN
+*------------------
+
+FUNCTION pg_sp_parms
+*-- setting up pg parms of stored proc
+*-- highlight the 'array' variable list in the php call
+cx = _cliptext
+nlines = ALINES(atmp, cx, 1+4, ',')
+parmlist = ''
+ncount = 0
+FOR ni = 1 TO nlines
+	citem = ALLTRIM(STRTRAN(STRTRAN(atmp[ni], CHR(9), ''), CHR(13), ''))
+	IF ncount > 1
+		parmlist = parmlist + 'p_' + SUBSTR(citem, 4) + ' <type> DEFAULT NULL :: <type>, ' + CHR(13)
+		ncount = 0
+	ELSE
+		parmlist = parmlist + 'p_' + SUBSTR(citem, 4) + ' <type> DEFAULT NULL :: <type>, '
+		ncount = ncount + 1
+	ENDIF
+ENDFOR
+_cliptext = parmlist
+
+RETURN
+
+
+*----------------------
+
+FUNCTION get_just_params
+
+cx = _cliptext
+cx = STRTRAN(STRTRAN(STRTRAN(STRTRAN(STRTRAN(STRTRAN(cx, CHR(13), ''), CHR(9), ''), 'text', ''), 'NULL', ''), 'DEFAULT', ''), '  ', '')
+cx = STRTRAN(STRTRAN(STRTRAN(STRTRAN(STRTRAN(STRTRAN(cx, 'NULL', ''), '::'), 'DEFAULT', ''), 'text', ''), 'bigint', ''), CHR(9), '')
+cx = STRTRAN(STRTRAN(STRTRAN(STRTRAN(STRTRAN(cx, ' date', ''), 'integer', ''), 'smallint', ''), ' ', ''), ' ', '')
+nlines = ALINES(atmp, cx, ',')
+*!*	WAIT ALLTRIM(STR(nlines)) window
+=ASORT(atmp)
+
+crslt = ''
+FOR ni = 1 TO nlines
+	crslt = crslt + CHR(13) + atmp[ni]
+ENDFOR
+_cliptext = crslt
+
+
+*-- sorting some code lines
+cx = _cliptext
+cx = STRTRAN(cx, CHR(9), '')
+nlines = ALINES(atmp, cx, 1+4)
+=ASORT(atmp)
+cnew = ''
+FOR ni = 1 TO nlines
+	cnew = cnew + atmp[ni] + CHR(13)
+ENDFOR
+_cliptext = cnew
+
+*-- sorting variable names - separated by commas - kind of thing
+cx = _cliptext
+nlines = ALINES(atmp, STRTRAN(STRTRAN(cx, CHR(13), ''),CHR(9), ''), 1+4, ',')
+=ASORT(atmp)
+cnew = ''
+FOR ni = 1 TO nlines
+	cnew = cnew + atmp[ni] + CHR(13)
+ENDFOR
+_cliptext = cnew
+
+RETURN
+
+
+
+
+
+
+
 
