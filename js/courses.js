@@ -423,9 +423,9 @@ function toggle_bio_detail() {
 	};
 };
 
-function bio_edit_data(userid, courseid, editmode = "E") {
+function bio_edit_data(attendeeid, courseid, editmode = "E") {
 	let partdata = dataobj.course_roster.filter(function(btmp) {
-		return btmp.id == userid.toString();
+		return btmp.id == attendeeid.toString();
 	});
 	// display the content for editing
 	$(".one-course-pages").addClass("hidediv");
@@ -439,13 +439,13 @@ function bio_edit_data(userid, courseid, editmode = "E") {
 	bio_assign_data(partdata);
 
   // adjust the title line - special 'row' that acts as a window title
-  attendee_load_1on1();
-  attendee_load_vias();
-  attendee_load_attendance();
+  attendee_load_1on1(partdata[0].course_id, partdata[0].attendee_id);
+  attendee_load_vias(partdata[0].course_id, partdata[0].attendee_id);
+  attendee_load_attendance(partdata[0].course_id, partdata[0].attendee_id);
+  attendee_load_discipline(partdata[0].course_id, partdata[0].attendee_id);
 };
 
 function bio_assign_data(biodata) {
-	// TODO: hook up getting actual data of userid and populating - in progress - assigned - still need to save data
 	$('#bio-id').val(biodata[0].id);
 	$('#bio-course-id').val(biodata[0].course_id);
 	$('#bio-enroll-date').val(biodata[0].enroll_date);
@@ -465,14 +465,14 @@ function bio_assign_data(biodata) {
   $('#bio-parole-eligible').val(biodata[0].parole_eligible);
 	$('#bio-workbook-stat').val(biodata[0].workbook_status);
 	if (biodata[0].gender != null) {
-		biodata[0].gender.toUpperCase() == 'M' ? $('#bio-male').prop('checked',true) : $('#bio-female').prop('checked',true);
+		biodata[0].gender == 'M' ? $('#bio-male').prop('checked',true) : $('#bio-female').prop('checked',true);
 	};
 	$('#bio-race').val(biodata[0].race);
 	if (biodata[0].military != null) {
-		biodata[0].military.toUpperCase() == 'Y' ? $('#bio-mil-yes').prop('checked',true) : $('#bio-mil-no').prop('checked',true);
+		biodata[0].military == 1 ? $('#bio-mil-yes').prop('checked',true) : $('#bio-mil-no').prop('checked',true);
 	};
 	if (biodata[0].citizen != null) {
-		biodata[0].citizen.toUpperCase() == 'Y' ? $('#bio-citizen-yes').prop('checked',true) : $('#bio-citizen-no').prop('checked',true);
+		biodata[0].citizen == 1 ? $('#bio-citizen-yes').prop('checked',true) : $('#bio-citizen-no').prop('checked',true);
 	};
   $('#bio-email').val(biodata[0].email);
 	$('#bio-first-arrest-age').val(biodata[0].first_arrest_age);
@@ -488,40 +488,40 @@ function bio_assign_data(biodata) {
 	$('#bio-friend-record').val(biodata[0].num_friends_criminal);
 	$('#bio-friend-incarc').val(biodata[0].friends_during_prison);
 	if (biodata[0].use_alcohol != null) {
-		biodata[0].use_alcohol.toUpperCase() == 'Y' ? $('#bio-use-alcohol-yes').prop('checked',true) : $('#bio-use-alcohol-no').prop('checked',true);
+		biodata[0].use_alcohol == 1 ? $('#bio-use-alcohol-yes').prop('checked',true) : $('#bio-use-alcohol-no').prop('checked',true);
 	};
 	if (biodata[0].use_drugs != null) {
-		biodata[0].use_drugs.toUpperCase() == 'Y' ? $('#bio-use-drug-yes').prop('checked',true) : $('#bio-use-drug-no').prop('checked',true);
+		biodata[0].use_drugs == 1 ? $('#bio-use-drug-yes').prop('checked',true) : $('#bio-use-drug-no').prop('checked',true);
 	};
 	if (biodata[0].current_alcohol != null) {
-		biodata[0].current_alcohol.toUpperCase() == 'Y' ? $('#bio-curr-alc-yes').prop('checked',true) : $('#bio-curr-alc-no').prop('checked',true);
+		biodata[0].current_alcohol == 1 ? $('#bio-curr-alc-yes').prop('checked',true) : $('#bio-curr-alc-no').prop('checked',true);
 	};
 	if (biodata[0].current_drug != null) {
-		biodata[0].current_drug.toUpperCase() == 'Y' ? $('#bio-curr-drug-yes').prop('checked',true) : $('#bio-curr-drug-no').prop('checked',true);
+		biodata[0].current_drug == 1 ? $('#bio-curr-drug-yes').prop('checked',true) : $('#bio-curr-drug-no').prop('checked',true);
 	};
 	if (biodata[0].use_contrib_crime != null) {
-		biodata[0].use_contrib_crime.toUpperCase() == 'Y' ? $('#bio-use-crime-yes').prop('checked',true) : $('#bio-use-crime-no').prop('checked',true);
+		biodata[0].use_contrib_crime == 1 ? $('#bio-use-crime-yes').prop('checked',true) : $('#bio-use-crime-no').prop('checked',true);
 	};
 	$('#bio-highest-ed').val(biodata[0].highest_education);
 	if (biodata[0].school_expel != null) {
-		biodata[0].school_expel.toUpperCase() == 'Y' ? $('#bio-school-expel-yes').prop('checked',true) : $('#bio-school-expel-no').prop('checked',true);
+		biodata[0].school_expel == 1 ? $('#bio-school-expel-yes').prop('checked',true) : $('#bio-school-expel-no').prop('checked',true);
 	};
 	if (biodata[0].skill_plan != null) {
-		biodata[0].skill_plan.toUpperCase() == 'Y' ? $('#bio-skill-plan-yes').prop('checked',true) : $('#bio-skill-plan-no').prop('checked',true);
+		biodata[0].skill_plan == 1 ? $('#bio-skill-plan-yes').prop('checked',true) : $('#bio-skill-plan-no').prop('checked',true);
 	};
 	$('#bio-skill-plan-explain').val(biodata[0].skill_plan_explain);	
 	$('#bio-employ').val(biodata[0].employ);
 	if (biodata[0].currently_employed != null) {
-		biodata[0].currently_employed.toUpperCase() == 'Y' ? $('#bio-emp-incarc-yes').prop('checked',true) : $('#bio-emp-incarc-no').prop('checked',true);
+		biodata[0].currently_employed == 1 ? $('#bio-emp-incarc-yes').prop('checked',true) : $('#bio-emp-incarc-no').prop('checked',true);
 	};
 	if (biodata[0].employ_plan != null) {
-		biodata[0].employ_plan.toUpperCase() == 'Y' ? $('#bio-emp-plan-yes').prop('checked',true) : $('#bio-emp-plan-no').prop('checked',true);
+		biodata[0].employ_plan == 1 ? $('#bio-emp-plan-yes').prop('checked',true) : $('#bio-emp-plan-no').prop('checked',true);
 	};
 	$('#bio-emp-plan-explain').val(biodata[0].employ_plan_explain);
 	$('#bio-clubs').val(biodata[0].clubs_prior);
 	$('#bio-clubs-incarc').val(biodata[0].clubs_in_prison);
 	if (biodata[0].club_leader != null) {
-		biodata[0].club_leader.toUpperCase() == 'Y' ? $('#bio-lead-prosocial-yes').prop('checked',true) : $('#bio-lead-prosocial-no').prop('checked',true);
+		biodata[0].club_leader == 1 ? $('#bio-lead-prosocial-yes').prop('checked',true) : $('#bio-lead-prosocial-no').prop('checked',true);
 	};
 	$('#bio-lead-prosocial-explain').val(biodata[0].club_leader_explain);
 	$('#bio-lead-club-incarc').val(biodata[0].club_leader_prison_explain);
@@ -556,10 +556,10 @@ function bio_save_data() {
 	tobj.release_date = $('#bio-release-date').val();
 	tobj.parole_eligible = $('#bio-parole-eligible').val();
 	tobj.workbook_status = $('#bio-workbook-stat').val();
-	tobj.gender = $('#bio-male').prop('checked') ? 'Y' : 'N';
+	tobj.gender = $('#bio-male').prop('checked') ? 'M' : 'F';
 	tobj.race = $('#bio-race').val();
-	tobj.military = $('#bio-mil-yes').prop('checked') ? 'Y' : 'N';
-	tobj.citizen = $('#bio-citizen-yes').prop('checked') ? 'Y' : 'N';
+	tobj.military = $('#bio-mil-yes').prop('checked') ? 1 : 0;
+	tobj.citizen = $('#bio-citizen-yes').prop('checked') ? 1 : 0;
 	tobj.email = $('#bio-email').val();
 	tobj.first_arrest_age = $('#bio-first-arrest-age').val();
 	tobj.previous_convictions = $('#bio-prev-conv').val();
@@ -573,22 +573,22 @@ function bio_save_data() {
 	tobj.friendships = $('#bio-friends').val();
 	tobj.num_friends_criminal = $('#bio-friend-record').val();
 	tobj.friends_during_prison = $('#bio-friend-incarc').val();
-	tobj.use_alcohol = $('#bio-use-alcohol-yes').prop('checked') ? 'Y' : 'N';
-	tobj.use_drugs = $('#bio-use-drug-yes').prop('checked') ? 'Y' : 'N';
-	tobj.current_alcohol = $('#bio-curr-alc-yes').prop('checked') ? 'Y' : 'N';
-	tobj.current_drug = $('#bio-curr-drug-yes').prop('checked') ? 'Y' : 'N';
-	tobj.use_contrib_crime = $('#bio-use-crime-yes').prop('checked') ? 'Y' : 'N';
+	tobj.use_alcohol = $('#bio-use-alcohol-yes').prop('checked') ? 1 : 0;
+	tobj.use_drugs = $('#bio-use-drug-yes').prop('checked') ? 1 : 0;
+	tobj.current_alcohol = $('#bio-curr-alc-yes').prop('checked') ? 1 : 0;
+	tobj.current_drug = $('#bio-curr-drug-yes').prop('checked') ? 1 : 0;
+	tobj.use_contrib_crime = $('#bio-use-crime-yes').prop('checked') ? 1 : 0;
 	tobj.highest_education = $('#bio-highest-ed').val();
-	tobj.school_expel = $('#bio-school-expel-yes').prop('checked') ? 'Y' : 'N';
-	tobj.skill_plan = $('#bio-skill-plan-yes').prop('checked') ? 'Y' : 'N';
+	tobj.school_expel = $('#bio-school-expel-yes').prop('checked') ? 1 : 0;
+	tobj.skill_plan = $('#bio-skill-plan-yes').prop('checked') ? 1 : 0;
 	tobj.skill_plan_explain = $('#bio-skill-plan-explain').val();
 	tobj.employ = $('#bio-employ').val();
-	tobj.currently_employed = $('#bio-emp-incarc-yes').prop('checked') ? 'Y' : 'N';
-	tobj.employ_plan = $('#bio-emp-plan-yes').prop('checked') ? 'Y' : 'N';
+	tobj.currently_employed = $('#bio-emp-incarc-yes').prop('checked') ? 1 : 0;
+	tobj.employ_plan = $('#bio-emp-plan-yes').prop('checked') ? 1 : 0;
 	tobj.employ_plan_explain = $('#bio-emp-plan-explain').val();
 	tobj.clubs_prior = $('#bio-clubs').val();
 	tobj.clubs_in_prison = $('#bio-clubs-incarc').val();
-	tobj.club_leader = $('#bio-lead-prosocial-yes').prop('checked') ? 'Y' : 'N';
+	tobj.club_leader = $('#bio-lead-prosocial-yes').prop('checked') ? 1 : 0;
 	tobj.club_leader_explain = $('#bio-lead-prosocial-explain').val();
 	tobj.club_leader_prison_explain = $('#bio-lead-club-incarc').val();
 	tobj.express_needs = $('#bio-express').val();
@@ -600,7 +600,6 @@ function bio_save_data() {
 	tobj.manage_problems = $('#bio-confident-prob').val();
 	tobj.develop_goals = $('#bio-dev-goals').val();
 	tobj.manage_money = $('#bio-mng-money').val();
-
 
 	$.post(service_def, 
 		{ api_func: "PUT_ATTENDEE_DATA", p_id:tobj.id, p_fname:tobj.fname, p_lname:tobj.lname, 
@@ -627,7 +626,6 @@ function bio_save_data() {
 			p_manage_problems:tobj.manage_problems, p_develop_goals:tobj.develop_goals, p_manage_money:tobj.manage_money,
 			p_course_id:tobj.course_id, p_enroll_date:tobj.enroll_date, p_drop_date:tobj.tobj.drop_date, 
 			p_club_leader_prison_explain:tobj.club_leader_prison_explain
-	 
 		}, 
 		function (rslt) {
 			console.log(rslt); 
@@ -635,95 +633,68 @@ function bio_save_data() {
 
 	// put data into local array of data
 	for (let i=0; i<dataobj.course_roster.length; i++) {
-		if (dataobj.course_roster[i] == tobj.id) {
+		if (dataobj.course_roster[i].id == tobj.id) {
+      dataobj.course_roster[i] = tobj;
+      break;
+		};
+	};
+};
 
-		}
-	}
+function attendee_load_1on1(course_id, attendee_id) {
+	$.post(service_def, 
+		{ api_func: "GET_1ON1_DATA", p_attendee_id: attendee_id, p_course_id: course_id },
+		function (rslt) {
+      console.log(rslt);
+      build_1on1_tbl(rslt);
+		}, "json" );  
+};
 
+function build_1on1_tbl (rsltdata) {
+  // data expected to be sorted in reverse chrono
+  $("#bio-1on1-table").DataTable( {
+		"bInfo": false,
+		"bFilter": false,
+		autoWidth: true,
+		responsive: true,
+		scrollY: "260px",
+		scrollX: true,
+		scrollCollapse: true,
+		stateSave: true,
+		paging: false,
+		"data": rsltdata,
+		rowId: 'id',
+    // note the passing of 'id' as the second column - the reason is for the render, and the resulting link set up
+		columns: [
+      { data: "meeting_date", "width": "120px", "title": "Date",
+        'render': function(data,type,row,meta) {
+          let retdata = data;
+          let dataid = row.id.toString();
+          if (type == 'display') {
+            retdata = '<a href="javascript:bio_edit_1on1_item(' + dataid + ');" title="Edit One on One Meeting">' + data + '</a>';
+          }
+          return retdata;
+        }}, 
+			{ data: "meeting_notes", "width": "400px", "title": "Meeting Notes", className: "bio-1o1-note" }, 
+			{ data: "course_id", "width": "200px", "title": "", "visible": false}
+		] } );
+};
 
-
-	biodata[0].id = $('#bio-id').val();
-	biodata[0].fname = $('#bio-fname').val();
-	biodata[0].lname = $('#bio-lname').val();
-	biodata[0].age = $('#bio-age').val();
-	biodata[0].doc_number = $('#bio-doc-num').val();
-	biodata[0].first_arrest_age = $('#bio-first-arrest-age').val();
-	biodata[0].previous_convictions = $('#bio-prev-conv').val();
-	biodata[0].fam_crime_history = $('#bio-fam-crime').val();
-	biodata[0].num_child = $('#bio-num-child').val();
-	biodata[0].marital_status = $('#bio-marr-status').val();
-	biodata[0].num_positive_model = $('#bio-num-pos-model').val();
-	biodata[0].att_id_use = $('#bio-attendee-id').val();
-	biodata[0].release_date = $('#bio-release-date').val();
-	biodata[0].parole_eligible = $('#bio-parole-eligible').val();
-	biodata[0].workbook_status = $('#bio-workbook-stat').val();
-	biodata[0].gender = $('#bio-male').prop('checked') ? 'Y' : 'N';
-	biodata[0].race = $('#bio-race').val();
-	biodata[0].military = $('#bio-mil-yes').prop('checked') ? 'Y' : 'N';
-	biodata[0].citizen = $('#bio-citizen-yes').prop('checked') ? 'Y' : 'N';
-	biodata[0].email = $('#bio-email').val();
-	biodata[0].first_arrest_age = $('#bio-first-arrest-age').val();
-	biodata[0].previous_convictions = $('#bio-prev-conv').val();
-	biodata[0].adult_incarcerations = $('#bio-adult-incar').val();
-	biodata[0].family_crime_history = $('#bio-fam-crime').val();
-	biodata[0].num_discipline_infractions = $('#bio-num-discipline').val();
-	biodata[0].num_child = $('#bio-num-child').val();
-	biodata[0].marital_status = $('#bio-marr-status').val();
-	biodata[0].fam_involve = $('#bio-fam-involve').val();
-	biodata[0].fam_relationship = $('#bio-fam-relation').val();
-	biodata[0].num_addr_change = $('#bio-num-addr-change').val();
-	biodata[0].friendships = $('#bio-friends').val();
-	biodata[0].num_friends_criminal = $('#bio-friend-record').val();
-	biodata[0].friends_during_prison = $('#bio-friend-incarc').val();
-	biodata[0].friends_during_prison = $('#bio-use-alc').val();
-	biodata[0].use_alcohol = $('#bio-use-alcohol-yes').prop('checked') ? 'Y' : 'N';
-	biodata[0].use_drugs = $('#bio-use-drug-yes').prop('checked') ? 'Y' : 'N';
-	biodata[0].current_alcohol = $('#bio-curr-alc-yes').prop('checked') ? 'Y' : 'N';
-	biodata[0].current_drug = $('#bio-curr-drug-yes').prop('checked') ? 'Y' : 'N';
-	biodata[0].use_contrib_crime = $('#bio-use-crime-yes').prop('checked') ? 'Y' : 'N';
-	biodata[0].highest_education = $('#bio-highest-ed').val();
-	biodata[0].school_expel = $('#bio-school-expel-yes').prop('checked') ? 'Y' : 'N';
-	biodata[0].skill_plan = $('#bio-skill-plan-yes').prop('checked') ? 'Y' : 'N';
-	biodata[0].skill_plan_explain = $('#bio-skill-plan-explain').val();
-	biodata[0].employ = $('#bio-employ').val();
-	biodata[0].currently_employed = $('#bio-emp-incarc-yes').prop('checked') ? 'Y' : 'N';
-	biodata[0].employ_plan = $('#bio-emp-plan-yes').prop('checked') ? 'Y' : 'N';
-	biodata[0].employ_plan_explain = $('#bio-emp-plan-explain').val();
-	biodata[0].clubs_prior = $('#bio-clubs').val();
-	biodata[0].clubs_in_prison = $('#bio-clubs-incarc').val();
-	biodata[0].club_leader = $('#bio-lead-prosocial-yes').prop('checked') ? 'Y' : 'N';
-	biodata[0].club_leader_explain = $('#bio-lead-prosocial-explain').val();
-	biodata[0].club_leader_explain = $('#bio-lead-club-incarc').val();
-	biodata[0].express_needs = $('#bio-express').val();
-	biodata[0].understand_other_views = $('#bio-understand').val();
-	biodata[0].make_friends = $('#bio-make-friends').val();
-	biodata[0].accept_criticism = $('#bio-accept-critic').val();
-	biodata[0].provide_good_criticism = $('#bio-give-critic').val();
-	biodata[0].accept_responsibility = $('#bio-accept-resp').val();
-	biodata[0].manage_problems = $('#bio-confident-prob').val();
-	biodata[0].develop_goals = $('#bio-dev-goals').val();
-	biodata[0].manage_money = $('#bio-mng-money').val();
-
-	
+function bio_edit_1on1_item(rowid) {
 
 };
 
-
-
-function attendee_load_1on1() {
-  console.log('load 1on1');
-};
-
-function attendee_load_vias() {
+function attendee_load_vias(course_id, attendee_id) {
   console.log('loading vias');
 };
-
-function attendee_load_attendance() {
+function attendee_load_discipline(course_id, attendee_id) {
+  console.log('loading vias');
+};
+function attendee_load_attendance(course_id, attendee_id) {
 	console.log('loading attendance');
 	$.post(service_def, 
-		{ api_func: "GET_ATTENDEE_ATTEND", p_attendee_id: "65" },
+		{ api_func: "GET_ATTENDEE_ATTEND", p_course_id: course_id, p_attendee_id: attendee_id },
 		function (rslt) {
-			// console.log(rslt);
+			console.log(rslt);
 			dataobj.attendee_attend = rslt;
 			dataobj.attendee_attend.forEach(function(item) {
 				let newrow = '<tr><td>'+item.title+'</td><td>'+item.module_name+'</td><td>'+item.attend_type+'</td></tr>';

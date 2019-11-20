@@ -176,6 +176,10 @@
 #bio-1on1-table td {
   border: 1px solid #999999;
 }
+.bio-1on1-note {
+  height: 60px;
+  overflow: auto;
+};
 
 .bio-vias {
   width: 50%;

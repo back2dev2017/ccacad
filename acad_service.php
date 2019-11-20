@@ -90,7 +90,6 @@ switch ($c_apifunc) {
 		$v_attendee_id = isset($_POST['p_attendee_id']) ? $_POST['p_attendee_id'] : null;
 
 		// note, forcing to ignore modue_id 13 for now - that is orientation week - look in stored procedure
-
 		$result = pg_query_params($dbconn, 'select * from get_attendee_attend($1)', array($v_attendee_id));
 		$ret_array = pg_fetch_all($result);
 		echo json_encode($ret_array);
@@ -249,6 +248,20 @@ switch ($c_apifunc) {
 		echo json_encode('done');
 		break;
 
+  case "GET_1ON1_DATA":
+    $v_course_id = $_POST['p_course_id'];
+    $v_attendee_id = $_POST['p_attendee_id'];
+    echo $v_course_id;
+    echo $v_attendee_id;
+    // $result = pg_query_params($dbcon, 'select * from get_1on1_details($1, $2)', array($v_course_id, $v_attendee_id));
+    $result = pg_query_params($dbconn, 
+            'select * from course_attendee_1o1 where course_id = $1 and attendee_id = $2 order by meeting_date descending', 
+            array($v_course_id, $v_attendee_id));
+    $ret_array = pg_fetch_all($result);
+		echo json_encode($ret_array);
+
+    break;
+  
 	case "UTIL TABLE NAMES":
 		// returns only the list of table names currently in add_definitions. To ensure it is up to date it may be advisable
 		// to first run the add_populatedd, then get all data, then step through data grabbing unique table names

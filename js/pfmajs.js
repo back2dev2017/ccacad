@@ -956,6 +956,18 @@ function resize_maindiv (divpick) {
   $(divpick).width(dataobj.maindivwidth);
 };
 
+function objarrsort(prop) {
+  return function(a,b) {
+    let retval = 0;
+    if (a[prop] > b[prop]) {
+      retval = 1;
+    } else if (a[prop] < b[prop]) {
+      retval = -1
+    };
+    return retval;
+  };
+};
+
 function get_steward_list() {
 	var tmptext1 = 'GET AVAILABLE';
 	var sel_obj = $("#dropsel-steward");
