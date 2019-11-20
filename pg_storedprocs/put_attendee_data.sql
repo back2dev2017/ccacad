@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION public.add_putdd_item(p_id bigint DEFAULT NULL :: bigint, p_fname text DEFAULT NULL :: text, p_lname text DEFAULT NULL :: text, 
+CREATE OR REPLACE FUNCTION public.put_attendee_data(p_id bigint DEFAULT NULL :: bigint, p_fname text DEFAULT NULL :: text, p_lname text DEFAULT NULL :: text, 
     p_age integer DEFAULT NULL :: integer, p_doc_number text DEFAULT NULL :: text, p_first_arrest_age integer DEFAULT NULL :: integer, 
     p_previous_convictions integer DEFAULT NULL :: integer, p_fam_crime_history text DEFAULT NULL :: text, p_num_child integer DEFAULT NULL :: integer, 
     p_marital_status text DEFAULT NULL :: text, p_num_positive_model integer DEFAULT NULL :: integer, p_att_id_use text DEFAULT NULL :: text, 
@@ -19,7 +19,8 @@ CREATE OR REPLACE FUNCTION public.add_putdd_item(p_id bigint DEFAULT NULL :: big
     p_understand_other_views text DEFAULT NULL :: text, p_make_friends text DEFAULT NULL :: text, p_accept_criticism text DEFAULT NULL :: text, 
     p_provide_good_criticism text DEFAULT NULL :: text, p_accept_responsibility text DEFAULT NULL :: text, p_manage_problems text DEFAULT NULL :: text, 
     p_develop_goals text DEFAULT NULL :: text, p_manage_money text DEFAULT NULL :: text,p_course_id bigint DEFAULT NULL :: bigint, 
-    p_enroll_date date DEFAULT NULL :: date, p_drop_date date DEFAULT NULL :: date, p_club_leader_explain text DEFAULT NULL :: text)
+    p_enroll_date date DEFAULT NULL :: date, p_drop_date date DEFAULT NULL :: date, p_club_leader_explain text DEFAULT NULL :: text, 
+		p_formation_group_id bigint DEFAULT NULL :: bigint)
     RETURNS void
     LANGUAGE 'plpgsql'
     VOLATILE
@@ -34,45 +35,31 @@ AS $BODY$declare
  	v_sqlparms text;
  	tmp_cursor refcursor;
  	cur_row record;
+
+
+
 --   need to have variables to hold on to the previous values of the item because this procedure allows them to only
 -- update a couple fields: thus, need to hold on to the existing field values
-	v_dc_item_id bigint;
-	v_dc_meaning text;
-	v_dc_dsrc varchar(250);
-	v_dc_uf varchar(20);
-	v_dc_sec varchar(40);
-	v_dc_spri varchar(6);
-	v_dc_sback varchar(35);
-	v_dc_def_conf varchar(1);
-	v_dc_inact int;
-	v_dc_inact_dt timestamp(3);
-	v_new_item_id INT = 0;
 	data_cursor refcursor;
  	
 
  BEGIN
---	if position('' in  v_tmp_user) > 0 then
---		v_tmp_user := substring(v_tmp_user, position('' in  v_tmp_user) + 1, 6);
---	end if;
 
-	-- if the @srch_id was not passed, use @tbl_name and @col_name to get to the item_id. 
-	v_use_id := p_srch_id;
-
-	-- if the passed ID, table_name, and column_name are all null (or blank), drop out of this SP. The API was not invoked correctly
-	if p_srch_id is null and coalesce(p_tbl_name, '') = '' and coalesce(p_col_name, '') = ''
-		then
-		-- it would be best to raise an error here, but THROW does not appear to be a standard way
-		 RAISE EXCEPTION 'Need item id or table/column pair';
-	else
-		if (v_use_id is null)
-			then
-				v_sqlcmd = 'select add_definitions.item_id from add_definitions where lower(table_name) = lower($1) and lower(column_name) = lower($2)';
-				open tmp_cursor no scroll 
-					for execute v_sqlcmd using p_tbl_name, p_col_name;
-				fetch tmp_cursor into cur_row;
-				v_use_id = cur_row.item_id;
-				close tmp_cursor;
-			end if;
+	-- -- if the passed ID, table_name, and column_name are all null (or blank), drop out of this SP. The API was not invoked correctly
+	-- if p_srch_id is null and coalesce(p_tbl_name, '') = '' and coalesce(p_col_name, '') = ''
+	-- 	then
+	-- 	-- it would be best to raise an error here, but THROW does not appear to be a standard way
+	-- 	 RAISE EXCEPTION 'Need item id or table/column pair';
+	-- else
+	-- 	if (v_use_id is null)
+	-- 		then
+	-- 			v_sqlcmd = 'select add_definitions.item_id from add_definitions where lower(table_name) = lower($1) and lower(column_name) = lower($2)';
+	-- 			open tmp_cursor no scroll 
+	-- 				for execute v_sqlcmd using p_tbl_name, p_col_name;
+	-- 			fetch tmp_cursor into cur_row;
+	-- 			v_use_id = cur_row.item_id;
+	-- 			close tmp_cursor;
+	-- 		end if;
 
 		if (exists (select 1 from add_definitions where add_definitions.item_id = v_use_id))
 			then
@@ -134,7 +121,6 @@ AS $BODY$declare
 					p_steward_backup_attuids, p_definition_confidence, v_systime, v_tmp_user);
 
 		end if;
-	end if;
 END;
 
 $BODY$;

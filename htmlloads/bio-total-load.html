@@ -8,8 +8,8 @@
     <button id='btn-bio-prev-attendee' class='bio-btn-nav' style='margin-left: 5px;'>Previous Participant</button>
   </div>
   <div>
-      <button id='btn-bio-add' class='edit-btn'>Add</button>
-      <button id='btn-bio-drop' class='edit-btn'>Drop</button>    
+      <button id='btn-bio-add' class='edit-btn' title='Add New Participant'>Add</button>
+      <button id='btn-bio-drop' class='edit-btn' title='Drop Participant'>Drop</button>    
   </div>
   <div class='bio-data-btns'>
     <button id='btn-bio-save' class='edit-btn clr-yes'>Save Changes</button>
@@ -68,7 +68,13 @@
         <label for='bio-discipline-stat'>Last Disciplinary Action:</label>
         <input type='text' id='bio-discipline-stat' class='inp-med' value='none'/>
       </div>
-      <div class='col-group' style='margin-left: 40px; color: red;'>
+      <div class='col-group'>
+        <!-- TODO: set up connection to Formation Group -->
+        <label>Formation Group:</label>
+        <select id='bio-formation-group'>
+        </select>
+      </div>
+      <div class='col-group hidediv' style='margin-left: 40px; color: red;'>
         PF Alert: </br>
         Test scores seem low, VIAs lacking
       </div>  
@@ -460,16 +466,8 @@
       <div class='bio-attendance'>
         <h4 style='margin-top: 10px;'>Attendance Record </h4>
         <div class='bio-attendance-list-wrap'>
-          <table id='bio-attend-heading'>
-            <col width='150'><col width='120'><col width='90'>
-            <thead><tr><th>Unit</th><th>Module</th><th>Attendance</th></tr></thead>
+          <table id='bio-attend-data'>
           </table>
-          <div class='bio-attend-rows-wrap'>
-            <table id='bio-attend-body'>
-              <col width='150'><col width='120'><col width='90'>
-              <tbody></tbody>
-            </table>
-          </div>
         </div>
       </div>
 

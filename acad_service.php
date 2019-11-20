@@ -85,14 +85,22 @@ switch ($c_apifunc) {
 		echo json_encode($ret_array);
 		break;
 
-	case "GET_ATTENDEE_ATTEND":
-		// gets an individuals attendance record 
-		$v_attendee_id = isset($_POST['p_attendee_id']) ? $_POST['p_attendee_id'] : null;
 
-		// note, forcing to ignore modue_id 13 for now - that is orientation week - look in stored procedure
-		$result = pg_query_params($dbconn, 'select * from get_attendee_attend($1)', array($v_attendee_id));
-		$ret_array = pg_fetch_all($result);
-		echo json_encode($ret_array);
+  // case "GET_ATTENDEE_ATTEND":
+	// 	echo 'please god please';
+	// 	break;
+	case "GET_ATTENDEE_ATTEND":
+	// gets an individuals attendance record 
+		$v_attendee_id = isset($_POST['p_attendee_id']) ? $_POST['p_attendee_id'] : null;
+		$v_course_id = isset($_POST['p_course_id']) ? $_POST['p_course_id'] : null;
+		if ($v_course_id == null or $v_attendee_id == null) {
+			echo json_encode('bad parameters');
+		} else {
+			// note, forcing to ignore modue_id 13 for now - that is orientation week - look in stored procedure
+			$result = pg_query_params($dbconn, 'select * from get_attendee_attend($1,$2)', array($v_course_id,$v_attendee_id));
+			$ret_array = pg_fetch_all($result);
+			echo json_encode($ret_array);
+		};
 		break;
 
   case "GET_COURSE_CONTENT":
@@ -226,11 +234,12 @@ switch ($c_apifunc) {
 		$v_use_contrib_crime = isset($_POST['p_use_contrib_crime']) ? $_POST['p_use_contrib_crime'] : null;
 		$v_use_drugs = isset($_POST['p_use_drugs']) ? $_POST['p_use_drugs'] : null;
 		$v_workbook_status = isset($_POST['p_workbook_status']) ? $_POST['p_workbook_status'] : null;
+		$v_formation_group_id = isset($_POST['p_formation_group_id']) ? $_POST['p_formation_group_id'] : null;
 
 		$result = pg_query_params($dbconn, 'select * from put_attendee_data($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,
 								$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34,
 								$35,$36,$37,$38,$39,$40,$41,$42,$43,$44,$45,$46,$47,$48,$49,$50,$51,$52,$53,$54,$55,$56,$57,
-								$58,$59,$60)', 
+								$58,$59,$60,$61)', 
 			array($v_id,$v_fname,$v_lname,$v_age,$v_doc_number,$v_first_arrest_age,$v_previous_convictions,
 				$v_fam_crime_history,$v_num_child,$v_marital_status,$v_num_positive_model,$v_att_id_use,
 				$v_release_date,$v_parole_eligible,$v_workbook_status,$v_gender,$v_race,$v_military,
@@ -243,7 +252,8 @@ switch ($c_apifunc) {
 				$v_employ_plan_explain,$v_clubs_prior,$v_clubs_in_prison,$v_club_leader,$v_club_leader_explain,
 				$v_express_needs,$v_understand_other_views,$v_make_friends,$v_accept_criticism,
 				$v_provide_good_criticism,$v_accept_responsibility,$v_manage_problems,$v_develop_goals,$v_manage_money,
-				$v_course_id, $v_enroll_date, $v_drop_date, $v_club_leader_prison_explain));
+				$v_course_id, $v_enroll_date, $v_drop_date, $v_club_leader_prison_explain,
+				$v_formation_group_id));
 		
 		echo json_encode('done');
 		break;
@@ -251,11 +261,9 @@ switch ($c_apifunc) {
   case "GET_1ON1_DATA":
     $v_course_id = $_POST['p_course_id'];
     $v_attendee_id = $_POST['p_attendee_id'];
-    echo $v_course_id;
-    echo $v_attendee_id;
     // $result = pg_query_params($dbcon, 'select * from get_1on1_details($1, $2)', array($v_course_id, $v_attendee_id));
     $result = pg_query_params($dbconn, 
-            'select * from course_attendee_1o1 where course_id = $1 and attendee_id = $2 order by meeting_date descending', 
+            'select * from course_attendee_1o1 where course_id = $1 and attendee_id = $2 order by meeting_date desc', 
             array($v_course_id, $v_attendee_id));
     $ret_array = pg_fetch_all($result);
 		echo json_encode($ret_array);

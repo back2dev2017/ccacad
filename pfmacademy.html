@@ -132,7 +132,7 @@
                           <table id='detail-roster-list-tbl'></table>
                         </div>
                         <div class="formation-group-view">
-                          <h3>Formation Groups</h3>
+                          <h3>Formation Groups <span style='margin-left: 10px'><button class=btn-manage onclick="edit_fg_data(11)">Manage</button></span></h3>
                           <table id='formation-group-list'>
                             <col width='120'><col width='90'><col width='90'>
                             <thead>
@@ -400,7 +400,6 @@
 
 
   <!-- the user editing overlay -->
-
   <div class="user-edit popup-edit hidediv">
 
   </div>
@@ -408,10 +407,12 @@
 
 
   <!-- The attendee bio editing overlay -->
-
   <div class='bio-total hidediv'>
   </div>
 
+  <!-- The Formation Group editing overlay -->
+  <div class='course-formation-group-mgmt popup-edit hidediv'>
+  </div>
 
   <!--  --------------------------------- end of the modal dialog divs --------------------------------- -->
 </body>

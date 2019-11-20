@@ -149,7 +149,7 @@ FUNCTION get_just_params
 cx = _cliptext
 cx = STRTRAN(STRTRAN(STRTRAN(STRTRAN(STRTRAN(STRTRAN(cx, CHR(13), ''), CHR(9), ''), 'text', ''), 'NULL', ''), 'DEFAULT', ''), '  ', '')
 cx = STRTRAN(STRTRAN(STRTRAN(STRTRAN(STRTRAN(STRTRAN(cx, 'NULL', ''), '::'), 'DEFAULT', ''), 'text', ''), 'bigint', ''), CHR(9), '')
-cx = STRTRAN(STRTRAN(STRTRAN(STRTRAN(cx, 'integer', ''), 'smallint', ''), ' ', ''), ' ', '')
+cx = STRTRAN(STRTRAN(STRTRAN(STRTRAN(STRTRAN(cx, ' date', ''), 'integer', ''), 'smallint', ''), ' ', ''), ' ', '')
 nlines = ALINES(atmp, cx, ',')
 *!*	WAIT ALLTRIM(STR(nlines)) window
 =ASORT(atmp)
@@ -185,9 +185,35 @@ _cliptext = cnew
 RETURN
 
 
+*---------------------------------------
+FUNCTION make_sp_local_insert_list
+*-- to create the field list for inserting updating
+*-- highlight the parms passed to the stored proc - assumes all parms start with 'p_'
 
+cx = _cliptext
+cx = STRTRAN(STRTRAN(cx, CHR(9), ''), CHR(13), '')
+cx = STRTRAN(STRTRAN(cx, " DEFAULT NULL :: bigint", ''), " DEFAULT NULL :: smallint", '')
+cx = STRTRAN(STRTRAN(cx, " DEFAULT NULL :: integer", ''), " DEFAULT NULL :: date", '')
+cx = STRTRAN(STRTRAN(cx, " DEFAULT NULL :: date", ''), " DEFAULT NULL :: text", '')
+cx = STRTRAN(cx, ' ', '')
+nlines = ALINES(atmp,cx,1+4,',')
+=ASORT(atmp)
+cfldstr = ''
+cvalstr = ''
+ncount = 0
+FOR ni = 1 TO nlines
+	cparm = ALLTRIM(atmp[ni])
+	IF ncount > 3
+		cfldstr = cfldstr + SUBSTR(cparm, 3) + ', ' + CHR(13)
+		cvalstr = cvalstr + cparm + ', ' + CHR(13)
+		ncount = 0
+	ELSE
+		cfldstr = cfldstr + SUBSTR(cparm, 3) + ', '
+		cvalstr = cvalstr + cparm + ', '
+		ncount = ncount + 1
+	ENDIF
+ENDFOR
 
-
-
-
+cfinal = '(' + cfldstr + ') ' + CHR(13) + "VALUES " + CHR(13) + '(' + cvalstr + ')'
+_cliptext = cfinal
 

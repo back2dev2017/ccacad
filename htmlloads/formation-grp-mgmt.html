@@ -1,0 +1,25 @@
+<div class='formation-group-mgmt'>
+  <p class="div-title">Formation Groups</p>
+  <div class='fg-tbl-sect' style='width:300px; border:1px solid #777777;'>
+    <div id='fg-tbl-list-wrapper'>
+      <table class="cell-border" id='fg-edit-table'>
+      </table>
+    </div>
+  </div>
+
+  <div class='fg-new-data'>
+    <div class="edit-group">
+      <label for="fg-name">Group Name:</label>
+      <input type="text" name="fg-name" id="fg-name" value="">
+      <button class='edit-btn-sm clr-yes' id='fg-btn-save'>Add</button>
+    </div>
+
+    <!-- Hidden variables to hold on to useful data -->
+    <input type=text name="courseid" id="fg-course-id" class="hidevar" value="">
+  </div>
+
+  <div class="popup-footer">
+    <button class='edit-btn clr-no' id='fg-btn-close' onclick="fg_edit_close()">Close</button>
+  </div>
+
+</div>

@@ -12,7 +12,7 @@ CREATE OR REPLACE function public.get_attendee_attend( p_course_id bigint=null, 
     )
 
 LANGUAGE 'plpgsql'
-VOLATILE
+STABLE
 as $BODY$
 
 DECLARE
@@ -33,7 +33,7 @@ BEGIN
 		  'from course_attendance aa ' || 
 			  'left outer join units bb on aa.sess_id = bb.id ' || 
 			  'left outer join module_categories cc on bb.module_id = cc.id ' ||
-			  'left outer join course_content dd on aa.course_id = dd.course_id and dd.sess_id = aa.sess_id' || 
+			  'left outer join course_content dd on aa.course_id = dd.course_id and dd.sess_id = aa.sess_id ' || 
       'where aa.attend_id = $1 and aa.course_id = $2 order by dd.week_num' using v_attendee_id, v_course_id;
 
 END

@@ -29,28 +29,6 @@
   <div class="tempcontainer">
     <!-- copy after this line to paste into main document -->
 
-    <div class='formation-group-mgmt'>
-      <p class="div-title">Formation Groups</p>
-      <div class='fg-tbl-sect' style='width:300px; border:1px solid #777777;'>
-        <div id='fg-tbl-list-wrapper'>
-          <table class="cell-border" id='fg-edit-table'>
-          </table>
-        </div>
-      </div>
-
-      <div class='fg-new-data'>
-        <div class="edit-group">
-          <label for="fg-name">Group Name:</label>
-          <input type="text" name="fg-name" id="fg-name" class="inp-sm " value="">
-        </div>
-        <button class='edit-btn-sm clr-yes' id='fg-btn-save'>Add</button>
-        <!-- Hidden variables to hold on to useful data -->
-        <input type=text name="courseid" id="fg-course-id" class="hidevar" value="">
-      </div>
-
-      <div class="popup-footer">
-        <button class='edit-btn clr-no' id='fg-btn-close' onclick="fg_edit_close()">Close</button>
-      </div>
 
     </div>
 
@@ -79,13 +57,13 @@
       // setTimeout('gen_course_content(170)', 1500);
       // setTimeout('course_edit_data(17,1)', 1600);
       dataobj.selected_course = 99;
-     
-      $.post(service_def,
-    		{ api_func: "GET_COURSE_ROSTER", p_course_id: "11" },
-		    function (rslt) {
-          dataobj.course_roster = rslt;
-          edit_fg_data(dataobj.selected_course);
-        }, "json");
+      // destroy_datatable("#fg-edit-table");
+      // $.post(service_def,
+    	// 	{ api_func: "GET_COURSE_ROSTER", p_course_id: "11" },
+		  //   function (rslt) {
+      //     dataobj.course_roster = rslt;
+      //     edit_fg_data(dataobj.selected_course, "#fg-edit-table");
+      //   }, "json");
 
 
     });

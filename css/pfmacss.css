@@ -93,7 +93,7 @@ nav a, button {
 
 .btn-small {
 	background-color: blue;
-	border-radius: 8px;
+	border-radius: 6px;
 	color: white;
 	font-size: 0.8em;
 	font-weight: bold;
@@ -102,6 +102,21 @@ nav a, button {
 	min-height: 10px;
 }
 .btn-small:hover {
+	/* this box-shadow had multiple shadows defined, kinda cool */
+		box-shadow: 2px 4px 2px 1px rgba(0,0,0,0.50)
+	}
+
+.btn-manage {
+	background-color: blue;
+	border-radius: 6px;
+	color: white;
+	font-size: 0.9em;
+	font-weight: bold;
+	padding: 1px 4px 1px 4px;
+	min-width: 30px;
+	min-height: 20px;
+}
+.btn-manage:hover {
 	/* this box-shadow had multiple shadows defined, kinda cool */
 		box-shadow: 2px 4px 2px 1px rgba(0,0,0,0.50)
 	}

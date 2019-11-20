@@ -1146,13 +1146,13 @@ function movable_test () {
 	draggable_div(document.getElementById(("pop-mov1")));
 };
 
-
 function loadhtmls() {
   //   purpose: to load the html files that were split out for readability. It is important these get loaded ASAP
   // because various code makes sections visible and such right away. Implement this by promises
   // htmlload('.dashboard-sect', 'htmlloads/dashboard-sect-load.html');
   htmlload('.user-edit', 'htmlloads/user-edit-load.html');
-  htmlload('.course-attendee', 'htmlloads/bio-total-load.html');
+	htmlload('.course-attendee', 'htmlloads/bio-total-load.html');
+	htmlload('.course-formation-group-mgmt', 'htmlloads/formation-grp-mgmt.html');
   
 };
 

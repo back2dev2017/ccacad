@@ -316,21 +316,25 @@ function build_edit_course_tbl (rsltdata) {
 };
 
 function edit_fg_data (coursenum) {
+	destroy_datatable("#fg-edit-table");
+	$("#modal-overlay").removeClass("hidediv");
+	$(".course-formation-group-mgmt").removeClass("hidediv");
+	pop_div_center(".course-formation-group-mgmt");
+	$("#fg-course-id").val(coursenum);
 	$.post(service_def, 
 		{ api_func: "GET_FORMATION_GROUP", p_course_id: coursenum },
 		function (rslt) {
       console.log(rslt);
 			dataobj.fg_data = rslt;
-      build_fg_tbl(rslt);
+      build_fg_tbl(rslt, "#fg-edit-table");
 		}, "json" );
 };
 
 
-function build_fg_tbl (rsltdata) {
+function build_fg_tbl (rsltdata, tblref) {
 	// var tblht = $("#user-list-tbl").height() - 88;
-		// var tblhtpx = tblht.toString() + "px";
-		// $("#user-list-tbl").removeAttr('width').DataTable( {
-  
+	// var tblhtpx = tblht.toString() + "px";
+	// $("#user-list-tbl").removeAttr('width').DataTable( {
   for (let i=0; i<rsltdata.length; i++)  {
     let tcount = 0;
     dataobj.course_roster.forEach(function(person) {
@@ -339,7 +343,7 @@ function build_fg_tbl (rsltdata) {
     rsltdata[i].assigned_count = tcount;
   };
 
-	$("#fg-edit-table").DataTable( {
+	$(tblref).DataTable( {
 		"bInfo": false,
 		"bFilter": false,
 		autoWidth: true,
@@ -353,10 +357,11 @@ function build_fg_tbl (rsltdata) {
 		rowId: 'id',
 		// note the passing of 'id' as the second column - the reason is for the render, and the resulting link set up
 		columns: [
-      { data: "fg_id", "width": "50px", "title": "id", "visible":false }, 
-      { data: "course_id", "width": "50px", "title": "course id", "visible":false }, 
-      { data: "group_name", "width": "120px", "title": "Group Name" }, 
-      { data: "assigned_count", "width": "100px", "title": "Assigned",
+      { data: "id", "width": "50px", "title": "id", "visible":false }, 
+      { data: "course_id", "width": "65px", "title": "course id", "visible":false }, 
+			{ data: "group_name", "width": "80px", "title": "Group Name" }, 
+			{ data: "assigned_count", "width": "80px", "title": "Assigned", className:'q-cent' },
+      { data: "group_name", "width": "100px", "title": "",
         'render': function (data,type,row,meta) {
           let retdata = data;
           let delid = row.id.toString();
@@ -368,6 +373,12 @@ function build_fg_tbl (rsltdata) {
         }},
 		] } );
 };
+
+function fg_edit_close() {
+	$('.course-formation-group-mgmt').addClass('hidediv');
+	$('#modal-overlay').addClass('hidediv');
+};
+
 
 
 function course_de_change(editobj) {
@@ -434,15 +445,27 @@ function bio_edit_data(attendeeid, courseid, editmode = "E") {
 	// set some visuals - prevent need to scroll whole page
 	// TODO: set height of div to prevent whole-screen scroll	
 	$('.bio-subsect').height(dataobj.maindivheight - $('#bio-expand-div').position().top);
+	bio_set_fg_opts(partdata.course_id);
 
 	// assign data to data entry items.
 	bio_assign_data(partdata);
 
-  // adjust the title line - special 'row' that acts as a window title
-  attendee_load_1on1(partdata[0].course_id, partdata[0].attendee_id);
-  attendee_load_vias(partdata[0].course_id, partdata[0].attendee_id);
-  attendee_load_attendance(partdata[0].course_id, partdata[0].attendee_id);
-  attendee_load_discipline(partdata[0].course_id, partdata[0].attendee_id);
+	// adjust the title line - special 'row' that acts as a window title
+  attendee_load_1on1(partdata[0].course_id, partdata[0].id);
+  attendee_load_vias(partdata[0].course_id, partdata[0].id);
+  attendee_load_attendance(partdata[0].course_id, partdata[0].id);
+  attendee_load_discipline(partdata[0].course_id, partdata[0].id);
+};
+
+
+function bio_set_fg_opts(course_id) {
+	// clear out any previous options
+	$('#bio-formation-group').html('')
+	// TODO: actually go get the formation groups of the course
+	let tlist = [{'group_name':'Eagle', 'group_id':20},{'group_name':'Dove', 'group_id':4}];
+	tlist.forEach(function(item){
+		$('#bio-formation-group').append(`<option value=${item.group_id} >${item.group_name}</option>`);
+	});
 };
 
 function bio_assign_data(biodata) {
@@ -453,6 +476,7 @@ function bio_assign_data(biodata) {
 	$('#bio-fname').val(biodata[0].fname);
 	$('#bio-lname').val(biodata[0].lname);
 	$('#bio-age').val(biodata[0].age);
+	$('#bio-formation-group').val(biodata[0].formation_group_id);
 	$('#bio-doc-num').val(biodata[0].doc_number);
 	$('#bio-first-arrest-age').val(biodata[0].first_arrest_age);
 	$('#bio-prev-conv').val(biodata[0].previous_convictions);
@@ -562,6 +586,7 @@ function bio_save_data() {
 	tobj.citizen = $('#bio-citizen-yes').prop('checked') ? 1 : 0;
 	tobj.email = $('#bio-email').val();
 	tobj.first_arrest_age = $('#bio-first-arrest-age').val();
+	tobj.formation_group_id = $('#bio-formation-group').val();
 	tobj.previous_convictions = $('#bio-prev-conv').val();
 	tobj.adult_incarcerations = $('#bio-adult-incar').val();
 	tobj.family_crime_history = $('#bio-fam-crime').val();
@@ -625,7 +650,7 @@ function bio_save_data() {
 			p_accept_criticism:tobj.accept_criticism, p_provide_good_criticism:tobj.provide_good_criticism, p_accept_responsibility:tobj.accept_responsibility, 
 			p_manage_problems:tobj.manage_problems, p_develop_goals:tobj.develop_goals, p_manage_money:tobj.manage_money,
 			p_course_id:tobj.course_id, p_enroll_date:tobj.enroll_date, p_drop_date:tobj.tobj.drop_date, 
-			p_club_leader_prison_explain:tobj.club_leader_prison_explain
+			p_club_leader_prison_explain:tobj.club_leader_prison_explain, p_formation_group_id:tobj.formation_group_id
 		}, 
 		function (rslt) {
 			console.log(rslt); 
@@ -644,9 +669,15 @@ function attendee_load_1on1(course_id, attendee_id) {
 	$.post(service_def, 
 		{ api_func: "GET_1ON1_DATA", p_attendee_id: attendee_id, p_course_id: course_id },
 		function (rslt) {
-      console.log(rslt);
+			console.log(rslt);
+			dataobj.attendee_1on1 = rslt;
       build_1on1_tbl(rslt);
-		}, "json" );  
+		}, "json" );
+	// $.post(service_def, 
+	// 	{ api_func: "GET_1ON1_DATA", p_attendee_id: attendee_id, p_course_id: course_id },
+	// 	function (rslt) {
+	// 		console.log(rslt);
+	// 	});  
 };
 
 function build_1on1_tbl (rsltdata) {
@@ -656,7 +687,7 @@ function build_1on1_tbl (rsltdata) {
 		"bFilter": false,
 		autoWidth: true,
 		responsive: true,
-		scrollY: "260px",
+		scrollY: "150px",
 		scrollX: true,
 		scrollCollapse: true,
 		stateSave: true,
@@ -665,7 +696,7 @@ function build_1on1_tbl (rsltdata) {
 		rowId: 'id',
     // note the passing of 'id' as the second column - the reason is for the render, and the resulting link set up
 		columns: [
-      { data: "meeting_date", "width": "120px", "title": "Date",
+      { data: "meeting_date", "width": "75px", "title": "Date",
         'render': function(data,type,row,meta) {
           let retdata = data;
           let dataid = row.id.toString();
@@ -674,7 +705,14 @@ function build_1on1_tbl (rsltdata) {
           }
           return retdata;
         }}, 
-			{ data: "meeting_notes", "width": "400px", "title": "Meeting Notes", className: "bio-1o1-note" }, 
+			{ data: "meeting_notes", "width": "400px", "title": "Meeting Notes", 
+				'render': function(data,type,row,meta) {
+					let retdata = data;
+					if (type == 'display') {
+						retdata = '<div class="bio-1on1-note">' + data + '</div>';
+					};
+					return retdata;
+				}}, 
 			{ data: "course_id", "width": "200px", "title": "", "visible": false}
 		] } );
 };
@@ -690,18 +728,42 @@ function attendee_load_discipline(course_id, attendee_id) {
   console.log('loading vias');
 };
 function attendee_load_attendance(course_id, attendee_id) {
-	console.log('loading attendance');
 	$.post(service_def, 
-		{ api_func: "GET_ATTENDEE_ATTEND", p_course_id: course_id, p_attendee_id: attendee_id },
+		{ api_func: "GET_ATTENDEE_ATTEND", p_course_id:course_id, p_attendee_id:attendee_id },
 		function (rslt) {
-			console.log(rslt);
+			// console.log(rslt);
 			dataobj.attendee_attend = rslt;
-			dataobj.attendee_attend.forEach(function(item) {
-				let newrow = '<tr><td>'+item.title+'</td><td>'+item.module_name+'</td><td>'+item.attend_type+'</td></tr>';
-				$('#bio-attend-body').append(newrow);
-				$('.bio-attend-rows-wrap').width($('#bio-attend-body').width()+17);
-			});
+			destroy_datatable('#bio-attend-data');
+			build_attend_tbl(rslt, '#bio-attend-data');
 		}, "json" );
+		// $.post(service_def, 
+		// 	{ api_func: "GET_ATTENDEE_ATTEND", p_course_id:course_id, p_attendee_id:attendee_id },
+		// 	function (rslt) {
+		// 		console.log(rslt);
+		// 	});
+};
+
+function build_attend_tbl(rsltdata, tblref) {
+	$(tblref).DataTable( {
+		"bInfo": false,
+		"bFilter": false,
+		autoWidth: true,
+		responsive: true,
+		scrollY: "260px",
+		scrollX: true,
+		scrollCollapse: true,
+		stateSave: true,
+		paging: false,
+		"order": [[3, 'asc']],
+		"data": rsltdata,
+		rowId: 'id',
+    // note the passing of 'id' as the second column - the reason is for the render, and the resulting link set up
+		columns: [
+      { data: "title", "width": "140px", "title": "Unit"},
+			{ data: "module_name", "width": "130px", "title": "Module" }, 
+			{ data: "attend_type", "width": "70px", "title": "Attendance"},
+			{ data: "week_num", "width":"60px", "title":"Week", "visible":false}
+		]});
 };
 
 function bio_edit_close() {

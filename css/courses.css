@@ -33,6 +33,15 @@
   height: 100%;
 }
 
+.course-formation-group-mgmt {
+  background-color: white;
+  max-width: 65%;
+  max-height: 45%;
+  border: 1px solid black;
+  box-shadow: 4px 4px 4px 4px black;
+  z-index: 1200;
+}
+
 .detail-roster-list-wrap {
   height: 100%;
   width: 450px;
@@ -157,6 +166,7 @@
 
 .bio-subsect {
   overflow: auto;
+  width: 98%;
 }
 
 .bio-1on1 {
@@ -164,21 +174,21 @@
   margin: 5px 5px 5px 5px;
 }
 
+.bio-1on1-list-wrap {
+  max-width: 600px;
+}
 #bio-1on1-table {
+  font-size: 0.9em;
   border: 1px solid #999999;
 	border-collapse: collapse;
 }
 
-#bio-1on1-table th {
-	border: 1px solid #999999;
-	min-width: 80px;
-}
-#bio-1on1-table td {
+#bio-1on1-table, #bio-1on1-table.td, #bio-1on1-table.th, #bio-1on1-table.tr {
   border: 1px solid #999999;
 }
 .bio-1on1-note {
-  height: 60px;
-  overflow: auto;
+  max-height: 50px;
+  overflow-y: auto;
 };
 
 .bio-vias {
@@ -199,31 +209,16 @@
   border: 1px solid #999999;
 }
 
-#bio-attend-heading {
-  border: 1px solid #999999;
-	border-collapse: collapse;
+.bio-attendance-list-wrap {
+  max-width: 450px;
 }
 
-#bio-attend-heading th {
-	border: 1px solid #999999;
-	min-width: 80px;
-}
-
-.bio-attend-rows-wrap {
-  margin-bottom: 5px;
-  overflow: hidden;
-  overflow-y: scroll;
-  height: 80px;
-  max-width: 80%
-}
-
-#bio-attend-body {
-  border: 1px solid #999999;
+#bio-attend-data {
+  font-size: 0.9em;
   border-collapse: collapse;
 }
-
-#bio-attend-body td {
-  border: 1px solid #999999;
+#bio-attend-data tr, #bio-attend-data th, #bio-attend-data td {
+  border: 1px solid grey;
 }
 
 /* #btn-back2course {
@@ -247,8 +242,8 @@
   flex-flow: row wrap;
   height: 50%;
   width: 100%;
-  max-width: 350px;
-  max-height: 450px;
+  max-width: 550px;
+  max-height: 550px;
 }
 .fg-tbl-sect {
   width: 48%;
