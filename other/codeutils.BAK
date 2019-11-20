@@ -217,3 +217,5 @@ ENDFOR
 cfinal = '(' + cfldstr + ') ' + CHR(13) + "VALUES " + CHR(13) + '(' + cvalstr + ')'
 _cliptext = cfinal
 
+
+
