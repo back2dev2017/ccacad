@@ -195,6 +195,8 @@ cx = STRTRAN(STRTRAN(cx, CHR(9), ''), CHR(13), '')
 cx = STRTRAN(STRTRAN(cx, " DEFAULT NULL :: bigint", ''), " DEFAULT NULL :: smallint", '')
 cx = STRTRAN(STRTRAN(cx, " DEFAULT NULL :: integer", ''), " DEFAULT NULL :: date", '')
 cx = STRTRAN(STRTRAN(cx, " DEFAULT NULL :: date", ''), " DEFAULT NULL :: text", '')
+cx = STRTRAN(STRTRAN(STRTRAN(STRTRAN(cx, ' text', ''), ' bigint', ''), ' integer', ''), ' smallint', '')
+cx = STRTRAN(cx, ' date', '')
 cx = STRTRAN(cx, ' ', '')
 nlines = ALINES(atmp,cx,1+4,',')
 =ASORT(atmp)
@@ -216,6 +218,71 @@ ENDFOR
 
 cfinal = '(' + cfldstr + ') ' + CHR(13) + "VALUES " + CHR(13) + '(' + cvalstr + ')'
 _cliptext = cfinal
+
+*------------------
+*-- create "update" type syntax - update... set field = varname....
+*-- highlight the parameter list into the stored proc
+
+cx = _cliptext
+cx = STRTRAN(STRTRAN(cx, CHR(9), ''), CHR(13), '')
+cx = STRTRAN(STRTRAN(cx, " DEFAULT NULL :: bigint", ''), " DEFAULT NULL :: smallint", '')
+cx = STRTRAN(STRTRAN(cx, " DEFAULT NULL :: integer", ''), " DEFAULT NULL :: date", '')
+cx = STRTRAN(STRTRAN(cx, " DEFAULT NULL :: date", ''), " DEFAULT NULL :: text", '')
+cx = STRTRAN(STRTRAN(STRTRAN(STRTRAN(cx, ' text', ''), ' bigint', ''), ' integer', ''), ' smallint', '')
+cx = STRTRAN(cx, ' date', '')
+cx = STRTRAN(cx, ' ', '')
+nlines = ALINES(atmp,cx,1+4,',')
+=ASORT(atmp)
+cstr = ''
+cfn = ''
+ncount = 0
+FOR ni = 1 TO nlines
+	cparm = ALLTRIM(atmp[ni])
+	cfn = SUBSTR(cparm, 3)
+	IF ncount > 1
+		cstr = cstr + cfn + ' = p_' + cfn + ', ' + CHR(13)
+		ncount = 0
+	ELSE
+		cstr = cstr + cfn + ' = p_' + cfn + ', '
+		ncount = ncount + 1
+	ENDIF
+ENDFOR
+
+cfinal = 'UPDATE <table_name>' + CHR(13) + ;
+		'SET ' + cstr + CHR(13) + ;
+		'<need_where_clause>'
+_cliptext = cfinal
+
+
+
+
+
+
+*!*	(accept_criticism, accept_responsibility, adult_incarcerations, age, att_id_use, 
+*!*	citizen, club_leader, club_leader_explain, club_leader_explain, clubs_in_prison, 
+*!*	clubs_prior, course_id, current_alcohol, current_drug, currently_employed, 
+*!*	develop_goals, doc_number, drop_date, email, employ, 
+*!*	employ_plan, employ_plan_explain, enroll_date, express_needs, fam_crime_history, 
+*!*	fam_involve, fam_relationship, family_crime_history, first_arrest_age, fname, 
+*!*	formation_group_id, friends_during_prison, friendships, gender, highest_education, 
+*!*	id, lname, make_friends, manage_money, manage_problems, 
+*!*	marital_status, military, num_addr_change, num_child, num_discipline_infractions, 
+*!*	num_friends_criminal, num_positive_model, parole_eligible, previous_convictions, provide_good_criticism, 
+*!*	race, release_date, school_expel, skill_plan, skill_plan_explain, 
+*!*	understand_other_views, use_alcohol, use_contrib_crime, use_drugs, workbook_status) 
+*!*	VALUES 
+*!*	(p_accept_criticism, p_accept_responsibility, p_adult_incarcerations, p_age, p_att_id_use, 
+*!*	p_citizen, p_club_leader, p_club_leader_explain, p_club_leader_explain, p_clubs_in_prison, 
+*!*	p_clubs_prior, p_course_id, p_current_alcohol, p_current_drug, p_currently_employed, 
+*!*	p_develop_goals, p_doc_number, p_drop_date, p_email, p_employ, 
+*!*	p_employ_plan, p_employ_plan_explain, p_enroll_date, p_express_needs, p_fam_crime_history, 
+*!*	p_fam_involve, p_fam_relationship, p_family_crime_history, p_first_arrest_age, p_fname, 
+*!*	p_formation_group_id, p_friends_during_prison, p_friendships, p_gender, p_highest_education, 
+*!*	p_id, p_lname, p_make_friends, p_manage_money, p_manage_problems, 
+*!*	p_marital_status, p_military, p_num_addr_change, p_num_child, p_num_discipline_infractions, 
+*!*	p_num_friends_criminal, p_num_positive_model, p_parole_eligible, p_previous_convictions, p_provide_good_criticism, 
+*!*	p_race, p_release_date, p_school_expel, p_skill_plan, p_skill_plan_explain, 
+*!*	p_understand_other_views, p_use_alcohol, p_use_contrib_crime, p_use_drugs, p_workbook_status)
 
 
 
