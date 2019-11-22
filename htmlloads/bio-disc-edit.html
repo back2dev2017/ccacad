@@ -1,0 +1,31 @@
+<p class="div-title">Disciplinary History Item: </p>
+<div class="bio-disc-edit-show">
+  <div class='row-group'>
+    <label for='bio-disc-edit-date'>Date of Action:</label>
+    <input type='date' id='bio-disc-edit-date' class='space-left inp-med'/>
+  </div>
+  <div class='row-group'>
+    <label for='bio-disc-edit-category'>Type:</label>
+    <input type='text' id='bio-disc-edit-category' class='space-left inp-med'/>
+  </div>
+  <div class='row-group'>
+    <label for='bio-disc-edit-'>ID/Number:</label>
+    <input type='text' id='bio-disc-edit-category' class='space-left inp-med'/>
+  </div>
+  <div class="flex-div-c">
+    <label for='bio-disc-edit-notes'>Notes:</label>
+    <textarea class='note-entry' id="bio-disc-edit-notes" rows="5"></textarea>
+  </div>
+  <div class='row-group'>
+    <button class='edit-btn clr-yes' id='bio-disc-edit-btn-save'>Save</button>
+    <button class='edit-btn clr-no' id='bio-disc-edit-btn-cancel' onclick="disc_edit_close()">Cancel</button>        
+  </div>
+  <div>
+    <!-- for hidden vars that store values -->
+    <input type='text' id='bio-disc-edit-attendee-id' class='hidevar'/>
+    <input type='text' id='bio-disc-edit-course-id' class='hidevar'/>
+    <input type='text' id='bio-disc-edit-classification' class='hidevar'/>
+    <input type='text' id='bio-disc-edit-editmode' class='hidevar'/>
+
+  </div>
+</div>

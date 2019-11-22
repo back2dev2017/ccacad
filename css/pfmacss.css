@@ -592,10 +592,10 @@ h2 {
 /* This section is CSS for editing window contents */
 .div-title {
 	font-size: 1.3em;
-  width: 100%;
+  width: 99.4%;
   max-height: 30px;
-	margin: 1px 0px 3px 0px;
-	padding: 3px 0px 0px 2px;
+	margin: 0px 0px 3px 0px;
+	padding: 3px 0px 1px 2px;
 	text-align: left;
 	background-color: blue;
 	color: white;

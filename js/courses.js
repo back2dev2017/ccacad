@@ -419,7 +419,8 @@ function course_de_change(editobj) {
 
 function week_edit_close() {
 	$('.course-week-edit').addClass('hidediv');
-	$('#modal-overlay').addClass('hidediv');  destroy_datatable("#course-week-edit-attend");
+	$('#modal-overlay').addClass('hidediv');
+	destroy_datatable("#course-week-edit-attend");
   destroy_datatable("#week-edit-table");
 };
 
@@ -669,9 +670,9 @@ function attendee_load_1on1(course_id, attendee_id) {
 	$.post(service_def, 
 		{ api_func: "GET_1ON1_DATA", p_attendee_id: attendee_id, p_course_id: course_id },
 		function (rslt) {
-			console.log(rslt);
 			dataobj.attendee_1on1 = rslt;
-      build_1on1_tbl(rslt);
+			destroy_datatable('#bio-1on1-table');
+      build_1on1_tbl(rslt, "#bio-1on1-table");
 		}, "json" );
 	// $.post(service_def, 
 	// 	{ api_func: "GET_1ON1_DATA", p_attendee_id: attendee_id, p_course_id: course_id },
@@ -680,9 +681,9 @@ function attendee_load_1on1(course_id, attendee_id) {
 	// 	});  
 };
 
-function build_1on1_tbl (rsltdata) {
-  // data expected to be sorted in reverse chrono
-  $("#bio-1on1-table").DataTable( {
+function build_1on1_tbl (rsltdata, tblref) {
+	// data expected to be sorted in reverse chrono
+  $(tblref).DataTable( {
 		"bInfo": false,
 		"bFilter": false,
 		autoWidth: true,
@@ -692,6 +693,7 @@ function build_1on1_tbl (rsltdata) {
 		scrollCollapse: true,
 		stateSave: true,
 		paging: false,
+		"order": [[1, "desc"]],
 		"data": rsltdata,
 		rowId: 'id',
     // note the passing of 'id' as the second column - the reason is for the render, and the resulting link set up
@@ -699,9 +701,10 @@ function build_1on1_tbl (rsltdata) {
       { data: "meeting_date", "width": "75px", "title": "Date",
         'render': function(data,type,row,meta) {
           let retdata = data;
-          let dataid = row.id.toString();
+					let editparms = `${row.attendee_id.toString()},${row.course_id.toString()},'E',` + 
+													`'${tblref}', '#${row.id}'`;
           if (type == 'display') {
-            retdata = '<a href="javascript:bio_edit_1on1_item(' + dataid + ');" title="Edit One on One Meeting">' + data + '</a>';
+            retdata = '<a href="javascript:bio_edit_1on1_item(' + editparms + ');" title="Edit One on One Meeting">' + data + '</a>';
           }
           return retdata;
         }}, 
@@ -713,20 +716,213 @@ function build_1on1_tbl (rsltdata) {
 					};
 					return retdata;
 				}}, 
-			{ data: "course_id", "width": "200px", "title": "", "visible": false}
+			{ data: "course_id", "width": "200px", "title": "", "visible": false},
+			{ data: "id", "width": "20px", "title": "", "visible": false},
+			{ data: "classification", "width": "200px", "title": "", "visible": false},
+			{ data: "attendee_id", "width": "40px", "title": "", "visible": false}
 		] } );
 };
 
-function bio_edit_1on1_item(rowid) {
-
+function bio_edit_1on1_item(coursenum, attendeeid, editmode, dtref, rowid) {
+	$("#modal-overlay").removeClass("hidediv");
+	$(".oneonone-edit").removeClass("hidediv");
+	pop_div_center(".oneonone-edit");
+	console.log('inside bio_edit_1on1_edit');
+	$("#one-on-one-course-id").val(coursenum);
+	$("#one-on-one-attendee-id").val(attendeeid);
+	$('#one-on-one-editmode').val(editmode);
+	if (editmode == 'E') {
+		let partdata = $(dtref).DataTable().row(rowid).data();
+		console.log(partdata);
+		$('#one-on-one-meeting-date').val(partdata.meeting_date.toString());
+		$('#one-on-one-notes').val(partdata.meeting_notes);
+		$('#one-on-one-classification').val(partdata.classification);
+	} else {
+		let today = new Date();
+		// $('#one-on-one-meeting-date')
+		// 	.val(today.getFullYear() + '-' + 
+		// 	('0' + (today.getMonth() + 1)).slice(-2) + '-' + 
+		// 	('0' + today.getDate()).slice(-2));
+		$('#one-on-one-meeting-date').val(getdatestr_fromdate(today));
+		$('#one-on-one-notes').val('');
+		$('#one-on-one-classification').val('');
+	};
 };
+
+function oneonone_edit_close() {
+	$(".oneonone-edit").addClass("hidediv");
+	$('#modal-overlay').addClass('hidediv');
+};
+
 
 function attendee_load_vias(course_id, attendee_id) {
-  console.log('loading vias');
+	// $.post(service_def, 
+	// 	{ api_func: "GET_1ON1_DATA", p_attendee_id: attendee_id, p_course_id: course_id },
+	// 	function (rslt) {
+	// 		console.log(rslt);
+	// 		dataobj.attendee_1on1 = rslt;
+  //     build_1on1_tbl(rslt, "#bio-vias-table");
+	// 	}, "json" );
+	destroy_datatable('#bio-vias-table');
+	build_via_tbl(dataobj.course_attendee_via, "#bio-vias-table");
+	// $.post(service_def, 
+	// 	{ api_func: "GET_1ON1_DATA", p_attendee_id: attendee_id, p_course_id: course_id },
+	// 	function (rslt) {
+	// 		console.log(rslt);
+	// 	});
 };
+
+function build_via_tbl(rsltdata, refele) {
+  $(refele).DataTable( {
+		"bInfo": false, "bFilter": false, autoWidth: true, responsive: true, scrollY: "150px", scrollX: true, scrollCollapse: true,
+		stateSave: true, paging: false, "data": rsltdata, rowId: 'id',
+		columns: [
+      { data: "given_date", "width": "80px", "title": "Date",
+        'render': function(data,type,row,meta) {
+
+					let retdata = data;
+					let editparms = `${row.attendee_id.toString()},${row.course_id.toString()},'E',` + 
+													`'${refele}', '#${row.id}'`;
+          if (type == 'display') {
+            retdata = '<a href="javascript:bio_edit_via_item(' + editparms + ');" title="Edit VIA data">' + data + '</a>';
+          }
+          return retdata;
+        }}, 
+			{ data: "category", "width": "150px", "title": "Category", 
+				'render': function(data,type,row,meta) {
+					let retdata = data;
+					if (type == 'display') {
+						retdata = '<div class="bio-1on1-note">' + data + '</div>';
+					};
+					return retdata;
+				}}, 
+			{ data: "id", "width": "20px", "title": "", "visible": false},
+			{ data: "notes", "width": "200px", "title": "", "visible": false},
+			{ data: "course_id", "width": "200px", "title": "", "visible": false},
+			{ data: "attendee_id", "width": "40px", "title": "", "visible": false}
+		] } );
+};
+
+function bio_edit_via_item(coursenum, attendeeid, editmode, dtref, rowid) {
+	$("#modal-overlay").removeClass("hidediv");
+	$(".via-edit").removeClass("hidediv");
+	pop_div_center(".via-edit");
+	console.log('inside bio_edit_via_edit');
+	$("#via-edit-course-id").val(coursenum);
+	$("#via-edit-attendee-id").val(attendeeid);
+	$('#via-edit-editmode').val(editmode);
+	if (editmode == 'E') {
+		let partdata = $(dtref).DataTable().row(rowid).data();
+		console.log(partdata);
+		$('#via-edit-date').val(partdata.given_date.toString());
+		$('#via-edit-notes').val(partdata.meeting_notes);
+		$('#via-edit-category').val(partdata.category);
+	} else {
+		let today = new Date();
+		// $('#via-edit-meeting-date')
+		// 	.val(today.getFullYear() + '-' + 
+		// 	('0' + (today.getMonth() + 1)).slice(-2) + '-' + 
+		// 	('0' + today.getDate()).slice(-2));
+		$('#via-edit-date').val(getdatestr_fromdate(today));
+		$('#via-edit-notes').val('');
+		$('#via-edit-category').val('');
+	};
+};
+
+function via_edit_close() {
+	$(".via-edit").addClass("hidediv");
+	$('#modal-overlay').addClass('hidediv');
+};
+
 function attendee_load_discipline(course_id, attendee_id) {
-  console.log('loading vias');
+	// $.post(service_def, 
+	// 	{ api_func: "GET_1ON1_DATA", p_attendee_id: attendee_id, p_course_id: course_id },
+	// 	function (rslt) {
+	// 		console.log(rslt);
+	// 		dataobj.attendee_1on1 = rslt;
+  //     build_1on1_tbl(rslt, "#bio-discs-table");
+	// 	}, "json" );
+	destroy_datatable('#bio-disc-table');
+	build_disc_tbl(dataobj.course_attendee_disc, "#bio-disc-table");
+	// $.post(service_def, 
+	// 	{ api_func: "GET_1ON1_DATA", p_attendee_id: attendee_id, p_course_id: course_id },
+	// 	function (rslt) {
+	// 		console.log(rslt);
+	// 	});
 };
+
+function build_disc_tbl(rsltdata, refele) {
+  $(refele).DataTable( {
+		"bInfo": false, "bFilter": false, autoWidth: true, responsive: true, scrollY: "150px", scrollX: true, scrollCollapse: true,
+		stateSave: true, paging: false, "data": rsltdata, rowId: 'id',
+		columns: [
+      { data: "disc_date", "width": "80px", "title": "Date",
+        'render': function(data,type,row,meta) {
+
+					let retdata = data;
+					let editparms = `${row.attendee_id.toString()},${row.course_id.toString()},'E',` + 
+													`'${refele}', '#${row.id}'`;
+          if (type == 'display') {
+            retdata = '<a href="javascript:bio_edit_disc_item(' + editparms + ');" title="Edit discipline data">' + data + '</a>';
+          }
+          return retdata;
+        }}, 
+      { data: "disc_id", "width": "100px", "title": "Discipline ID"},        
+      { data: "notes", "width": "150px", "title": "Category", 
+				'render': function(data,type,row,meta) {
+					let retdata = data;
+					if (type == 'display') {
+						retdata = '<div class="bio-1on1-note">' + data + '</div>';
+					};
+					return retdata;
+				}}, 
+			{ data: "id", "width": "20px", "title": "", "visible": false},
+			{ data: "notes", "width": "200px", "title": "", "visible": false},
+			{ data: "course_id", "width": "200px", "title": "", "visible": false},
+			{ data: "attendee_id", "width": "40px", "title": "", "visible": false}
+		] } );
+};
+
+function bio_edit_disc_item(coursenum, attendeeid, editmode, dtref, rowid) {
+	$("#modal-overlay").removeClass("hidediv");
+	$(".bio-disc-edit").removeClass("hidediv");
+	pop_div_center(".bio-disc-edit");
+	console.log('inside bio_edit_disc_edit');
+	$("#bio-disc-edit-course-id").val(coursenum);
+	$("#bio-disc-edit-attendee-id").val(attendeeid);
+	$('#bio-disc-edit-editmode').val(editmode);
+	if (editmode == 'E') {
+		let partdata = $(dtref).DataTable().row(rowid).data();
+		console.log(partdata);
+		$('#bio-disc-edit-date').val(partdata.given_date.toString());
+		$('#bio-disc-edit-notes').val(partdata.meeting_notes);
+		$('#bio-disc-edit-category').val(partdata.category);
+	} else {
+		let today = new Date();
+		// $('#bio-disc-edit-meeting-date')
+		// 	.val(today.getFullYear() + '-' + 
+		// 	('0' + (today.getMonth() + 1)).slice(-2) + '-' + 
+		// 	('0' + today.getDate()).slice(-2));
+		$('#bio-disc-edit-date').val(getdatestr_fromdate(today));
+		$('#bio-disc-edit-notes').val('');
+		$('#bio-disc-edit-category').val('');
+	};
+};
+
+function disc_edit_close() {
+	$(".bio-disc-edit").addClass("hidediv");
+	$('#modal-overlay').addClass('hidediv');
+};
+
+
+
+
+
+
+
+
+
+
 function attendee_load_attendance(course_id, attendee_id) {
 	$.post(service_def, 
 		{ api_func: "GET_ATTENDEE_ATTEND", p_course_id:course_id, p_attendee_id:attendee_id },
@@ -747,7 +943,7 @@ function build_attend_tbl(rsltdata, tblref) {
 	$(tblref).DataTable( {
 		"bInfo": false,
 		"bFilter": false,
-		autoWidth: true,
+		autoidth: true,
 		responsive: true,
 		scrollY: "260px",
 		scrollX: true,
@@ -770,3 +966,4 @@ function bio_edit_close() {
 	$(".one-course-pages").addClass("hidediv");
   $(".course-tracking").removeClass("hidediv");
 };
+

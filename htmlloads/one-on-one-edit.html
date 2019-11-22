@@ -1,0 +1,23 @@
+<p class="div-title">One on One Notes: </p>
+<div class="one-on-one-show">
+  <div class='row-group'>
+    <label for='one-on-one-meeting-date'>Interview Date:</label>
+    <input type='date' id='one-on-one-meeting-date' class='space-left inp-med'/>
+  </div>
+  <div class="flex-div-c">
+    <label for='one-on-one-notes'>Notes:</label>
+    <textarea class='note-entry' id="one-on-one-notes" rows="27"></textarea>
+  </div>
+  <div class='row-group'>
+    <button class='edit-btn clr-yes' id='one-on-one-btn-save'>Save</button>
+    <button class='edit-btn clr-no' id='one-on-one-btn-cancel' onclick="oneonone_edit_close()">Cancel</button>        
+  </div>
+  <div>
+    <!-- for hidden vars that store values -->
+    <input type='text' id='one-on-one-attendee-id' class='hidevar'/>
+    <input type='text' id='one-on-one-course-id' class='hidevar'/>
+    <input type='text' id='one-on-one-classification' class='hidevar'/>
+    <input type='text' id='one-on-one-editmode' class='hidevar'/>
+
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<p class="div-title">Values in Action: </p>
+<div class="via-edit-show">
+  <div class='row-group'>
+    <label for='via-edit-date'>Interview Date:</label>
+    <input type='date' id='via-edit-date' class='space-left inp-med'/>
+  </div>
+  <div class='row-group'>
+    <label for='via-edit-category'>Category:</label>
+    <select class='space-left' id='via-edit-category'>
+      <option value='pro-social-community'>Pro-social Community</option>
+      <option value='social-modeling' selected>Social Modeling</option>
+      <option value='self-advocacy'>Self Advocacy</option>
+      <option value='peer-leadership'>Peer Leadership</option>
+      <option value='addictions-recovery'>Addictions & Recovery</option>
+      <option value='criminogenic-needs'>Criminogenic Needs</option>
+      <option value='empathy'>Empathy</option>
+    </select>
+  </div>
+  <div class="flex-div-c">
+    <label for='via-edit-notes'>Notes:</label>
+    <textarea class='note-entry' id="via-edit-notes" rows="5"></textarea>
+  </div>
+  <div class='row-group'>
+    <button class='edit-btn clr-yes' id='via-edit-btn-save'>Save</button>
+    <button class='edit-btn clr-no' id='via-edit-btn-cancel' onclick="via_edit_close()">Cancel</button>        
+  </div>
+  <div>
+    <!-- for hidden vars that store values -->
+    <input type='text' id='via-edit-attendee-id' class='hidevar'/>
+    <input type='text' id='via-edit-course-id' class='hidevar'/>
+    <input type='text' id='via-edit-classification' class='hidevar'/>
+    <input type='text' id='via-edit-editmode' class='hidevar'/>
+
+  </div>
+</div>

@@ -171,6 +171,7 @@
 
 .bio-1on1 {
   width: 50%;
+  max-width: 50%;
   margin: 5px 5px 5px 5px;
 }
 
@@ -191,9 +192,73 @@
   overflow-y: auto;
 };
 
+.one-on-one-edit {
+  background-color: white;
+  border: 1px solid grey;
+  box-shadow: 4px 4px 4px 4px black;
+  min-height: 700px;
+  min-width: 600px;
+  z-index: 1200;
+}
+
+.oneonone-edit {
+  background-color: white;
+  border: 1px solid grey;
+  box-shadow: 4px 4px 4px 4px black;
+  position: absolute;
+  min-height: 650px;
+  min-width: 600px;
+  z-index: 1200;
+}
+
+.one-on-one-show {
+  padding: 0px 0px 0px 5px;
+  display: flex;
+  flex-flow: column nowrap;  
+}
+
+.via-edit {
+  background-color: white;
+  border: 1px solid grey;
+  box-shadow: 4px 4px 4px 4px black;
+  position: absolute;
+  height: 300px;
+  min-width: 400px;
+  z-index: 1200;
+}
+
+.via-edit-show {
+  padding: 0px 0px 0px 5px;
+  display: flex;
+  flex-flow: column nowrap;  
+}
+
+.bio-disc-edit {
+  background-color: white;
+  border: 1px solid grey;
+  box-shadow: 4px 4px 4px 4px black;
+  position: absolute;
+  height: 300px;
+  min-width: 400px;
+  z-index: 1200;
+}
+
+.bio-disc-edit-show {
+  padding: 0px 0px 0px 5px;
+  display: flex;
+  flex-flow: column nowrap;  
+}
+
 .bio-vias {
-  width: 50%;
+  max-width: 45%;
+  width: 45%;
   margin: 5px 5px 5px 5px;
+  justify-content: center;
+}
+
+.bio-vias-list-wrap {
+  max-width: 450px;
+  display: flex;
 }
 
 #bio-vias-table {
@@ -289,6 +354,14 @@
   margin: 0 0 0 0;
   /* overflow: hidden; */
   /* width: 300px; */
+}
+
+.note-entry {
+  font-family: Calibri;
+  height: 50%;
+  min-height: 50%;
+  width: 97%;
+  min-width: 50%;
 }
 
 .tbl-col-2090 {

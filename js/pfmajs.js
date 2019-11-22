@@ -6,45 +6,57 @@ function data_setup() {
 	$.post(service_def, 
 		{ api_func: "GET_SESSION_LIST" },
 		function (rslt) {
-      window.dataobj.units = rslt;
+      dataobj.units = rslt;
 		}, "json" );
 
 	$.post(service_def, 
 		{ api_func: "GET_USERS" },
 		function (rslt) {
-			window.dataobj.users = rslt;
+			dataobj.users = rslt;
 		}, "json" );
 
 	$.post(service_def, 
 		{ api_func: "GET_COURSES" },
 		function (rslt) {
-			window.dataobj.courses = rslt;
+			dataobj.courses = rslt;
 		}, "json" );
 
 	$.post(service_def, 
 		{ api_func: "GET_COURSE_CONTENT" },
 		function (rslt) {
-			window.dataobj.course_content = rslt;
+			dataobj.course_content = rslt;
 		}, "json");
 
 	$.post(service_def,
 		{ api_func: "GET_COURSE_ROSTER", p_course_id: "11" },
 		function (rslt) {
-      window.dataobj.course_roster = rslt;
+      dataobj.course_roster = rslt;
     }, "json");
 
 	$.post(service_def,
 		{ api_func: "GET_COURSE_ATTEND", p_course_id: "11" },
 		function (rslt) {
-      window.dataobj.course_attendance = rslt;
+      dataobj.course_attendance = rslt;
     }, "json");
 
   $.post(service_def,
     { api_func: "GET_FORMATION_GROUP", p_course_id: "99" },
     function (rslt) {
-      window.dataobj.course_fg = rslt;
+      dataobj.course_fg = rslt;
     }, "json");
 
+	$.post(service_def,
+		{ api_func: "GET_VIA_DATA", p_course_id: "11"},
+		function (rslt) {
+			dataobj.course_attendee_via = rslt;
+		}, "json");
+
+	$.post(service_def,
+		{ api_func: "GET_DISC_DATA", p_course_id: "11"},
+		function (rslt) {
+			dataobj.course_attendee_disc = rslt;
+		}, "json");
+	
   // for now, forcing course to course id 11
   dataobj.selected_course = 11;
 
@@ -133,8 +145,8 @@ function allnavclick (tabclicked) {
 				destroy_datatable('#course-detail-list-tbl');
 				destroy_datatable('#detail-roster-list-tbl');
 		 	}
-			build_sel_course_tbl(window.dataobj.course_data_list);
-			build_sel_course_roster_tbl(window.dataobj.course_roster);
+			build_sel_course_tbl(dataobj.course_data_list);
+			build_sel_course_roster_tbl(dataobj.course_roster);
 			break;
 
 		case 'surveys':
@@ -968,6 +980,11 @@ function objarrsort(prop) {
   };
 };
 
+function getdatestr_fromdate(dval) {
+	let strval = dval.getFullYear() + '-' + ('0' + (dval.getMonth() + 1)).slice(-2) + '-' + ('0' + dval.getDate()).slice(-2)
+	return strval;
+}
+
 function get_steward_list() {
 	var tmptext1 = 'GET AVAILABLE';
 	var sel_obj = $("#dropsel-steward");
@@ -1153,7 +1170,9 @@ function loadhtmls() {
   htmlload('.user-edit', 'htmlloads/user-edit-load.html');
 	htmlload('.course-attendee', 'htmlloads/bio-total-load.html');
 	htmlload('.course-formation-group-mgmt', 'htmlloads/formation-grp-mgmt.html');
-  
+	htmlload('.oneonone-edit', 'htmlloads/one-on-one-edit.html');
+	htmlload('.via-edit', 'htmlloads/via-edit.html');
+	htmlload('.bio-disc-edit', 'htmloads/bio-disc-edit.html');
 };
 
 function htmlload(divelem, fileref) {
@@ -1169,3 +1188,5 @@ function htmlload(divelem, fileref) {
     console.log('div data already loaded - ' + divelem);
   };
 };
+
+
