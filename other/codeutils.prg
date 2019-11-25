@@ -253,59 +253,95 @@ cfinal = 'UPDATE <table_name>' + CHR(13) + ;
 		'<need_where_clause>'
 _cliptext = cfinal
 
+RETURN
+*-----------------------------------
+*-- checking parame list in storec proc to php calling code
+FUNCTION checking_sp_params_with_post_with_php_pg_query_params
 
-*!*	UPDATE course_attendee_list
-*!*		SET accept_criticism = p_accept_criticism, accept_responsibility = p_accept_responsibility, adult_incarcerations = p_adult_incarcerations, 
-*!*			age = p_age, att_id_use = p_att_id_use, citizen = p_citizen, 
-*!*			club_leader = p_club_leader, club_leader_explain = p_club_leader_explain, club_leader_explain = p_club_leader_explain, 
-*!*			clubs_in_prison = p_clubs_in_prison, clubs_prior = p_clubs_prior, course_id = p_course_id, 
-*!*			current_alcohol = p_current_alcohol, current_drug = p_current_drug, currently_employed = p_currently_employed, 
-*!*			develop_goals = p_develop_goals, doc_number = p_doc_number, drop_date = p_drop_date, 
-*!*			email = p_email, employ = p_employ, employ_plan = p_employ_plan, 
-*!*			employ_plan_explain = p_employ_plan_explain, enroll_date = p_enroll_date, express_needs = p_express_needs, 
-*!*			fam_crime_history = p_fam_crime_history, fam_involve = p_fam_involve, fam_relationship = p_fam_relationship, 
-*!*			family_crime_history = p_family_crime_history, first_arrest_age = p_first_arrest_age, fname = p_fname, 
-*!*			formation_group_id = p_formation_group_id, friends_during_prison = p_friends_during_prison, friendships = p_friendships, 
-*!*			gender = p_gender, highest_education = p_highest_education, 
-*!*			lname = p_lname, make_friends = p_make_friends, manage_money = p_manage_money, 
-*!*			manage_problems = p_manage_problems, marital_status = p_marital_status, military = p_military, 
-*!*			num_addr_change = p_num_addr_change, num_child = p_num_child, num_discipline_infractions = p_num_discipline_infractions, 
-*!*			num_friends_criminal = p_num_friends_criminal, num_positive_model = p_num_positive_model, parole_eligible = p_parole_eligible, 
-*!*			previous_convictions = p_previous_convictions, provide_good_criticism = p_provide_good_criticism, race = p_race, 
-*!*			release_date = p_release_date, school_expel = p_school_expel, skill_plan = p_skill_plan, 
-*!*			skill_plan_explain = p_skill_plan_explain, understand_other_views = p_understand_other_views, use_alcohol = p_use_alcohol, 
-*!*			use_contrib_crime = p_use_contrib_crime, use_drugs = p_use_drugs, workbook_status = p_workbook_status, 
-*!*		WHERE id = p_id
+*-- NOTE: cannot just 'run' this code - multiple copy/pastes
+
+*-- highlight/copy the sql stored proc param list
+sqlcx = _cliptext
+
+*-- highlight/copy the php parameter list - aka what is in the 'array()' call
+cphp = _cliptext
+
+CREATE CURSOR sqlstuff (paramval c(50))
+*-- recall parameters separated by commans, but may have CRs due to formatting
+nsql = ALINES(sqlarr, STRTRAN(sqlcx, CHR(13), ''), 1+4, ',')
+FOR ni = 1 TO nsql
+	ctmp = ALLTRIM(STRTRAN(LEFT(sqlarr[ni], ATC(' ',sqlarr[ni])-1),CHR(9),''))
+	INSERT INTO sqlstuff VALUES (ALLTRIM(STRTRAN(ctmp,CHR(13),'')))
+endfor
+
+*-- 
+nphp = ALINES(aphp, STRTRAN(phpcx, CHR(13), ''), 1+4, ',')
+CREATE CURSOR phpstuff (varvals c(50))
+
+FOR ni = 1 TO nphp
+	ctmp = ALLTRIM(STRTRAN(aphp[ni],CHR(9),''))
+	INSERT INTO phpstuff VALUES (ALLTRIM(STRTRAN(ctmp,CHR(13),'')))
+endfor
 
 
+*-- looking at a sql insert statement - highlight/copy insert field list
+cinsert = _cliptext
+ninsert = ALINES(ainsert, STRTRAN(STRTRAN(cinsert,CHR(13),''),CHR(9),''),1+4,',')
+CREATE CURSOR insertstuff (varvals c(50))
+FOR ni = 1 TO ninsert
+	ctmp = ALLTRIM(ainsert[ni])
+	INSERT INTO insertstuff VALUES (ctmp)
+endfor
 
 
+RETURN
+*----------------------------------------------
 
-*!*	(accept_criticism, accept_responsibility, adult_incarcerations, age, att_id_use, 
-*!*	citizen, club_leader, club_leader_explain, club_leader_explain, clubs_in_prison, 
-*!*	clubs_prior, course_id, current_alcohol, current_drug, currently_employed, 
-*!*	develop_goals, doc_number, drop_date, email, employ, 
-*!*	employ_plan, employ_plan_explain, enroll_date, express_needs, fam_crime_history, 
-*!*	fam_involve, fam_relationship, family_crime_history, first_arrest_age, fname, 
-*!*	formation_group_id, friends_during_prison, friendships, gender, highest_education, 
-*!*	id, lname, make_friends, manage_money, manage_problems, 
-*!*	marital_status, military, num_addr_change, num_child, num_discipline_infractions, 
-*!*	num_friends_criminal, num_positive_model, parole_eligible, previous_convictions, provide_good_criticism, 
-*!*	race, release_date, school_expel, skill_plan, skill_plan_explain, 
-*!*	understand_other_views, use_alcohol, use_contrib_crime, use_drugs, workbook_status) 
-*!*	VALUES 
-*!*	(p_accept_criticism, p_accept_responsibility, p_adult_incarcerations, p_age, p_att_id_use, 
-*!*	p_citizen, p_club_leader, p_club_leader_explain, p_club_leader_explain, p_clubs_in_prison, 
-*!*	p_clubs_prior, p_course_id, p_current_alcohol, p_current_drug, p_currently_employed, 
-*!*	p_develop_goals, p_doc_number, p_drop_date, p_email, p_employ, 
-*!*	p_employ_plan, p_employ_plan_explain, p_enroll_date, p_express_needs, p_fam_crime_history, 
-*!*	p_fam_involve, p_fam_relationship, p_family_crime_history, p_first_arrest_age, p_fname, 
-*!*	p_formation_group_id, p_friends_during_prison, p_friendships, p_gender, p_highest_education, 
-*!*	p_id, p_lname, p_make_friends, p_manage_money, p_manage_problems, 
-*!*	p_marital_status, p_military, p_num_addr_change, p_num_child, p_num_discipline_infractions, 
-*!*	p_num_friends_criminal, p_num_positive_model, p_parole_eligible, p_previous_convictions, p_provide_good_criticism, 
-*!*	p_race, p_release_date, p_school_expel, p_skill_plan, p_skill_plan_explain, 
-*!*	p_understand_other_views, p_use_alcohol, p_use_contrib_crime, p_use_drugs, p_workbook_status)
+FUNCTION make_explicit_param_assoc_for_php_query_params
+*-- highlight the variable assignments - the $v= - these will all be turned into - paramname := $x
+*-- note: by doing things this way order is extremely important. so take care
 
+cstr = _cliptext
+nlines = ALINES(atmp, strtran(cstr, CHR(9), ''), 1+4)
+cnew = '"'
+nitems = 0
+FOR ni = 1 TO nlines
+	cline = LEFT(ALLTRIM(atmp[ni]), ATC('=', atmp[ni]) - 1)
+	cnew = cnew + 'p_' + SUBSTR(cline,4) + ' := $' + ALLTRIM(STR(ni)) + ', '
+	IF nitems > 3
+		cnew = cnew + '" .' + CHR(13) + '"'
+		nitems = 0
+	ENDIF
+	nitems = nitems + 1
+ENDFOR
+_cliptext = cnew
+
+
+*-- for this second part, this will create the array items in the correct sequence - aka, must highlight/copy
+*-- just like above, but this time the result will just be a long list of php var names separated by commas
+
+cstr = _cliptext
+nlines = ALINES(atmp, strtran(cstr, CHR(9), ''), 1+4)
+cnew = 'array('
+nitems = 0
+FOR ni = 1 TO nlines
+	cline = ALLTRIM(LEFT(ALLTRIM(atmp[ni]), ATC('=', atmp[ni]) - 1))
+	IF nitems > 4
+		cnew = cnew + ', ' + cline + ', ' + CHR(13)
+		nitems = 0
+	ELSE
+		IF ni == 0 AND nitems == 0
+			cnew = cnew + ', ' + cline
+		ELSE	
+			cnew = cnew + IIF(nitems == 0, '', ', ') + cline
+		ENDIF
+		nitems = nitems + 1
+	ENDIF
+ENDFOR
+cnew = cnew + ')'
+_cliptext = cnew
+
+
+RETURN
 
 

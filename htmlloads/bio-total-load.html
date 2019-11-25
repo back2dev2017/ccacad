@@ -4,15 +4,16 @@
   <div>
     <button id='btn-back2course' class='bio-btn-nav' style='min-width: 80px;' 
         title='Back to course details' onclick="bio_edit_close()">Back</button>
-    <button id='btn-bio-next-attendee' class='bio-btn-nav' style='margin-left: 20px'>Next Participant</button>
-    <button id='btn-bio-prev-attendee' class='bio-btn-nav' style='margin-left: 5px;'>Previous Participant</button>
+    <button id='btn-bio-prev-attendee' class='bio-btn-nav' style='margin-left: 10px;' onclick='chg_participant(-1)'>Previous Participant</button>
+    <button id='btn-bio-next-attendee' class='bio-btn-nav' style='margin-left: 5px' onclick='chg_participant(1)'>Next Participant</button>
+
   </div>
   <div>
       <button id='btn-bio-add' class='edit-btn' title='Add New Participant'>Add</button>
       <button id='btn-bio-drop' class='edit-btn' title='Drop Participant'>Drop</button>    
   </div>
   <div class='bio-data-btns'>
-    <button id='btn-bio-save' class='edit-btn clr-yes'>Save Changes</button>
+    <button id='btn-bio-save' class='edit-btn clr-yes' onclick='bio_save_data()'>Save Changes</button>
     <button id='btn-bio-cancel' class='edit-btn clr-no'>Discard Changes</button>
   </div>
 </div>
@@ -432,7 +433,9 @@
 
       <div class='row-group' style="justify-content:space-between;">
         <div class='bio-1on1'>
-          <h4 style='margin-top: 10px;'>One on One Interviews <span style='margin-left: 10px'><button class=btn-small>Add</button></span></h4>
+          <h4 style='margin-top: 10px;'>One on One Interviews 
+            <span style='margin-left: 10px'><button class=btn-small onclick='bio_edit_1on1_item(null,null,"A",null,null)'>Add</button></span>
+          </h4>
           <div class='bio-1on1-list-wrap'>
             <table id='bio-1on1-table'>
             </table>
@@ -440,7 +443,9 @@
         </div>
         
         <div class='bio-vias'>
-          <h4 style='margin-top: 10px;'>Values in Action <span style='margin-left: 10px'><button class=btn-small>Add</button></span></h4>
+          <h4 style='margin-top: 10px;'>Values in Action 
+            <span style='margin-left: 10px'><button class=btn-small onclick='bio_edit_via_item(null, null, "A", null, null)'>Add</button></span>
+          </h4>
           <div class='bio-vias-list-wrap'>
             <table id='bio-vias-table'>
           </table>
@@ -458,7 +463,9 @@
           </div>
         </div>
         <div class='bio-vias'>
-          <h4 style='margin-top: 10px;'>Disciplinary History <span style='margin-left: 10px'><button class=btn-small>Add</button></span></h4>
+          <h4 style='margin-top: 10px;'>Disciplinary History
+            <span style='margin-left: 10px'><button class=btn-small onclick='bio_edit_disc_item(null,null,"A")'>Add</button></span>
+          </h4>
           <div class='bio-disc-list-wrap'>
             <table id='bio-disc-table'>
           </table>
@@ -466,7 +473,6 @@
         </div>
         
       </div>
-
 
     </div>
   </div>

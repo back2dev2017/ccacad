@@ -14,5 +14,8 @@ select max(id) from mytable -- note the value - say it is 27
 CREATE SEQUENCE mytable_id_seq start 27 INCREMENT BY 1 OWNED BY mytable.id
 alter table mytable alter column id primary key not null set default nextval('mytable_id_seq') -- may not need PRIMARY if already done
 
-
+-- updating a sequence current value - there may be issues after doing importing/exporting
+select max(id) from course_attendee_list
+alter sequence course_attendee_list_id_seq restart with 91
+-- reference for above: https://www.postgresql.org/docs/current/sql-altersequence.html
 

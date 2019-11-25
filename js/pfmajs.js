@@ -1172,7 +1172,7 @@ function loadhtmls() {
 	htmlload('.course-formation-group-mgmt', 'htmlloads/formation-grp-mgmt.html');
 	htmlload('.oneonone-edit', 'htmlloads/one-on-one-edit.html');
 	htmlload('.via-edit', 'htmlloads/via-edit.html');
-	htmlload('.bio-disc-edit', 'htmloads/bio-disc-edit.html');
+	htmlload('.bio-disc-edit', 'htmlloads/bio-disc-edit.html');
 };
 
 function htmlload(divelem, fileref) {

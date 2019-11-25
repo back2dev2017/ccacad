@@ -442,7 +442,11 @@ function bio_edit_data(attendeeid, courseid, editmode = "E") {
 	// display the content for editing
 	$(".one-course-pages").addClass("hidediv");
 	$(".course-attendee").removeClass("hidediv");
-	resize_maindiv('.course-attendee');
+  resize_maindiv('.course-attendee');
+  
+  // set some global variables for use by other code - aka, we know which person's bio is displayed
+  dataobj.current_attendee_id = partdata[0].id;
+  dataobj.current_course_id = partdata[0].course_id;
 	// set some visuals - prevent need to scroll whole page
 	// TODO: set height of div to prevent whole-screen scroll	
 	$('.bio-subsect').height(dataobj.maindivheight - $('#bio-expand-div').position().top);
@@ -482,6 +486,7 @@ function bio_assign_data(biodata) {
 	$('#bio-first-arrest-age').val(biodata[0].first_arrest_age);
 	$('#bio-prev-conv').val(biodata[0].previous_convictions);
 	$('#bio-fam-crime').val(biodata[0].fam_crime_history);
+	$('#bio-fam-crime-who').val(biodata[0].fam_crime_who);
 	$('#bio-num-child').val(biodata[0].num_child);
 	$('#bio-marr-status').val(biodata[0].marital_status);
 	$('#bio-num-pos-model').val(biodata[0].num_positive_model);
@@ -503,7 +508,7 @@ function bio_assign_data(biodata) {
 	$('#bio-first-arrest-age').val(biodata[0].first_arrest_age);
 	$('#bio-prev-conv').val(biodata[0].previous_convictions);
 	$('#bio-adult-incar').val(biodata[0].adult_incarcerations);
-	$('#bio-fam-crime').val(biodata[0].family_crime_history);
+	$('#bio-fam-crime').val(biodata[0].fam_crime_history);
 	$('#bio-num-discipline').val(biodata[0].num_discipline_infractions);
 	$('#bio-num-child').val(biodata[0].num_child);
 	$('#bio-fam-involve').val(biodata[0].fam_involve);
@@ -574,6 +579,7 @@ function bio_save_data() {
 	tobj.first_arrest_age = $('#bio-first-arrest-age').val();
 	tobj.previous_convictions = $('#bio-prev-conv').val();
 	tobj.fam_crime_history = $('#bio-fam-crime').val();
+	tobj.fam_crime_who = $('#bio-fam-crime-who').val();
 	tobj.num_child = $('#bio-num-child').val();
 	tobj.marital_status = $('#bio-marr-status').val();
 	tobj.num_positive_model = $('#bio-num-pos-model').val();
@@ -590,7 +596,7 @@ function bio_save_data() {
 	tobj.formation_group_id = $('#bio-formation-group').val();
 	tobj.previous_convictions = $('#bio-prev-conv').val();
 	tobj.adult_incarcerations = $('#bio-adult-incar').val();
-	tobj.family_crime_history = $('#bio-fam-crime').val();
+	tobj.fam_crime_history = $('#bio-fam-crime').val();
 	tobj.num_discipline_infractions = $('#bio-num-discipline').val();
 	tobj.num_child = $('#bio-num-child').val();
 	tobj.fam_involve = $('#bio-fam-involve').val();
@@ -626,6 +632,7 @@ function bio_save_data() {
 	tobj.manage_problems = $('#bio-confident-prob').val();
 	tobj.develop_goals = $('#bio-dev-goals').val();
 	tobj.manage_money = $('#bio-mng-money').val();
+  console.log(tobj);
 
 	$.post(service_def, 
 		{ api_func: "PUT_ATTENDEE_DATA", p_id:tobj.id, p_fname:tobj.fname, p_lname:tobj.lname, 
@@ -636,7 +643,8 @@ function bio_save_data() {
 			p_workbook_status:tobj.workbook_status, p_gender:tobj.gender, p_race:tobj.race, 
 			p_military:tobj.military, p_citizen:tobj.citizen, p_email:tobj.email, 
 			p_adult_incarcerations:tobj.adult_incarcerations, 
-			p_family_crime_history:tobj.family_crime_history, p_num_discipline_infractions:tobj.num_discipline_infractions, 
+      p_fam_crime_history:tobj.fam_crime_history, p_fam_crime_who:tobj.fam_crime_who, 
+      p_num_discipline_infractions:tobj.num_discipline_infractions, 
 			p_fam_involve:tobj.fam_involve, p_fam_relationship:tobj.fam_relationship, p_num_addr_change:tobj.num_addr_change, 
 			p_friendships:tobj.friendships, p_num_friends_criminal:tobj.num_friends_criminal, p_friends_during_prison:tobj.friends_during_prison, 
 			p_use_alcohol:tobj.use_alcohol, 
@@ -650,12 +658,13 @@ function bio_save_data() {
 			p_understand_other_views:tobj.understand_other_views, p_make_friends:tobj.make_friends, 
 			p_accept_criticism:tobj.accept_criticism, p_provide_good_criticism:tobj.provide_good_criticism, p_accept_responsibility:tobj.accept_responsibility, 
 			p_manage_problems:tobj.manage_problems, p_develop_goals:tobj.develop_goals, p_manage_money:tobj.manage_money,
-			p_course_id:tobj.course_id, p_enroll_date:tobj.enroll_date, p_drop_date:tobj.tobj.drop_date, 
+			p_course_id:tobj.course_id, p_enroll_date:tobj.enroll_date, p_drop_date:tobj.drop_date, 
 			p_club_leader_prison_explain:tobj.club_leader_prison_explain, p_formation_group_id:tobj.formation_group_id
 		}, 
 		function (rslt) {
-			console.log(rslt); 
-		}, "json" );
+      console.log(rslt); 
+    });
+		// }, "json" );
 
 	// put data into local array of data
 	for (let i=0; i<dataobj.course_roster.length; i++) {
@@ -723,13 +732,18 @@ function build_1on1_tbl (rsltdata, tblref) {
 		] } );
 };
 
-function bio_edit_1on1_item(coursenum, attendeeid, editmode, dtref, rowid) {
+function bio_edit_1on1_item(coursenum=null, attendeeid=null, editmode, dtref=null, rowid=null) {
 	$("#modal-overlay").removeClass("hidediv");
 	$(".oneonone-edit").removeClass("hidediv");
 	pop_div_center(".oneonone-edit");
-	console.log('inside bio_edit_1on1_edit');
-	$("#one-on-one-course-id").val(coursenum);
-	$("#one-on-one-attendee-id").val(attendeeid);
+
+  if (coursenum == null || attendeeid == null) {
+    $("#one-on-one-course-id").val(dataobj.current_course_id);
+    $("#one-on-one-attendee-id").val(dataobj.current_attendee_id);    
+  } else {
+    $("#one-on-one-course-id").val(coursenum);
+    $("#one-on-one-attendee-id").val(attendeeid);
+  };  
 	$('#one-on-one-editmode').val(editmode);
 	if (editmode == 'E') {
 		let partdata = $(dtref).DataTable().row(rowid).data();
@@ -803,13 +817,17 @@ function build_via_tbl(rsltdata, refele) {
 		] } );
 };
 
-function bio_edit_via_item(coursenum, attendeeid, editmode, dtref, rowid) {
+function bio_edit_via_item(coursenum=null, attendeeid=null, editmode, dtref=null, rowid=null) {
 	$("#modal-overlay").removeClass("hidediv");
 	$(".via-edit").removeClass("hidediv");
 	pop_div_center(".via-edit");
-	console.log('inside bio_edit_via_edit');
-	$("#via-edit-course-id").val(coursenum);
-	$("#via-edit-attendee-id").val(attendeeid);
+  if (coursenum == null || attendeeid == null) {
+    $("#via-edit-course-id").val(dataobj.current_course_id);
+    $("#via-edit-attendee-id").val(dataobj.current_attendee_id);    
+  } else {
+    $("#via-edit-course-id").val(coursenum);
+    $("#via-edit-attendee-id").val(attendeeid);
+  };
 	$('#via-edit-editmode').val(editmode);
 	if (editmode == 'E') {
 		let partdata = $(dtref).DataTable().row(rowid).data();
@@ -883,13 +901,18 @@ function build_disc_tbl(rsltdata, refele) {
 		] } );
 };
 
-function bio_edit_disc_item(coursenum, attendeeid, editmode, dtref, rowid) {
+function bio_edit_disc_item(coursenum, attendeeid, editmode, dtref = null, rowid = null) {
 	$("#modal-overlay").removeClass("hidediv");
 	$(".bio-disc-edit").removeClass("hidediv");
 	pop_div_center(".bio-disc-edit");
-	console.log('inside bio_edit_disc_edit');
-	$("#bio-disc-edit-course-id").val(coursenum);
-	$("#bio-disc-edit-attendee-id").val(attendeeid);
+  console.log('inside bio_edit_disc_edit');
+  if (coursenum == null || attendeeid == null) {
+    $("#bio-disc-edit-course-id").val(dataobj.current_course_id);
+    $("#bio-disc-edit-attendee-id").val(dataobj.current_attend_id);  
+  } else {
+    $("#bio-disc-edit-course-id").val(coursenum);
+    $("#bio-disc-edit-attendee-id").val(attendeeid);
+  };
 	$('#bio-disc-edit-editmode').val(editmode);
 	if (editmode == 'E') {
 		let partdata = $(dtref).DataTable().row(rowid).data();
@@ -909,17 +932,19 @@ function bio_edit_disc_item(coursenum, attendeeid, editmode, dtref, rowid) {
 	};
 };
 
+// function bio_add_disc_item() {
+//   // get values needed to do editing - assumption: this was called only when the bio screen was visible
+//   // that will mean certain DOM items will have values set
+//   // TODO: consider 'optional' parameters - pull DOM values only if the params were not passed
+//   let add_attendee_id = $("#bio-id").val();
+//   let add_course_id = $('#bio-course-id').val();
+//   bio_edit_disc_item(add_attendee_id, add_course_id, 'A', null, null);
+// };
+
 function disc_edit_close() {
 	$(".bio-disc-edit").addClass("hidediv");
 	$('#modal-overlay').addClass('hidediv');
 };
-
-
-
-
-
-
-
 
 
 
@@ -967,3 +992,25 @@ function bio_edit_close() {
   $(".course-tracking").removeClass("hidediv");
 };
 
+
+function chg_participant(valdirect = 1) {
+  // this will use the dataobj.current_attendee_id to determine who should be next displayed
+  let newindex = -1;
+  if (valdirect == 1) {
+    for (let i=0; i<dataobj.course_roster.length; i++) {
+      if (dataobj.course_roster[i].id == dataobj.current_attendee_id) {
+        newindex = (i >= dataobj.course_roster.length - 1) ? 0 : i + 1;
+        break;
+      };
+    };
+  } else {
+    for (let i=dataobj.course_roster.length-1; i>-1; i--) {
+      if (dataobj.course_roster[i].id == dataobj.current_attendee_id) {
+        newindex = (i == 0) ? dataobj.course_roster.length - 1 : i - 1;
+        break;
+      };
+    };
+  };
+  console.log('newindex ', newindex);
+  bio_edit_data(dataobj.course_roster[newindex].id);
+};

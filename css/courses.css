@@ -297,6 +297,7 @@
   color: #6666ff;
   max-width: 80px;
   border-radius: 6px;
+  outline: none;
   padding: 0px 5px 0px 5px;
   margin: 0;
   min-width: 140px;
